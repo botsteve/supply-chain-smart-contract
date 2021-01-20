@@ -1,0 +1,15 @@
+{
+  "name": "walletmigration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fabric-network": "2.2.5",
+    "fabric-wallet-migration": "0.2.0"
+  }
+}
