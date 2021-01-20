@@ -23,3 +23,4 @@
 - [ ] Client/Server Applications code refactor
 - [ ] Web interface rework
 - [ ] Cloud Migration onto IBM Cloud
+- [ ] CI/CD Pipeline
