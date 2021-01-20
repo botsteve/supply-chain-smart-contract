@@ -1,0 +1,16 @@
+<div class="m-2" *ngIf="loading">
+    <p-orderList [value]="assets" [listStyle]="{'min-height':'75vh'}" header="List
+        of Assets" filterBy="name" filterPlaceholder="Filter by name" [dragdrop]="false" controlsPosition="right">
+        <ng-template let-product pTemplate="item">
+            <div>
+                <h5 class="p-mb-2">{{product.tradeId}}</h5>
+                <i class="pi pi-tag"></i>
+                <span>{{product.value}}</span>
+            </div>
+        </ng-template>
+    </p-orderList>
+</div>
+
+<div class="centered" *ngIf="!loading">
+    <i class="pi pi-spin pi-spinner" style="font-size: 10em;"></i>
+</div>

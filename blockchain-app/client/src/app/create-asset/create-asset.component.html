@@ -1,0 +1,25 @@
+<div class="centered" *ngIf="loading" style="z-index: 100;">
+    <i class="pi pi-spin pi-spinner" style="font-size: 10em;"></i>
+</div>
+
+<div class="container-fluid">
+    <div class="col-sm-4 mt-5">
+        <span class="p-float-label mb-4">
+            <input id="float-input" type="text" pInputText [(ngModel)]="tradeId" class="p-inputtext-lg">
+            <label for="float-input">Asset ID</label>
+        </span>
+    </div>
+
+    <div class="col-sm-4 mt-5">
+        <span class="p-float-label mb-4">
+            <input id="float-input" type="text" pInputText [(ngModel)]="value" class="p-inputtext-lg">
+            <label for="float-input">Value</label>
+        </span>
+    </div>
+
+    <div class="col-sm-4 mt-5">
+        <p-button label="Submit" icon="pi pi-check" styleClass="p-button-lg p-button-rounded p-button-success mb-2"
+            (click)="onSubmit()">
+        </p-button>
+    </div>
+</div>
