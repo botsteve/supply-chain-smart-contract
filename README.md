@@ -1,7 +1,7 @@
 # Blockchain project
 
 ## Blockchain app / client
-  This folder contains the **Angular** web application.
+  This folder contains the **Angular** web application.[a link](https://github.com/botsteve/blockchain/tree/main/blockchain-app/client)
   
 ## Blockchain app / server
   This folder contains the **Spring Boot** application which runs an embedded **Tomcat server** and connects to the **HyperLedger Fabric** network using the **fabric-gateway-java** dependency.
