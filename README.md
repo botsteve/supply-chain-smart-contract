@@ -19,3 +19,6 @@
 4. **Migration-Wallet**-  fabric-network 2.2.5, fabric-wallet-migration 0.2.0
 
 ## Future Developments
+- [] Client/Server Applications code refactor
+- [] Web interface rework
+- [] Cloud Migration onto IBM Cloud
