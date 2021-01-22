@@ -22,6 +22,7 @@
 - [x] Project basic skeleton using CRUD transactions of the smart-contract
 - [ ] Smart contract update ( introduce listeners)
 - [ ] Security and User authentification server
+- [ ] Configure Swagger
 - [ ] Client/Server Applications code refactor
 - [ ] Web interface rework
 - [ ] Cloud Migration onto IBM Cloud
