@@ -14,15 +14,15 @@
   
 ## Technologies Used 
 1. **Client**- Angular 11, PrimeNg 11, Bootstrap 4, RxJs
-2. **Server**- Spring Boot 2.4.2 , Swagger-UI 2.6.1, fabric-gateway-java 2.2.1
-3. **Smart-contract**-  fabric-contract-api ^1.4.5, fabric-shim ^1.4.5"
+2. **Server**- Spring Boot 2.4.2 , Swagger-UI 2.9.2, fabric-gateway-java 2.2.1
+3. **Smart-contract**-  fabric-contract-api ^2.2.0, fabric-shim ^2.2.0, fabric-network 2.2.5
 4. **Migration-Wallet**-  fabric-network 2.2.5, fabric-wallet-migration 0.2.0
 
 ## Future Developments
 - [x] Project basic skeleton using CRUD transactions of the smart-contract
 - [ ] Smart contract update ( introduce listeners)
 - [ ] Security and User authentification server
-- [ ] Configure Swagger
+- [x] Configure Swagger
 - [ ] Client/Server Applications code refactor
 - [ ] Web interface rework
 - [ ] Cloud Migration onto IBM Cloud
