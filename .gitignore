@@ -1,0 +1,112 @@
+
+# Created by https://www.toptal.com/developers/gitignore/api/intellij
+# Edit at https://www.toptal.com/developers/gitignore?templates=intellij
+
+### Intellij ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff
+blockchain-app/server/.idea/**/workspace.xml
+blockchain-app/server/.idea/**/tasks.xml
+blockchain-app/server/.idea/**/usage.statistics.xml
+blockchain-app/server/.idea/**/dictionaries
+blockchain-app/server/.idea/**/shelf
+
+# Generated files
+blockchain-app/server/.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+blockchain-app/server/.idea/**/dataSources/
+blockchain-app/server/.idea/**/dataSources.ids
+blockchain-app/server/.idea/**/dataSources.local.xml
+blockchain-app/server/.idea/**/sqlDataSources.xml
+blockchain-app/server/.idea/**/dynamic.xml
+blockchain-app/server/.idea/**/uiDesigner.xml
+blockchain-app/server/.idea/**/dbnavigator.xml
+
+# Gradle
+blockchain-app/server/.idea/**/gradle.xml
+blockchain-app/server/.idea/**/libraries
+
+# Gradle and Maven with auto-import
+# When using Gradle or Maven with auto-import, you should exclude module files,
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
+# blockchain-app/server/.idea/artifacts
+# blockchain-app/server/.idea/compiler.xml
+# blockchain-app/server/.idea/jarRepositories.xml
+# blockchain-app/server/.idea/modules.xml
+# blockchain-app/server/.idea/*.iml
+# blockchain-app/server/.idea/modules
+# *.iml
+# *.ipr
+
+# CMake
+cmake-build-*/
+
+# Mongo Explorer plugin
+blockchain-app/server/.idea/**/mongoSettings.xml
+
+# File-based project format
+*.iws
+
+# IntelliJ
+out/
+
+# mpeltonen/sbt-idea plugin
+blockchain-app/server/.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Cursive Clojure plugin
+blockchain-app/server/.idea/replstate.xml
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# Editor-based Rest Client
+blockchain-app/server/.idea/httpRequests
+
+# Android studio 3.1+ serialized cache file
+blockchain-app/server/.idea/caches/build_file_checksums.ser
+
+### Intellij Patch ###
+# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+
+# *.iml
+# modules.xml
+# blockchain-app/server/.idea/misc.xml
+# *.ipr
+
+# Sonarlint plugin
+# https://plugins.jetbrains.com/plugin/7973-sonarlint
+blockchain-app/server/.idea/**/sonarlint/
+
+# SonarQube Plugin
+# https://plugins.jetbrains.com/plugin/7238-sonarqube-community-plugin
+blockchain-app/server/.idea/**/sonarIssues.xml
+
+# Markdown Navigator plugin
+# https://plugins.jetbrains.com/plugin/7896-markdown-navigator-enhanced
+blockchain-app/server/.idea/**/markdown-navigator.xml
+blockchain-app/server/.idea/**/markdown-navigator-enh.xml
+blockchain-app/server/.idea/**/markdown-navigator/
+
+# Cache file creation bug
+# See https://youtrack.jetbrains.com/issue/JBR-2257
+blockchain-app/server/.idea/$CACHE_FILE$
+
+# CodeStream plugin
+# https://plugins.jetbrains.com/plugin/12206-codestream
+blockchain-app/server/.idea/codestream.xml
+
+node_modules/
+.vscode/
+
+# End of https://www.toptal.com/developers/gitignore/api/intellij
+

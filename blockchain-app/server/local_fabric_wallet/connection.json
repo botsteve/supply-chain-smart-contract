@@ -1,8 +1,7 @@
 {
     "certificateAuthorities": {
-        "Org1CA": {
-            "caName": "ca",
-            "url": "http://localhost:17050"
+        "org1ca-api.127-0-0-1.nip.io:8081": {
+            "url": "http://org1ca-api.127-0-0-1.nip.io:8081"
         }
     },
     "client": {
@@ -14,24 +13,31 @@
                 }
             }
         },
-        "organization": "Org1MSP"
+        "organization": "Org1"
     },
-    "name": "Org1",
+    "display_name": "Org1 Gateway",
+    "id": "org1gateway",
+    "name": "Org1 Gateway",
     "organizations": {
-        "Org1MSP": {
+        "Org1": {
             "certificateAuthorities": [
-                "Org1CA"
+                "org1ca-api.127-0-0-1.nip.io:8081"
             ],
             "mspid": "Org1MSP",
             "peers": [
-                "Org1Peer1"
+                "org1peer-api.127-0-0-1.nip.io:8081"
             ]
         }
     },
     "peers": {
-        "Org1Peer1": {
-            "url": "grpc://localhost:17051"
+        "org1peer-api.127-0-0-1.nip.io:8081": {
+            "grpcOptions": {
+                "grpc.default_authority": "org1peer-api.127-0-0-1.nip.io:8081",
+                "grpc.ssl_target_name_override": "org1peer-api.127-0-0-1.nip.io:8081"
+            },
+            "url": "grpc://org1peer-api.127-0-0-1.nip.io:8081"
         }
     },
-    "version": "1.0.0"
+    "type": "gateway",
+    "version": "1.0"
 }

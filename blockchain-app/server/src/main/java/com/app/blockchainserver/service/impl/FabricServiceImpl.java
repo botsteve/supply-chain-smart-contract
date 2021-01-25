@@ -30,7 +30,7 @@ public class FabricServiceImpl implements IFabricService {
 
     private static Gateway.Builder builder;
 
-    private String contractName = "Blockchain";
+    private String contractName = "blockchain-contract";
     private String channelName = "mychannel";
 
     @PostConstruct
@@ -43,7 +43,7 @@ public class FabricServiceImpl implements IFabricService {
         try {
             wallet = Wallets.newFileSystemWallet(walletDirectory);
             Path networkConfigFile = Paths.get("local_fabric_wallet/connection.json");
-            builder = Gateway.createBuilder().identity(wallet, "org1Admin").networkConfig(networkConfigFile);
+            builder = Gateway.createBuilder().identity(wallet, "Org1 Admin").networkConfig(networkConfigFile).discovery(false);
 
         } catch (IOException e) {
             e.printStackTrace();

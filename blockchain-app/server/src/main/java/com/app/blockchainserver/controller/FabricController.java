@@ -1,18 +1,12 @@
 package com.app.blockchainserver.controller;
 
-import org.hyperledger.fabric.gateway.Gateway;
-import org.hyperledger.fabric.gateway.Network;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.math.BigInteger;
-
 import com.app.blockchainserver.dto.request.TradeAssetRequestDTO;
 import com.app.blockchainserver.dto.response.TradeAssetResponseDTO;
 import com.app.blockchainserver.dto.response.TradeAssetsResponseDTO;
 import com.app.blockchainserver.service.ITradeService;
-
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @Api
 @CrossOrigin(origins = "http://localhost:4200")
@@ -22,7 +16,7 @@ public class FabricController {
     @Autowired
     private ITradeService tradeService;
 
-    @GetMapping(value = "/queryAllAssets")
+    @GetMapping(value = "/queryAllAssets/")
     public TradeAssetsResponseDTO readAllTradeTsAsset() throws Exception {
         return tradeService.readAllTradeTsAsset();
     }

@@ -17,8 +17,8 @@ const fabric_contract_api_1 = require("fabric-contract-api");
 const my_asset_1 = require("./my-asset");
 let MyAssetContract = class MyAssetContract extends fabric_contract_api_1.Contract {
     async myAssetExists(ctx, myAssetId) {
-        const buffer = await ctx.stub.getState(myAssetId);
-        return (!!buffer && buffer.length > 0);
+        const data = await ctx.stub.getState(myAssetId);
+        return (!!data && data.length > 0);
     }
     async createMyAsset(ctx, myAssetId, value) {
         const exists = await this.myAssetExists(ctx, myAssetId);
@@ -29,16 +29,14 @@ let MyAssetContract = class MyAssetContract extends fabric_contract_api_1.Contra
         myAsset.value = value;
         const buffer = Buffer.from(JSON.stringify(myAsset));
         await ctx.stub.putState(myAssetId, buffer);
-        const eventPayload = Buffer.from(`Created asset ${myAssetId}(${value})`);
-        ctx.stub.setEvent('myEvent', eventPayload);
     }
     async readMyAsset(ctx, myAssetId) {
         const exists = await this.myAssetExists(ctx, myAssetId);
         if (!exists) {
             throw new Error(`The my asset ${myAssetId} does not exist`);
         }
-        const buffer = await ctx.stub.getState(myAssetId);
-        const myAsset = JSON.parse(buffer.toString());
+        const data = await ctx.stub.getState(myAssetId);
+        const myAsset = JSON.parse(data.toString());
         return myAsset;
     }
     async updateMyAsset(ctx, myAssetId, newValue) {
@@ -66,15 +64,15 @@ let MyAssetContract = class MyAssetContract extends fabric_contract_api_1.Contra
         while (true) {
             const res = await iterator.next();
             if (res.value && res.value.value.toString()) {
-                console.log(res.value.value.toString('utf8'));
+                console.log(res.value.value.toString());
                 const Key = res.value.key;
                 let Record;
                 try {
-                    Record = JSON.parse(res.value.value.toString('utf8'));
+                    Record = JSON.parse(res.value.value.toString());
                 }
                 catch (err) {
                     console.log(err);
-                    Record = res.value.value.toString('utf8');
+                    Record = res.value.value.toString();
                 }
                 allResults.push({ Key, Record });
             }
