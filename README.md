@@ -20,7 +20,9 @@
 
 ## Presentation
 ![](Assets/1.gif)
+### Query single asset
 ![Query single](Assets/2.gif)
+### QModify/Create/Delete Assets
 ![Modify asset](Assets/3.gif)
 
 ## Future Developments
