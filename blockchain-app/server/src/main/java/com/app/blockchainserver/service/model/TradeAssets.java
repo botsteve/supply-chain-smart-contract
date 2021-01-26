@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * {"Key":"001","Record":{"value":"The Hay Wain"}}
  */
-public class TradeAssets{
+public class TradeAssets {
 
     private List<TradeAssetObj> list;
 

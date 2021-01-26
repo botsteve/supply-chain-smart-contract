@@ -8,9 +8,6 @@ import com.app.blockchainserver.service.ITradeService;
 import com.app.blockchainserver.service.model.TradeAsset;
 import com.app.blockchainserver.service.model.TradeAssetObj;
 import com.app.blockchainserver.service.model.TradeAssets;
-import org.hyperledger.fabric.gateway.Gateway;
-import org.hyperledger.fabric.gateway.Network;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,11 +16,11 @@ import java.util.List;
 @Component
 public class TradeServiceImpl implements ITradeService {
 
-    private long tradeId = 1;
+    private final IFabricService fabricService;
 
-    @Autowired
-    private IFabricService fabricService;
-
+    public TradeServiceImpl(IFabricService fabricService) {
+        this.fabricService = fabricService;
+    }
 
     @Override
     public TradeAssetsResponseDTO readAllTradeTsAsset() throws Exception {
@@ -66,13 +63,13 @@ public class TradeServiceImpl implements ITradeService {
 
     @Override
     public void createTradeAsset(TradeAssetRequestDTO tradeAsset) throws Exception {
-        TradeAsset obj = new TradeAsset(tradeAsset.getTradeId(),tradeAsset.getValue());
+        TradeAsset obj = new TradeAsset(tradeAsset.getTradeId(), tradeAsset.getValue());
         fabricService.createTradeAsset(obj);
     }
 
     @Override
     public void updateTradeAsset(TradeAssetRequestDTO tradeAsset) throws Exception {
-        TradeAsset obj = new TradeAsset(tradeAsset.getTradeId(),tradeAsset.getValue());
+        TradeAsset obj = new TradeAsset(tradeAsset.getTradeId(), tradeAsset.getValue());
         fabricService.updateTradeAsset(obj);
     }
 

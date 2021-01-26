@@ -1,10 +1,11 @@
 package com.app.blockchainserver.service.model;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * {"Key":"001","Record":{"value":"The Hay Wain"}}
  */
-public class TradeAssetObj{
+public class TradeAssetObj {
 
     @JsonProperty("Key")
     private String Key;

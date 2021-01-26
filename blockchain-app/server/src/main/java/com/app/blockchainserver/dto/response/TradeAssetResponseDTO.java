@@ -1,7 +1,5 @@
 package com.app.blockchainserver.dto.response;
 
-import java.math.BigInteger;
-
 public class TradeAssetResponseDTO {
 
     private String tradeId;

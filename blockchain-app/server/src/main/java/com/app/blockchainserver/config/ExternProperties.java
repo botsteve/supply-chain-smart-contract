@@ -19,16 +19,16 @@ public class ExternProperties {
     private String serviceDiscoveryLocalhost;
 
     @PostConstruct
-    public void initialiseProperties(){
-        System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost",serviceDiscoveryLocalhost);
+    public void initialiseProperties() {
+        System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", serviceDiscoveryLocalhost);
     }
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-            .select()
-            .apis(RequestHandlerSelectors.any())
-            .paths(PathSelectors.any())
-            .build();
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build();
     }
 }

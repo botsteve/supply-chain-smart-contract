@@ -5,7 +5,6 @@ import com.app.blockchainserver.dto.response.TradeAssetResponseDTO;
 import com.app.blockchainserver.dto.response.TradeAssetsResponseDTO;
 import com.app.blockchainserver.service.ITradeService;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @Api
@@ -13,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class FabricController {
 
-    @Autowired
-    private ITradeService tradeService;
+    private final ITradeService tradeService;
+
+    public FabricController(ITradeService tradeService) {
+        this.tradeService = tradeService;
+    }
 
     @GetMapping(value = "/queryAllAssets/")
     public TradeAssetsResponseDTO readAllTradeTsAsset() throws Exception {

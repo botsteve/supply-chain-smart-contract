@@ -1,6 +1,6 @@
 package com.app.blockchainserver.dto.request;
 
-public class TradeAssetRequestDTO{
+public class TradeAssetRequestDTO {
 
     private String tradeId;
 

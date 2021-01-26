@@ -1,16 +1,12 @@
 package com.app.blockchainserver.service.impl;
 
-import com.app.blockchainserver.config.BlockchainException;
 import com.app.blockchainserver.service.IFabricService;
 import com.app.blockchainserver.service.model.TradeAsset;
 import com.app.blockchainserver.service.model.TradeAssetObj;
 import com.app.blockchainserver.service.model.TradeAssets;
 import com.app.blockchainserver.service.model.Value;
 import com.app.blockchainserver.util.JsonUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hyperledger.fabric.gateway.*;
-import org.hyperledger.fabric.gateway.impl.NetworkImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -20,93 +16,69 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Component
 public class FabricServiceImpl implements IFabricService {
 
-    private Logger log = LoggerFactory.getLogger(FabricServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(FabricServiceImpl.class);
 
     private static Gateway.Builder builder;
 
-    private String contractName = "blockchain-contract";
-    private String channelName = "mychannel";
+    private final String CONTRACT_NAME = "blockchain-contract";
+    private final String CHANNEL_NAME = "mychannel";
+    private final String QUERY_ALL = "queryAllAssets";
+    private final String QUERY_SINGLE = "readMyAsset";
+    private final String CREATE_ASSET = "createMyAsset";
+    private final String UPDATE_ASSET = "updateMyAsset";
+    private final String DELETE_ASSET = "deleteMyAsset";
 
     @PostConstruct
-    public void setupConnection() {
+    public void setupConnection() throws IOException {
 
         // Load an existing wallet holding identities used to access the network.
         Path walletDirectory = Paths.get("local_fabric_wallet/Org1");
         Wallet wallet;
 
-        try {
-            wallet = Wallets.newFileSystemWallet(walletDirectory);
-            Path networkConfigFile = Paths.get("local_fabric_wallet/connection.json");
-            builder = Gateway.createBuilder().identity(wallet, "Org1 Admin").networkConfig(networkConfigFile).discovery(false);
+        wallet = Wallets.newFileSystemWallet(walletDirectory);
+        Path networkConfigFile = Paths.get("local_fabric_wallet/connection.json");
+        builder = Gateway.createBuilder().identity(wallet, "Org1 Admin").networkConfig(networkConfigFile).discovery(false);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public TradeAssets readAllTradeTsAsset() throws Exception {
-
         TradeAssets tradeAssets = new TradeAssets();
-        List<TradeAssetObj> list = new ArrayList<>();
-        String output = null;
+        String output;
+        Contract contract = getContract();
 
-        // Create a gateway connection
-        try (Gateway gateway = builder.connect()) {
+        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_ALL);
 
-            // Obtain a smart contract deployed on the network.
-            Network network = gateway.getNetwork(channelName);
+        output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
+        log.info("readAllTradeTsAsset completed : " + output);
+        TradeAssetObj[] tradeArray = (TradeAssetObj[]) JsonUtil.getJsonToObject(output, TradeAssetObj[].class);
 
-            Contract contract = network.getContract(contractName);
-
-            byte[] queryTradeTsResult = contract.evaluateTransaction("queryAllAssets");
-
-            output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
-            log.info("readAllTradeTsAsset completed : " + output);
-            System.out.println("read");
-
-            TradeAssetObj[] tradeArray = (TradeAssetObj[]) JsonUtil.getJsonToObject(output, TradeAssetObj[].class);
-
-            for (TradeAssetObj obj : tradeArray) {
-                list.add(obj);
-            }
-
-            tradeAssets.setList(list);
-        }
+        if (tradeArray != null && tradeArray.length > 0)
+            tradeAssets.setList(Arrays.stream(tradeArray).collect(Collectors.toList()));
 
         return tradeAssets;
     }
 
     public TradeAsset readTradeAsset(String tradeId) throws Exception {
-
         TradeAsset tradeAssetResponse = new TradeAsset();
-        String output = null;
+        String output;
 
-        // Create a gateway connection
-        try (Gateway gateway = builder.connect()) {
+        Contract contract = getContract();
 
-            // Obtain a smart contract deployed on the network.
-            Network network = gateway.getNetwork(channelName);
+        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_SINGLE, tradeId);
 
-            Contract contract = network.getContract(contractName);
+        output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
+        log.info("readAllTradeTsAsset completed : " + output);
+        Value tradeAsset = (Value) JsonUtil.getJsonToObject(output, Value.class);
 
-            byte[] queryTradeTsResult = contract.evaluateTransaction("readMyAsset", tradeId);
-
-            output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
-            log.info("readAllTradeTsAsset completed : " + output);
-            Value tradeAsset = (Value) JsonUtil.getJsonToObject(output, Value.class);
-
-            if (tradeAsset != null) {
-                tradeAssetResponse.setTradeId(tradeId);
-                tradeAssetResponse.setValue(tradeAsset.getValue());
-            }
-        } catch (ContractException e) {
-            throw new BlockchainException(e.getLocalizedMessage());
+        if (tradeAsset != null) {
+            tradeAssetResponse.setTradeId(tradeId);
+            tradeAssetResponse.setValue(tradeAsset.getValue());
         }
 
         return tradeAssetResponse;
@@ -114,69 +86,46 @@ public class FabricServiceImpl implements IFabricService {
 
 
     public void createTradeAsset(TradeAsset tradeAsset) throws Exception {
+        String output;
+        Contract contract = getContract();
 
-        String output = null;
+        byte[] submitCreateTradeTsResult = contract.submitTransaction(CREATE_ASSET, tradeAsset.getTradeId(), tradeAsset.getValue());
 
-        // Create a gateway connection
-        try (Gateway gateway = builder.connect()) {
-
-            // Obtain a smart contract deployed on the network.
-            Network network = gateway.getNetwork(channelName);
-
-            Contract contract = network.getContract(contractName);
-
-            byte[] submitCreateTradeTsResult = contract.submitTransaction("createMyAsset", tradeAsset.getTradeId(), tradeAsset.getValue());
-
-            output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
-            log.info("createMyAsset completed : " + output);
-        } catch (ContractException e) {
-            throw new BlockchainException(e.getLocalizedMessage());
-        }
+        output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
+        log.info("createMyAsset completed : " + output);
 
     }
 
     public void updateTradeAsset(TradeAsset tradeAsset) throws Exception {
+        String output;
+        Contract contract = getContract();
 
-        String output = null;
+        byte[] submitCreateTradeTsResult = contract.submitTransaction(UPDATE_ASSET, tradeAsset.getTradeId(), tradeAsset.getValue());
 
-        // Create a gateway connection
-        try (Gateway gateway = builder.connect()) {
-
-            // Obtain a smart contract deployed on the network.
-            Network network = gateway.getNetwork(channelName);
-
-            Contract contract = network.getContract(contractName);
-
-            byte[] submitCreateTradeTsResult = contract.submitTransaction("updateMyAsset", tradeAsset.getTradeId(), tradeAsset.getValue());
-
-            output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
-            log.info("updateMyAsset completed : " + output);
-        } catch (ContractException e) {
-            throw new BlockchainException(e.getLocalizedMessage());
-        }
+        output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
+        log.info("updateMyAsset completed : " + output);
 
     }
 
     public void deleteTradeAsset(String tradeId) throws Exception {
+        String output;
+        Contract contract = getContract();
 
-        String output = null;
+        byte[] submitCreateTradeTsResult = contract.submitTransaction(DELETE_ASSET, tradeId);
 
+        output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
+        log.info("deleteMyAsset completed : " + output);
+
+    }
+
+    private Contract getContract() {
         // Create a gateway connection
-        try (Gateway gateway = builder.connect()) {
+        Gateway gateway = builder.connect();
 
-            // Obtain a smart contract deployed on the network.
-            Network network = gateway.getNetwork(channelName);
+        // Obtain a smart contract deployed on the network.
+        Network network = gateway.getNetwork(CHANNEL_NAME);
 
-            Contract contract = network.getContract(contractName);
-
-            byte[] submitCreateTradeTsResult = contract.submitTransaction("deleteMyAsset", tradeId);
-
-            output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
-            log.info("deleteMyAsset completed : " + output);
-        } catch (ContractException e) {
-            throw new BlockchainException(e.getLocalizedMessage());
-        }
-
+        return network.getContract(CONTRACT_NAME);
     }
 
 

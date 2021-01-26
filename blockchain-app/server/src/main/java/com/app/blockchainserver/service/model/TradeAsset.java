@@ -1,21 +1,14 @@
 package com.app.blockchainserver.service.model;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.app.blockchainserver.util.JsonUtil;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class TradeAsset {
 
-    private String  tradeId;
-    private String  value;
+    private String tradeId;
+    private String value;
 
-    public TradeAsset(){
+    public TradeAsset() {
         super();
     }
 
@@ -41,7 +34,7 @@ public class TradeAsset {
     }
 
     @JsonCreator
-    public static TradeAsset create(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+    public static TradeAsset create(String jsonString) {
         return (TradeAsset) JsonUtil.getJsonToObject(jsonString, TradeAsset.class);
     }
 }
