@@ -18,6 +18,9 @@
 3. **Smart-contract**-  fabric-contract-api ^2.2.0, fabric-shim ^2.2.0, fabric-network 2.2.5
 4. **Migration-Wallet**-  fabric-network 2.2.5, fabric-wallet-migration 0.2.0
 
+## Presentation
+![](Assets/1.gif)
+
 ## Future Developments
 - [x] Project basic skeleton using CRUD transactions of the smart-contract
 - [ ] Smart contract update ( introduce listeners)
