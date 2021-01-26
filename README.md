@@ -19,10 +19,11 @@
 4. **Migration-Wallet**-  fabric-network 2.2.5, fabric-wallet-migration 0.2.0
 
 ## Presentation
+### Query All
 ![](Assets/1.gif)
 ### Query single asset
 ![Query single](Assets/2.gif)
-### QModify/Create/Delete Assets
+### Modify/Create/Delete Assets
 ![Modify asset](Assets/3.gif)
 
 ## Future Developments
