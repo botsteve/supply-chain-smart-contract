@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NetworkService } from '../api/network.service';
 const test = require('../../../../server/local_fabric_wallet/connection.json')
 
 @Component({

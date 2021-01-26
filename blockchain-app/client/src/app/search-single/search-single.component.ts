@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NetworkService } from '../api/network.service';
 import { MessageService } from 'primeng/api';
+import { NetworkService } from '../api/network.service';
 import { Asset } from '../models/asset';
 
 @Component({
@@ -35,12 +35,12 @@ export class SearchSingleComponent implements OnInit {
       this.networkService.queryAsset(this.tradeId).subscribe(data => {
         this.messageService.add({ severity: 'success', summary: 'Transaction Success', detail: `The transaction finished successfully!` });
         this.loading = false;
-        let asset: Asset = new Asset(data.tradeId,data.value);
+        let asset: Asset = new Asset(data.tradeId, data.value);
         this.assets.push(asset);
       },
-      (error)=>{
-        this.loading = false;
-      });
+        (error) => {
+          this.loading = false;
+        });
     }
   }
 

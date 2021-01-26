@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { NetworkService } from '../api/network.service';
 import { Asset } from '../models/asset';
-import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-create-asset',

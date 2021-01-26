@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NetworkService } from '../api/network.service';
 import { MessageService } from 'primeng/api';
+import { NetworkService } from '../api/network.service';
 
 @Component({
   selector: 'app-delete-asset',
@@ -26,7 +26,7 @@ export class DeleteAssetComponent implements OnInit {
       }, (error) => {
         this.loading = false;
       });
-    }else{
+    } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'The Asset ID is empty' });
     }
 

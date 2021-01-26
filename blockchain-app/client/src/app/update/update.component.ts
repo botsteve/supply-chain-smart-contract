@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NetworkService } from '../api/network.service';
 import { MessageService } from 'primeng/api';
+import { NetworkService } from '../api/network.service';
 import { Asset } from '../models/asset';
 
 @Component({

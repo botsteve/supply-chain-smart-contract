@@ -12,27 +12,27 @@ export class NetworkService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public queryAllAssets(): Observable<any>{
+  public queryAllAssets(): Observable<any> {
     return this.httpClient.get(this.BASE_URL + 'queryAllAssets/');
   }
 
-  public queryAsset(tradeId: string): Observable<any>{
+  public queryAsset(tradeId: string): Observable<any> {
     return this.httpClient.get(this.BASE_URL + 'queryAsset/' + tradeId);
   }
 
-  public createAsset(tradeAsset: Asset): Observable<any>{
-    return this.httpClient.post(this.BASE_URL + 'createAsset/',tradeAsset);
+  public createAsset(tradeAsset: Asset): Observable<any> {
+    return this.httpClient.post(this.BASE_URL + 'createAsset/', tradeAsset);
   }
 
-  public updateAsset(tradeAsset: Asset): Observable<any>{
-    return this.httpClient.post(this.BASE_URL + 'updateAsset/',tradeAsset);
+  public updateAsset(tradeAsset: Asset): Observable<any> {
+    return this.httpClient.post(this.BASE_URL + 'updateAsset/', tradeAsset);
   }
 
-  public deleteAsset(tradeId: string): Observable<any>{
+  public deleteAsset(tradeId: string): Observable<any> {
     return this.httpClient.post(this.BASE_URL + 'deleteAsset/' + tradeId, {});
   }
 
-  public displayConnection(): Observable<any>{
+  public displayConnection(): Observable<any> {
     return this.httpClient.get(this.BASE_URL + 'displayConnection/');
   }
 }

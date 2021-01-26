@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { CreateAssetComponent } from './create-asset/create-asset.component';
+import { DeleteAssetComponent } from './delete-asset/delete-asset.component';
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search-all/search.component';
 import { SearchSingleComponent } from './search-single/search-single.component';
-import { CreateAssetComponent } from './create-asset/create-asset.component';
 import { UpdateComponent } from './update/update.component';
-import { DeleteAssetComponent } from './delete-asset/delete-asset.component';
 
 const routes: Routes = [
   { path: '',   redirectTo: '/home', pathMatch: 'full' }, // redirect to `home`
