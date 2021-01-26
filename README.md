@@ -20,6 +20,8 @@
 
 ## Presentation
 ![](Assets/1.gif)
+![Query single](Assets/2.gif)
+![Modify asset](Assets/3.gif)
 
 ## Future Developments
 - [x] Project basic skeleton using CRUD transactions of the smart-contract
