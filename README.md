@@ -23,7 +23,7 @@
 - [ ] Smart contract update ( introduce listeners)
 - [ ] Security and User authentification server
 - [x] Configure Swagger
-- [ ] Client/Server Applications code refactor
+- [x] Client/Server Applications code refactor
 - [ ] Web interface rework
 - [ ] Cloud Migration onto IBM Cloud
 - [ ] CI/CD Pipeline
