@@ -32,6 +32,6 @@
 - [ ] Security and User authentification server
 - [x] Configure Swagger
 - [x] Client/Server Applications code refactor
-- [ ] Web interface rework
+- [ ] Web interface rework(Angular Material)
 - [ ] Cloud Migration onto IBM Cloud
 - [ ] CI/CD Pipeline
