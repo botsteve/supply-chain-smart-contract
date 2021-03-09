@@ -29,7 +29,7 @@
 ## Future Developments
 - [x] Project basic skeleton using CRUD transactions of the smart-contract
 - [ ] Smart contract update ( introduce listeners and bussiness logic)
-- [ ] Security and User authentification server(Spring Security)
+- [ ] Security and User authentification server(Spring Security with Keycloak maybe?)
 - [x] Configure Swagger
 - [x] Client/Server Applications code refactor
 - [ ] Web interface rework(Angular Material)
