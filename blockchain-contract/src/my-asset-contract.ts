@@ -65,10 +65,15 @@ export class MyAssetContract extends Contract {
         return myAsset;
     }
 
-    async wholesalerDistribute(ctx, equipmentNumber, ownerName) {
-        const equipmentAsBytes = await ctx.stub.getState(equipmentNumber);
+    @Transaction()
+    public async wholesalerDistribute(
+        ctx: Context,
+        assetID: string,
+        ownerName: string
+    ): Promise<void> {
+        const equipmentAsBytes = await ctx.stub.getState(assetID);
         if (!equipmentAsBytes || equipmentAsBytes.length === 0) {
-            throw new Error(`${equipmentNumber} does not exist`);
+            throw new Error(`${assetID} does not exist`);
         }
         let dt = new Date().toString();
         const strValue = Buffer.from(equipmentAsBytes).toString("utf8");
@@ -77,7 +82,7 @@ export class MyAssetContract extends Contract {
             record = JSON.parse(strValue);
             if (record.currentOwnerType !== "MANUAFACTURER") {
                 throw new Error(
-                    ` equipment - ${equipmentNumber} owner must be MANUAFACTURER`
+                    ` equipment - ${assetID} owner must be MANUAFACTURER`
                 );
             }
             record.previousOwnerType = record.currentOwnerType;
@@ -85,24 +90,24 @@ export class MyAssetContract extends Contract {
             record.ownerName = ownerName;
             record.lastUpdated = dt;
         } catch (err) {
-            throw new Error(
-                `equipmet ${equipmentNumber} data can't be processed`
-            );
+            throw new Error(`equipmet ${assetID} data can't be processed`);
         }
-        await ctx.stub.putState(
-            equipmentNumber,
-            Buffer.from(JSON.stringify(record))
-        );
+        await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(record)));
     }
 
-    async retailerReceived(ctx, assetId, ownerName) {
+    @Transaction()
+    public async retailerReceived(
+        ctx: Context,
+        assetId: string,
+        ownerName: string
+    ): Promise<void> {
         const equipmentAsBytes = await ctx.stub.getState(assetId);
         if (!equipmentAsBytes || equipmentAsBytes.length === 0) {
             throw new Error(`${assetId} does not exist`);
         }
         let dt = new Date().toString();
         const strValue = Buffer.from(equipmentAsBytes).toString("utf8");
-        let record;
+        let record: MyAsset;
         try {
             record = JSON.parse(strValue);
 
@@ -121,13 +126,14 @@ export class MyAssetContract extends Contract {
         await ctx.stub.putState(assetId, Buffer.from(JSON.stringify(record)));
     }
 
-    async queryHistoryByKey(ctx, key) {
+    @Transaction(false)
+    public async queryHistoryByKey(ctx: Context, key: string): Promise<string> {
         let iterator = await ctx.stub.getHistoryForKey(key);
         let result = [];
         let res = await iterator.next();
         while (!res.done) {
             if (res.value) {
-                const obj = JSON.parse(res.value.value.toString("utf8"));
+                const obj = JSON.parse(res.value.value.toString());
                 result.push(obj);
             }
             res = await iterator.next();
