@@ -15,7 +15,8 @@ import { MyAsset } from "./my-asset";
 enum ownerTypes {
     MANUFACTURER = 'MANUFACTURER',
     WHOLESALER = 'WHOLESALER',
-    RETAILER = 'RETAILER'
+    RETAILER = 'RETAILER',
+    CLIENT = 'CLIENT'
 }
 
 @Info({ title: "MyAssetContract", description: "My Smart Contract" })
@@ -122,6 +123,34 @@ export class MyAssetContract extends Contract {
         myAsset.previousOwnerType = myAsset.currentOwnerType;
         myAsset.currentOwnerType = ownerTypes.RETAILER;
         myAsset.ownerName = ownerName;
+        myAsset.lastUpdated = dt;
+
+        const buffer: Buffer = Buffer.from(JSON.stringify(myAsset));
+        await ctx.stub.putState(myAssetId, buffer);
+    }
+
+
+    @Transaction()
+    public async sellAsset(
+        ctx: Context,
+        myAssetId: string
+    ): Promise<void> {
+        const exists: boolean = await this.myAssetExists(ctx, myAssetId);
+        if (!exists) {
+            throw new Error(`The my asset ${myAssetId} does not exist`);
+        }
+        const data: Uint8Array = await ctx.stub.getState(myAssetId);
+        let myAsset: MyAsset = JSON.parse(data.toString()) as MyAsset;
+
+        let dt = new Date().toString();
+        if (myAsset.currentOwnerType !== ownerTypes.RETAILER) {
+            throw new Error(
+                `equipment - ${myAssetId} owner must be ${ownerTypes.RETAILER}`
+            );
+        }
+        myAsset.previousOwnerType = myAsset.currentOwnerType;
+        myAsset.currentOwnerType = ownerTypes.CLIENT;
+        myAsset.ownerName = '<REDACTED>';
         myAsset.lastUpdated = dt;
 
         const buffer: Buffer = Buffer.from(JSON.stringify(myAsset));
