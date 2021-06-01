@@ -11,6 +11,13 @@ import {
 } from "fabric-contract-api";
 import { MyAsset } from "./my-asset";
 
+
+enum ownerTypes {
+    MANUFACTURER = 'MANUFACTURER',
+    WHOLESALER = 'WHOLESALER',
+    RETAILER = 'RETAILER'
+}
+
 @Info({ title: "MyAssetContract", description: "My Smart Contract" })
 export class MyAssetContract extends Contract {
     @Transaction(false)
@@ -41,8 +48,8 @@ export class MyAssetContract extends Contract {
         myAsset.assetType = assetType;
         myAsset.manufacturer = manufacturer;
         myAsset.ownerName = ownerName;
-        myAsset.previousOwnerType = "MANUFACTURER";
-        myAsset.currentOwnerType = "MANUFACTURER";
+        myAsset.previousOwnerType = ownerTypes.MANUFACTURER;
+        myAsset.currentOwnerType = ownerTypes.MANUFACTURER;
         myAsset.createDateTime = dt;
         myAsset.lastUpdated = dt;
 
@@ -68,62 +75,57 @@ export class MyAssetContract extends Contract {
     @Transaction()
     public async wholesalerDistribute(
         ctx: Context,
-        assetID: string,
+        myAssetId: string,
         ownerName: string
     ): Promise<void> {
-        const equipmentAsBytes = await ctx.stub.getState(assetID);
-        if (!equipmentAsBytes || equipmentAsBytes.length === 0) {
-            throw new Error(`${assetID} does not exist`);
+        const exists: boolean = await this.myAssetExists(ctx, myAssetId);
+        if (!exists) {
+            throw new Error(`The my asset ${myAssetId} does not exist`);
         }
+        const data: Uint8Array = await ctx.stub.getState(myAssetId);
+        let myAsset: MyAsset = JSON.parse(data.toString()) as MyAsset;
+
         let dt = new Date().toString();
-        const strValue = Buffer.from(equipmentAsBytes).toString("utf8");
-        let record;
-        try {
-            record = JSON.parse(strValue);
-            if (record.currentOwnerType !== "MANUAFACTURER") {
-                throw new Error(
-                    ` equipment - ${assetID} owner must be MANUAFACTURER`
-                );
-            }
-            record.previousOwnerType = record.currentOwnerType;
-            record.currentOwnerType = "WHOLESALER";
-            record.ownerName = ownerName;
-            record.lastUpdated = dt;
-        } catch (err) {
-            throw new Error(`equipmet ${assetID} data can't be processed`);
+        if (myAsset.currentOwnerType !== ownerTypes.MANUFACTURER) {
+            throw new Error(
+                `equipment - ${myAssetId} owner must be ${ownerTypes.MANUFACTURER}`
+            );
         }
-        await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(record)));
+        myAsset.previousOwnerType = myAsset.currentOwnerType;
+        myAsset.currentOwnerType = ownerTypes.WHOLESALER;
+        myAsset.ownerName = ownerName;
+        myAsset.lastUpdated = dt;
+
+        const buffer: Buffer = Buffer.from(JSON.stringify(myAsset));
+        await ctx.stub.putState(myAssetId, buffer);
     }
 
     @Transaction()
     public async retailerReceived(
         ctx: Context,
-        assetId: string,
+        myAssetId: string,
         ownerName: string
     ): Promise<void> {
-        const equipmentAsBytes = await ctx.stub.getState(assetId);
-        if (!equipmentAsBytes || equipmentAsBytes.length === 0) {
-            throw new Error(`${assetId} does not exist`);
+        const exists: boolean = await this.myAssetExists(ctx, myAssetId);
+        if (!exists) {
+            throw new Error(`The my asset ${myAssetId} does not exist`);
         }
-        let dt = new Date().toString();
-        const strValue = Buffer.from(equipmentAsBytes).toString("utf8");
-        let record: MyAsset;
-        try {
-            record = JSON.parse(strValue);
+        const data: Uint8Array = await ctx.stub.getState(myAssetId);
+        let myAsset: MyAsset = JSON.parse(data.toString()) as MyAsset;
 
-            if (record.currentOwnerType !== "WHOLESALER") {
-                throw new Error(
-                    ` equipment - ${assetId} owner must be WHOLESALER`
-                );
-            }
-            record.previousOwnerType = record.currentOwnerType;
-            record.currentOwnerType = "RETAILER";
-            record.ownerName = ownerName;
-            record.lastUpdated = dt;
-        } catch (err) {
-            throw new Error(`equipmet ${assetId} data can't be processed`);
+        let dt = new Date().toString();
+        if (myAsset.currentOwnerType !== ownerTypes.WHOLESALER) {
+            throw new Error(
+                `equipment - ${myAssetId} owner must be ${ownerTypes.WHOLESALER}`
+            );
         }
-        await ctx.stub.putState(assetId, Buffer.from(JSON.stringify(record)));
+        myAsset.previousOwnerType = myAsset.currentOwnerType;
+        myAsset.currentOwnerType = ownerTypes.RETAILER;
+        myAsset.ownerName = ownerName;
+        myAsset.lastUpdated = dt;
+
+        const buffer: Buffer = Buffer.from(JSON.stringify(myAsset));
+        await ctx.stub.putState(myAssetId, buffer);
     }
 
     @Transaction(false)
