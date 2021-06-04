@@ -1,6 +1,21 @@
+import { LayoutModule } from '@angular/cdk/layout';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
@@ -22,19 +37,26 @@ import { CreateAssetComponent } from './create-asset/create-asset.component';
 import { DeleteAssetComponent } from './delete-asset/delete-asset.component';
 import { HomeComponent } from './home/home.component';
 import { HttpErrorInterceptor } from './http-error.interceptor';
-import { SearchComponent } from './search-all/search.component';
-import { SearchSingleComponent } from './search-single/search-single.component';
-import { UpdateComponent } from './update/update.component';
+import { NavComponent } from './nav/nav.component';
+import { QueryAllComponent } from './query-all/query-all.component';
+import { SearchAssetComponent } from './search-asset/search-asset.component';
+import { UpdateAssetComponent } from './update-asset/update-asset.component';
+import { SearchHistoryComponent } from './search-history/search-history.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchComponent,
     HomeComponent,
-    SearchSingleComponent,
     CreateAssetComponent,
-    UpdateComponent,
-    DeleteAssetComponent
+    DeleteAssetComponent,
+    NavComponent,
+    SearchAssetComponent,
+    QueryAllComponent,
+    UpdateAssetComponent,
+    SearchHistoryComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -52,7 +74,26 @@ import { UpdateComponent } from './update/update.component';
     MenubarModule,
     InputTextModule,
     DataViewModule,
-    CardModule
+    CardModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatInputModule,
+    MatSelectModule,
+    MatRadioModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatStepperModule,
+    MatProgressBarModule,
+    MatSlideToggleModule
   ],
   providers: [
     NetworkService,
@@ -65,4 +106,4 @@ import { UpdateComponent } from './update/update.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

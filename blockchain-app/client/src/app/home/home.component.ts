@@ -1,47 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-const test = require('../../../../server/local_fabric_wallet/connection.json')
+import { Component } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
+  /** Based on the screen size, switch from standard to one column per row */
+  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map(({ matches }) => {
+      if (matches) {
+        return [
+          { title: 'Card 1', cols: 1, rows: 1 },
+          { title: 'Card 2', cols: 1, rows: 1 },
+          { title: 'Card 3', cols: 1, rows: 1 },
+          { title: 'Card 4', cols: 1, rows: 1 }
+        ];
+      }
 
-  certAuth: string = '';
-  certAuthUrl: string = '';
-  walletName: string = '';
-  organization: string = '';
-  orgMsipd: string = '';
-  orgPeersName: string = '';
-  orgPeersUrl: string = '';
-  version: string = '';
+      return [
+        { title: 'Card 1', cols: 2, rows: 1 },
+        { title: 'Card 2', cols: 1, rows: 1 },
+        { title: 'Card 3', cols: 1, rows: 2 },
+        { title: 'Card 4', cols: 1, rows: 1 }
+      ];
+    })
+  );
 
-  constructor() { }
-
-  ngOnInit(): void {
-    this.parseConnectionProfile();
-  }
-
-
-  parseConnectionProfile() {
-
-    const allPropertyNames = Object.keys(test['certificateAuthorities']);
-    const certAuthProp = Object.keys(test['certificateAuthorities'][allPropertyNames[0]]);
-    const organizations = Object.keys(test['organizations']);
-    const organizationParams = Object.keys(test['organizations'][organizations[0]]);
-    const peers = Object.keys(test['peers']);
-    const peersValues = Object.keys(test['peers'][peers[0]]);
-
-    this.orgPeersUrl = test['peers'][peers[0]][peersValues[0]]['grpc.default_authority'];
-    this.organization = organizations[0]
-    this.orgMsipd = test['organizations'][organizations[0]][organizationParams[1]];
-    this.orgPeersName = test['organizations'][organizations[0]][organizationParams[2]][0];
-    this.certAuth = allPropertyNames[0];
-    this.certAuthUrl = test['certificateAuthorities'][allPropertyNames[0]][certAuthProp[0]]
-    this.walletName = test['name'];
-    this.version = test['version'];
-
-  }
-
+  constructor(private breakpointObserver: BreakpointObserver) {}
 }

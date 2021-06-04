@@ -2,31 +2,40 @@ package com.app.blockchainserver.dto.request;
 
 public class TradeAssetRequestDTO {
 
-    private String tradeId;
+    private String assetId;
+    private String manufacturer;
+    private String assetType;
+    private String ownerName;
 
-    private String value;
-
-    public TradeAssetRequestDTO() {
+    public String getAssetId() {
+        return assetId;
     }
 
-    public TradeAssetRequestDTO(String tradeId, String value) {
-        this.tradeId = tradeId;
-        this.value = value;
+    public void setAssetId(String assetId) {
+        this.assetId = assetId;
     }
 
-    public String getTradeId() {
-        return tradeId;
+    public String getManufacturer() {
+        return manufacturer;
     }
 
-    public void setTradeId(String tradeId) {
-        this.tradeId = tradeId;
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
-    public String getValue() {
-        return value;
+    public String getAssetType() {
+        return assetType;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

@@ -1,11 +1,14 @@
 package com.app.blockchainserver.service.impl;
 
+import com.app.blockchainserver.config.BlockchainException;
 import com.app.blockchainserver.service.IFabricService;
+import com.app.blockchainserver.service.UpdateType;
 import com.app.blockchainserver.service.model.TradeAsset;
 import com.app.blockchainserver.service.model.TradeAssetObj;
 import com.app.blockchainserver.service.model.TradeAssets;
-import com.app.blockchainserver.service.model.Value;
 import com.app.blockchainserver.util.JsonUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hyperledger.fabric.gateway.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,11 +31,14 @@ public class FabricServiceImpl implements IFabricService {
     private static Gateway.Builder builder;
 
     private final String CONTRACT_NAME = "blockchain-contract";
-    private final String CHANNEL_NAME = "mychannel";
+    private final String CHANNEL_NAME = "channel1";
     private final String QUERY_ALL = "queryAllAssets";
     private final String QUERY_SINGLE = "readMyAsset";
+    private final String QUERY_HISTORY = "queryHistoryByKey";
     private final String CREATE_ASSET = "createMyAsset";
-    private final String UPDATE_ASSET = "updateMyAsset";
+    private final String DISTRIBUTE_ASSET = "wholesalerDistribute";
+    private final String RETAILER_ASSET = "retailerReceived";
+    private final String SELL_ASSET = "sellAsset";
     private final String DELETE_ASSET = "deleteMyAsset";
 
     @PostConstruct
@@ -65,7 +72,6 @@ public class FabricServiceImpl implements IFabricService {
     }
 
     public TradeAsset readTradeAsset(String tradeId) throws Exception {
-        TradeAsset tradeAssetResponse = new TradeAsset();
         String output;
 
         Contract contract = getContract();
@@ -73,36 +79,52 @@ public class FabricServiceImpl implements IFabricService {
         byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_SINGLE, tradeId);
 
         output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
-        log.info("readAllTradeTsAsset completed : " + output);
-        Value tradeAsset = (Value) JsonUtil.getJsonToObject(output, Value.class);
+        log.info("readAsset completed : " + output);
+        TradeAsset tradeAsset = new ObjectMapper().readValue(output, TradeAsset.class);
 
         if (tradeAsset != null) {
-            tradeAssetResponse.setTradeId(tradeId);
-            tradeAssetResponse.setValue(tradeAsset.getValue());
+            return tradeAsset;
+        } else {
+            throw new BlockchainException("No asset found with that id");
         }
 
-        return tradeAssetResponse;
     }
+
+
 
 
     public void createTradeAsset(TradeAsset tradeAsset) throws Exception {
         String output;
         Contract contract = getContract();
 
-        byte[] submitCreateTradeTsResult = contract.submitTransaction(CREATE_ASSET, tradeAsset.getTradeId(), tradeAsset.getValue());
+        byte[] submitCreateTradeTsResult = contract.submitTransaction(CREATE_ASSET, tradeAsset.getAssetId(), tradeAsset.getManufacturer(), tradeAsset.getAssetType(), tradeAsset.getOwnerName());
 
         output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
         log.info("createMyAsset completed : " + output);
 
     }
 
-    public void updateTradeAsset(TradeAsset tradeAsset) throws Exception {
+    public void updateTradeAsset(UpdateType updateType, TradeAsset tradeAsset) throws Exception {
         String output;
+        byte[] submitUpdateTsResult;
         Contract contract = getContract();
 
-        byte[] submitCreateTradeTsResult = contract.submitTransaction(UPDATE_ASSET, tradeAsset.getTradeId(), tradeAsset.getValue());
+        switch (updateType) {
+            case DISTRIBUTE:
+                submitUpdateTsResult = contract.submitTransaction(DISTRIBUTE_ASSET, tradeAsset.getAssetId(), tradeAsset.getOwnerName());
+                break;
+            case RETAIL:
+                submitUpdateTsResult = contract.submitTransaction(RETAILER_ASSET, tradeAsset.getAssetId(), tradeAsset.getOwnerName());
+                break;
+            case CONSUMER:
+                submitUpdateTsResult = contract.submitTransaction(SELL_ASSET, tradeAsset.getAssetId());
+                break;
+            default:
+                log.info("No update");
+                throw new BlockchainException("ERROR: NO UPDATE");
+        }
 
-        output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
+        output = new String(submitUpdateTsResult, StandardCharsets.UTF_8);
         log.info("updateMyAsset completed : " + output);
 
     }
@@ -116,6 +138,24 @@ public class FabricServiceImpl implements IFabricService {
         output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
         log.info("deleteMyAsset completed : " + output);
 
+    }
+
+    @Override
+    public List<TradeAsset> queryAssetHistoryByKey(String tradeId) throws Exception {
+
+        Contract contract = getContract();
+
+        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_HISTORY, tradeId);
+
+        String output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
+        log.info("getHistoryByKey completed : " + output);
+        List<TradeAsset> tradeAsset = new ObjectMapper().readValue(output, new TypeReference<List<TradeAsset>>(){});
+
+        if (tradeAsset != null) {
+            return tradeAsset;
+        } else {
+            throw new BlockchainException("No asset found with that id");
+        }
     }
 
     private Contract getContract() {

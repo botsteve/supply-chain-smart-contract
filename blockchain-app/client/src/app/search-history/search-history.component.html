@@ -1,0 +1,249 @@
+<mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" style="position: fixed;"></mat-progress-bar>
+
+<mat-card class="asset-card">
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="outline" class="full-width">
+                <input matInput placeholder="Asset ID" required [(ngModel)]="assetId">
+            </mat-form-field>
+            <mat-error *ngIf="displayError">
+                Asset ID is <strong>required</strong>
+            </mat-error>
+        </div>
+    </div>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" type="button" (click)="onSubmit()">Search</button>
+    </mat-card-actions>
+</mat-card>
+
+<mat-horizontal-stepper #stepper class="asset-card">
+    <mat-step [stepControl]="assetFormManufacturer">
+        <form [formGroup]="assetFormManufacturer" novalidate>
+            <mat-card class="asset-card">
+                <mat-card-header>
+                    <mat-card-title>Manufacturer Transaction Information</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Asset Type" formControlName="assetType">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Manufacturer" formControlName="manufacturer">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Owner Name" formControlName="ownerName">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Previous Owner Type" formControlName="previousOwnerType">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Current Owner Type" formControlName="currentOwnerType">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Create Date Time" formControlName="createDateTime">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Last Updated" formControlName="lastUpdated">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </form>
+    </mat-step>
+    <!-- #docregion label -->
+    <mat-step [stepControl]="assetFormDistributor" *ngIf="historyLength>1">
+        <form [formGroup]="assetFormDistributor" novalidate>
+            <mat-card class="asset-card">
+                <mat-card-header>
+                    <mat-card-title>Wholesaler Transaction Information</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Asset Type" formControlName="assetType">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Manufacturer" formControlName="manufacturer">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Owner Name" formControlName="ownerName">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Previous Owner Type" formControlName="previousOwnerType">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Current Owner Type" formControlName="currentOwnerType">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Create Date Time" formControlName="createDateTime">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Last Updated" formControlName="lastUpdated">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="assetFormRetailer" *ngIf="historyLength>2">
+        <form [formGroup]="assetFormRetailer" novalidate>
+            <mat-card class="asset-card">
+                <mat-card-header>
+                    <mat-card-title>Retailer Transaction Information</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Asset Type" formControlName="assetType">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Manufacturer" formControlName="manufacturer">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Owner Name" formControlName="ownerName">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Previous Owner Type" formControlName="previousOwnerType">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Current Owner Type" formControlName="currentOwnerType">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Create Date Time" formControlName="createDateTime">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Last Updated" formControlName="lastUpdated">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="assetFormConsumer" *ngIf="historyLength>3">
+        <form [formGroup]="assetFormConsumer" novalidate>
+            <mat-card class="asset-card">
+                <mat-card-header>
+                    <mat-card-title>Consumer Transaction Information</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Asset Type" formControlName="assetType">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Manufacturer" formControlName="manufacturer">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Owner Name" formControlName="ownerName">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Previous Owner Type" formControlName="previousOwnerType">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Current Owner Type" formControlName="currentOwnerType">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Create Date Time" formControlName="createDateTime">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Last Updated" formControlName="lastUpdated">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </form>
+    </mat-step>
+</mat-horizontal-stepper>

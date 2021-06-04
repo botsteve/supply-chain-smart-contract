@@ -16,7 +16,7 @@ enum ownerTypes {
     MANUFACTURER = 'MANUFACTURER',
     WHOLESALER = 'WHOLESALER',
     RETAILER = 'RETAILER',
-    CLIENT = 'CLIENT'
+    CONSUMER = 'CONSUMER'
 }
 
 @Info({ title: "MyAssetContract", description: "My Smart Contract" })
@@ -149,7 +149,7 @@ export class MyAssetContract extends Contract {
             );
         }
         myAsset.previousOwnerType = myAsset.currentOwnerType;
-        myAsset.currentOwnerType = ownerTypes.CLIENT;
+        myAsset.currentOwnerType = ownerTypes.CONSUMER;
         myAsset.ownerName = '<REDACTED>';
         myAsset.lastUpdated = dt;
 

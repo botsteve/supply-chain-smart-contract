@@ -8,7 +8,7 @@ import { Asset } from '../models/asset';
 })
 export class NetworkService {
 
-  private BASE_URL: string = "http://localhost:8080/";
+  private BASE_URL: string = "http://localhost:8081/";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -20,12 +20,24 @@ export class NetworkService {
     return this.httpClient.get(this.BASE_URL + 'queryAsset/' + tradeId);
   }
 
+  public queryAssetHistoryByKey(tradeId: string): Observable<any> {
+    return this.httpClient.get(this.BASE_URL + 'queryAssetHistoryByKey/' + tradeId);
+  }
+
   public createAsset(tradeAsset: Asset): Observable<any> {
     return this.httpClient.post(this.BASE_URL + 'createAsset/', tradeAsset);
   }
 
-  public updateAsset(tradeAsset: Asset): Observable<any> {
-    return this.httpClient.post(this.BASE_URL + 'updateAsset/', tradeAsset);
+  public wholesalerDistribute(tradeAsset: Asset): Observable<any> {
+    return this.httpClient.post(this.BASE_URL + 'wholesalerDistribute/', tradeAsset);
+  }
+
+  public retailerReceived(tradeAsset: Asset): Observable<any> {
+    return this.httpClient.post(this.BASE_URL + 'retailerReceived/', tradeAsset);
+  }
+
+  public sellAsset(tradeAsset: Asset): Observable<any> {
+    return this.httpClient.post(this.BASE_URL + 'sellAsset/', tradeAsset);
   }
 
   public deleteAsset(tradeId: string): Observable<any> {

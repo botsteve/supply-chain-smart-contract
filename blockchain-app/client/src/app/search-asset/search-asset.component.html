@@ -1,0 +1,73 @@
+<mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" style="position: fixed;"></mat-progress-bar>
+
+<form [formGroup]="assetForm" novalidate (ngSubmit)="onSubmit()">
+  <mat-card class="asset-card">
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width">
+          <input matInput placeholder="Asset ID" formControlName="assetId" required>
+        </mat-form-field>
+        <mat-error *ngIf="assetForm.controls['assetId'].touched && assetForm.controls['assetId'].status === 'INVALID'">
+          Asset ID is <strong>required</strong>
+        </mat-error>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="asset-card">
+    <mat-card-header>
+      <mat-card-title>Asset Information</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Asset Type" formControlName="assetType">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Manufacturer" formControlName="manufacturer">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Owner Name" formControlName="ownerName">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Previous Owner Type" formControlName="previousOwnerType">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Current Owner Type" formControlName="currentOwnerType">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Create Date Time" formControlName="createDateTime">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Last Updated" formControlName="lastUpdated">
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Search</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

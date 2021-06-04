@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { NetworkService } from '../api/network.service';
 import { Asset } from '../models/asset';
@@ -9,31 +10,43 @@ import { Asset } from '../models/asset';
   styleUrls: ['./create-asset.component.css']
 })
 export class CreateAssetComponent implements OnInit {
+  assetForm = this.fb.group({
+    assetId: [null, Validators.required],
+    manufacturer: [null, Validators.required],
+    assetType: [null, Validators.required],
+    ownerName: [null, Validators.required]
+  });
 
-  tradeId: string = '';
-  value: string = '';
-  loading: boolean;
+  isLoading: boolean = false;
 
-  constructor(private networkService: NetworkService, private messageService: MessageService) { }
+  constructor(
+    private fb: FormBuilder,
+    private networkService: NetworkService,
+    private messageService: MessageService
+  ) {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   onSubmit() {
-    if(this.tradeId && this.value){
-      this.loading = true;
-      let asset: Asset = new Asset(this.tradeId, this.value)
-      this.networkService.createAsset(asset).subscribe(() => {
-        this.loading = false;
-        this.messageService.add({ severity: 'success', summary: 'Transaction Success', detail: `The asset has been created successfully!` });
-      }, (error) => {
-        console.log(error);
-        this.loading = false;
-      });
-    }else{
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'The Asset ID/Value are empty!' });
+    if (this.assetForm.valid) {
+      this.isLoading = true;
+      let newAsset: Asset = Object.assign(
+        new Asset(),
+        this.assetForm.getRawValue()
+      );
+      this.networkService.createAsset(newAsset).subscribe(
+        () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Transaction Success',
+            detail: `The asset has been created successfully!`
+          });
+          this.isLoading=false;
+        },
+        error => {
+          this.isLoading = false;
+        }
+      );
     }
   }
-
 }

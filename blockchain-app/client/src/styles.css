@@ -42,3 +42,16 @@ body .big-button {
     height: 55px !important;
     width: 55px !important;
 }
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.fixed {
+    position: fixed !important;
+}

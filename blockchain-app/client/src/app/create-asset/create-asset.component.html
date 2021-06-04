@@ -1,25 +1,57 @@
-<div class="centered" *ngIf="loading" style="z-index: 100;">
-    <i class="pi pi-spin pi-spinner" style="font-size: 10em;"></i>
-</div>
+<mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" style="position: fixed;"></mat-progress-bar>
+<form [formGroup]="assetForm" novalidate (ngSubmit)="onSubmit()">
 
-<div class="container-fluid">
-    <div class="col-sm-4 mt-5">
-        <span class="p-float-label mb-4">
-            <input id="float-input" type="text" pInputText [(ngModel)]="tradeId" class="p-inputtext-lg">
-            <label for="float-input">Asset ID</label>
-        </span>
-    </div>
+    <mat-card class="asset-card">
+        <mat-card-header>
+            <mat-card-title>Asset Information</mat-card-title>
+        </mat-card-header>
 
-    <div class="col-sm-4 mt-5">
-        <span class="p-float-label mb-4">
-            <input id="float-input" type="text" pInputText [(ngModel)]="value" class="p-inputtext-lg">
-            <label for="float-input">Value</label>
-        </span>
-    </div>
-
-    <div class="col-sm-4 mt-5">
-        <p-button label="Submit" icon="pi pi-check" styleClass="p-button-lg p-button-rounded p-button-success mb-2"
-            (click)="onSubmit()">
-        </p-button>
-    </div>
-</div>
+        <mat-card-content>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <input matInput placeholder="Asset ID" formControlName="assetId" required>
+                    </mat-form-field>
+                    <mat-error
+                        *ngIf="assetForm.controls['assetId'].touched && assetForm.controls['assetId'].status === 'INVALID'">
+                        Asset ID is <strong>required</strong>
+                    </mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Asset Type" formControlName="assetType" required>
+                    </mat-form-field>
+                    <mat-error
+                        *ngIf="assetForm.controls['assetType'].touched && assetForm.controls['assetType'].status === 'INVALID'">
+                        Asset Type is <strong>required</strong>
+                    </mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Manufacturer" formControlName="manufacturer" required>
+                    </mat-form-field>
+                    <mat-error
+                        *ngIf="assetForm.controls['manufacturer'].touched && assetForm.controls['manufacturer'].status === 'INVALID'">
+                        Manufacturer is <strong>required</strong>
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Owner Name" formControlName="ownerName" required>
+                    </mat-form-field>
+                    <mat-error
+                        *ngIf="assetForm.controls['ownerName'].touched && assetForm.controls['ownerName'].status === 'INVALID'">
+                        Owner Name is <strong>required</strong>
+                    </mat-error>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+        </mat-card-actions>
+    </mat-card>
+</form>

@@ -1,0 +1,29 @@
+<mat-sidenav-container class="sidenav-container" [ngClass]="{'light-theme-mode':!isDarkTheme}">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="'navigation'"
+    [mode]="'side'" [opened]="false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item href="/home" >Home</a>
+      <a mat-list-item href="/search-all">Search All</a>
+      <a mat-list-item href="/search-asset">Search Asset</a>
+      <a mat-list-item href="search-history">Search History by key</a>
+      <a mat-list-item href="/create">Create Asset</a>
+      <a mat-list-item href="/update">Update Asset</a>
+      <!-- <a mat-list-item href="/delete">Delete Asset</a> -->
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Supply Chain Blockchain Application</span>
+      <span style="flex:auto;"></span>
+      <mat-slide-toggle  [(ngModel)]="isDarkTheme" labelPosition="before" (change)="storeThemeSelection()">
+        <mat-icon>bedtime</mat-icon>
+      </mat-slide-toggle>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet style="background-color:grey"></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

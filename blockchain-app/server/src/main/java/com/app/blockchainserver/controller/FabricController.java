@@ -7,6 +7,8 @@ import com.app.blockchainserver.service.ITradeService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -28,14 +30,29 @@ public class FabricController {
         return tradeService.readTradeAsset(tradeId);
     }
 
+    @GetMapping(value = "/queryAssetHistoryByKey/{tradeId}")
+    public List<TradeAssetResponseDTO> queryAssetHistoryByKey(@PathVariable String tradeId) throws Exception {
+        return tradeService.queryAssetHistoryByKey(tradeId);
+    }
+
     @PostMapping(value = "/createAsset/")
     public void createAsset(@RequestBody TradeAssetRequestDTO tradeAssetRequestDTO) throws Exception {
         tradeService.createTradeAsset(tradeAssetRequestDTO);
     }
 
-    @PostMapping(value = "/updateAsset/")
-    public void updateAsset(@RequestBody TradeAssetRequestDTO tradeAssetRequestDTO) throws Exception {
-        tradeService.updateTradeAsset(tradeAssetRequestDTO);
+    @PostMapping(value = "/wholesalerDistribute/")
+    public void wholesalerDistribute(@RequestBody TradeAssetRequestDTO tradeAssetRequestDTO) throws Exception {
+        tradeService.wholesalerDistribute(tradeAssetRequestDTO);
+    }
+
+    @PostMapping(value = "/retailerReceived/")
+    public void retailerReceived(@RequestBody TradeAssetRequestDTO tradeAssetRequestDTO) throws Exception {
+        tradeService.retailerReceived(tradeAssetRequestDTO);
+    }
+
+    @PostMapping(value = "/sellAsset/")
+    public void sellAsset(@RequestBody TradeAssetRequestDTO tradeAssetRequestDTO) throws Exception {
+        tradeService.sellAsset(tradeAssetRequestDTO);
     }
 
     @PostMapping(value = "/deleteAsset/{tradeId}")
