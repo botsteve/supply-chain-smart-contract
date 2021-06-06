@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,14 +35,17 @@ public class TradeServiceImpl implements ITradeService {
 
         TradeAssets tradeList = fabricService.readAllTradeTsAsset();
 
-        for (TradeAssetObj obj : tradeList.getList()) {
-
-            if (obj != null && obj.getRecord() != null) {
-                TradeAssetResponseDTO responseDTO = new TradeAssetResponseDTO();
-                responseDTO.setAssetId(obj.getKey());
-                BeanUtils.copyProperties(obj.getRecord(), responseDTO);
-                tradeAssets.add(responseDTO);
-            }
+        if (!Objects.isNull(tradeList.getList()) && !tradeList.getList().isEmpty()) {
+            tradeList.getList().forEach(obj -> {
+                if (obj != null && obj.getRecord() != null) {
+                    TradeAssetResponseDTO responseDTO = new TradeAssetResponseDTO();
+                    responseDTO.setAssetId(obj.getKey());
+                    BeanUtils.copyProperties(obj.getRecord(), responseDTO);
+                    tradeAssets.add(responseDTO);
+                }
+            });
+        } else {
+            throw new BlockchainException("No records found!");
         }
 
         tradeResponseDTO.setTradeAssets(tradeAssets);
