@@ -1,55 +1,195 @@
-<mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" style="position: fixed;"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading"></mat-progress-bar>
 
-<div class="mat-elevation-z8 asset-card ">
-  <table mat-table class="full-width-table" matSort aria-label="Elements">
-    <!-- Id Column -->
-    <ng-container matColumnDef="assetId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">{{row.assetId}}</td>
-    </ng-container>
+<mat-tab-group (selectedTabChange)="onChange($event)" mat-align-tabs="center">
+    <mat-tab label="Milk-Bottle">
+        <ng-template matTabContent>
+            <div class="mat-elevation-z8 asset-card">
+                <table mat-table matSort #sort1="matSort" #bottleTable="matTable" [dataSource]="dataSource" class="full-width-table" aria-label="Elements">
+                    <!-- Id Column -->
+                    <ng-container matColumnDef="assetId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                        <td mat-cell *matCellDef="let row">{{ row.assetId }}</td>
+                    </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="assetType">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Asset Type</th>
-      <td mat-cell *matCellDef="let row">{{row.assetType}}</td>
-    </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="assetType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Asset Type
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.assetType }}</td>
+                    </ng-container>
 
-    <ng-container matColumnDef="manufacturer">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Manufacturer</th>
-      <td mat-cell *matCellDef="let row">{{row.manufacturer}}</td>
-    </ng-container>
+                    <ng-container matColumnDef="manufacturer">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Manufacturer
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.manufacturer }}</td>
+                    </ng-container>
 
+                    <ng-container matColumnDef="ownerName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Owner Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.ownerName }}</td>
+                    </ng-container>
 
-    <ng-container matColumnDef="ownerName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Owner Name</th>
-      <td mat-cell *matCellDef="let row">{{row.ownerName}}</td>
-    </ng-container>
+                    <ng-container matColumnDef="previousOwnerType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Previous Owner Type
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.previousOwnerType }}</td>
+                    </ng-container>
 
-    <ng-container matColumnDef="previousOwnerType">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Previous Owner Type</th>
-      <td mat-cell *matCellDef="let row">{{row.previousOwnerType}}</td>
-    </ng-container>
+                    <ng-container matColumnDef="currentOwnerType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Current Owner Type
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.currentOwnerType }}</td>
+                    </ng-container>
 
-    <ng-container matColumnDef="currentOwnerType">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Current Owner Type</th>
-      <td mat-cell *matCellDef="let row">{{row.currentOwnerType}}</td>
-    </ng-container>
+                    <ng-container matColumnDef="createDateTime">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Create Date Time
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.createDateTime }}</td>
+                    </ng-container>
 
-    <ng-container matColumnDef="createDateTime">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Create Date Time</th>
-      <td mat-cell *matCellDef="let row">{{row.createDateTime}}</td>
-    </ng-container>
+                    <ng-container matColumnDef="lastUpdated">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Last Updated
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.lastUpdated }}</td>
+                    </ng-container>
 
-    <ng-container matColumnDef="lastUpdated">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Updated</th>
-      <td mat-cell *matCellDef="let row">{{row.lastUpdated}}</td>
-    </ng-container>
+                    <ng-container matColumnDef="cowId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cow ID</th>
+                        <td mat-cell *matCellDef="let row">{{ row.cowId }}</td>
+                    </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
 
-  <mat-paginator #paginator [length]="dataSource?.data.length" [pageIndex]="0" [pageSize]="50"
-    [pageSizeOptions]="[10, 20, 50, 250]">
-  </mat-paginator>
-</div>
+                <mat-paginator #paginator1 [length]="dataSource?.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[10, 20, 50, 250]">
+                </mat-paginator>
+            </div>
+        </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Cows">
+        <ng-template matTabContent>
+            <div class="mat-elevation-z8 asset-card">
+                <table mat-table matSort #sort2="matSort" #cowsTable="matTable" [dataSource]="dataSource2" class="full-width-table" aria-label="Elements">
+                    <ng-container matColumnDef="cowId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                        <td mat-cell *matCellDef="let row">{{ row.cowId }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="assetType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Asset Type
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.assetType }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="race">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Race</th>
+                        <td mat-cell *matCellDef="let row">{{ row.race }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="age">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Age</th>
+                        <td mat-cell *matCellDef="let row">{{ row.age }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="food">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Food</th>
+                        <td mat-cell *matCellDef="let row">{{ row.food }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="bruteEnergy">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Brute Energy
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.bruteEnergy }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="conversionFactor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Conversion Factor
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.conversionFactor }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="farmId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Farm ID</th>
+                        <td mat-cell *matCellDef="let row">{{ row.farmId }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="createDateTime">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Create Date/Time
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.createDateTime }}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedCowColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedCowColumns"></tr>
+                </table>
+
+                <mat-paginator #paginator2 [length]="dataSource2?.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[10, 20, 50, 250]">
+                </mat-paginator>
+            </div>
+        </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Farms">
+        <ng-template matTabContent>
+            <div class="mat-elevation-z8 asset-card">
+                <table mat-table matSort #sort3="matSort" #farmTable="matTable" [dataSource]="dataSource3" class="full-width-table" aria-label="Elements">
+                    <ng-container matColumnDef="farmId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                        <td mat-cell *matCellDef="let row">{{ row.farmId }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="assetType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Asset Type
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.assetType }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="owner">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Owner Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.owner }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="country">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+                        <td mat-cell *matCellDef="let row">{{ row.country }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="createDateTime">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Create Date Time
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.createDateTime }}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedFarmColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedFarmColumns"></tr>
+                </table>
+
+                <mat-paginator #paginator3 [length]="dataSource3?.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[10, 20, 50, 250]">
+                </mat-paginator>
+            </div>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>

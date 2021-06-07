@@ -3,9 +3,7 @@ package com.app.blockchainserver.service.impl;
 import com.app.blockchainserver.config.BlockchainException;
 import com.app.blockchainserver.service.IFabricService;
 import com.app.blockchainserver.service.UpdateType;
-import com.app.blockchainserver.service.model.TradeAsset;
-import com.app.blockchainserver.service.model.TradeAssetObj;
-import com.app.blockchainserver.service.model.TradeAssets;
+import com.app.blockchainserver.service.model.*;
 import com.app.blockchainserver.util.JsonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +34,8 @@ public class FabricServiceImpl implements IFabricService {
     private final String QUERY_SINGLE = "readMyAsset";
     private final String QUERY_HISTORY = "queryHistoryByKey";
     private final String CREATE_ASSET = "createMyAsset";
+    private final String CREATE_COW_ASSET = "createCowAsset";
+    private final String CREATE_FARM_ASSET = "createFarmAsset";
     private final String DISTRIBUTE_ASSET = "wholesalerDistribute";
     private final String RETAILER_ASSET = "retailerReceived";
     private final String SELL_ASSET = "sellAsset";
@@ -54,12 +54,12 @@ public class FabricServiceImpl implements IFabricService {
 
     }
 
-    public TradeAssets readAllTradeTsAsset() throws Exception {
+    public TradeAssets readAllTradeTsAsset(String assetType) throws Exception {
         TradeAssets tradeAssets = new TradeAssets();
         String output;
         Contract contract = getContract();
 
-        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_ALL);
+        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_ALL, assetType);
 
         output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
         log.info("readAllTradeTsAsset completed : " + output);
@@ -71,12 +71,48 @@ public class FabricServiceImpl implements IFabricService {
         return tradeAssets;
     }
 
-    public TradeAsset readTradeAsset(String tradeId) throws Exception {
+    public CowAssets readAllCowAsset(String assetType) throws Exception {
+        CowAssets tradeAssets = new CowAssets();
+        String output;
+        Contract contract = getContract();
+
+        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_ALL, assetType);
+
+        output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
+        log.info("readAllTradeTsAsset completed : " + output);
+        CowAssetObj[] tradeArray = (CowAssetObj[]) JsonUtil.getJsonToObject(output, CowAssetObj[].class);
+
+        if (tradeArray != null && tradeArray.length > 0)
+            tradeAssets.setList(Arrays.stream(tradeArray).collect(Collectors.toList()));
+
+        return tradeAssets;
+    }
+
+
+    public FarmAssets readAllFarmAsset(String assetType) throws Exception {
+        FarmAssets tradeAssets = new FarmAssets();
+        String output;
+        Contract contract = getContract();
+
+        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_ALL, assetType);
+
+        output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
+        log.info("readAllTradeTsAsset completed : " + output);
+        FarmAssetObj[] tradeArray = (FarmAssetObj[]) JsonUtil.getJsonToObject(output, FarmAssetObj[].class);
+
+        if (tradeArray != null && tradeArray.length > 0)
+            tradeAssets.setList(Arrays.stream(tradeArray).collect(Collectors.toList()));
+
+        return tradeAssets;
+    }
+
+
+    public TradeAsset readTradeAsset(String assetType, String tradeId) throws Exception {
         String output;
 
         Contract contract = getContract();
 
-        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_SINGLE, tradeId);
+        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_SINGLE, tradeId, assetType);
 
         output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
         log.info("readAsset completed : " + output);
@@ -90,19 +126,79 @@ public class FabricServiceImpl implements IFabricService {
 
     }
 
+    @Override
+    public CowAsset readCowAsset(String assetType, String tradeId) throws Exception {
+        String output;
 
+        Contract contract = getContract();
 
+        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_SINGLE, tradeId, assetType);
+
+        output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
+        log.info("readAsset completed : " + output);
+        CowAsset tradeAsset = new ObjectMapper().readValue(output, CowAsset.class);
+
+        if (tradeAsset != null) {
+            return tradeAsset;
+        } else {
+            throw new BlockchainException("No asset found with that id");
+        }
+    }
+
+    @Override
+    public FarmAsset readFarmAsset(String assetType, String tradeId) throws Exception {
+        String output;
+
+        Contract contract = getContract();
+
+        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_SINGLE, tradeId, assetType);
+
+        output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
+        log.info("readAsset completed : " + output);
+        FarmAsset tradeAsset = new ObjectMapper().readValue(output, FarmAsset.class);
+
+        if (tradeAsset != null) {
+            return tradeAsset;
+        } else {
+            throw new BlockchainException("No asset found with that id");
+        }
+    }
 
     public void createTradeAsset(TradeAsset tradeAsset) throws Exception {
         String output;
         Contract contract = getContract();
 
-        byte[] submitCreateTradeTsResult = contract.submitTransaction(CREATE_ASSET, tradeAsset.getAssetId(), tradeAsset.getManufacturer(), tradeAsset.getAssetType(), tradeAsset.getOwnerName());
+        byte[] submitCreateTradeTsResult = contract.submitTransaction(CREATE_ASSET, tradeAsset.getAssetId(), tradeAsset.getManufacturer(), tradeAsset.getOwnerName(), tradeAsset.getCowId());
 
         output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
         log.info("createMyAsset completed : " + output);
 
     }
+
+    @Override
+    public void createCowAsset(CowAsset cowAsset) throws Exception {
+        String output;
+        Contract contract = getContract();
+
+        byte[] submitCreateTradeTsResult = contract.submitTransaction(CREATE_COW_ASSET, cowAsset.getCowId(), cowAsset.getRace(), cowAsset.getAge(), cowAsset.getFood(), cowAsset.getBruteEnergy(),cowAsset.getConversionFactor(),cowAsset.getFarmId());
+
+        output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
+        log.info("createMyAsset completed : " + output);
+
+    }
+
+    @Override
+    public void createFarmAsset(FarmAsset farmAsset) throws Exception {
+        String output;
+        Contract contract = getContract();
+
+        byte[] submitCreateTradeTsResult = contract.submitTransaction(CREATE_FARM_ASSET, farmAsset.getFarmId(), farmAsset.getName(), farmAsset.getOwner(), farmAsset.getCountry());
+
+        output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
+        log.info("createMyAsset completed : " + output);
+
+    }
+
 
     public void updateTradeAsset(UpdateType updateType, TradeAsset tradeAsset) throws Exception {
         String output;
@@ -145,7 +241,7 @@ public class FabricServiceImpl implements IFabricService {
 
         Contract contract = getContract();
 
-        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_HISTORY, tradeId);
+        byte[] queryTradeTsResult = contract.evaluateTransaction(QUERY_HISTORY, tradeId,"BOTTLE");
 
         String output = new String(queryTradeTsResult, StandardCharsets.UTF_8);
         log.info("getHistoryByKey completed : " + output);

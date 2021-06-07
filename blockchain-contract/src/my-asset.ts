@@ -5,7 +5,7 @@
 import { Object, Property } from "fabric-contract-api";
 
 @Object()
-export class MyAsset {
+export class MilkBottle {
     @Property()
     public assetId: string;
 
@@ -29,4 +29,7 @@ export class MyAsset {
 
     @Property()
     public lastUpdated: string;
+
+    @Property()
+    public cowId: string;
 }

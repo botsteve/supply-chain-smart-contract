@@ -13,26 +13,11 @@ public class TradeAsset {
     private String currentOwnerType;
     private String createDateTime;
     private String lastUpdated;
+    private String cowId;
 
 
     public TradeAsset() {
         super();
-    }
-
-    public TradeAsset(String assetId, String manufacturer) {
-        this.assetId = assetId;
-        this.manufacturer = manufacturer;
-    }
-
-    public TradeAsset(String assetId, String manufacturer, String assetType, String ownerName, String previousOwnerType, String currentOwnerType, String createDateTime, String lastUpdated) {
-        this.assetId = assetId;
-        this.manufacturer = manufacturer;
-        this.assetType = assetType;
-        this.ownerName = ownerName;
-        this.previousOwnerType = previousOwnerType;
-        this.currentOwnerType = currentOwnerType;
-        this.createDateTime = createDateTime;
-        this.lastUpdated = lastUpdated;
     }
 
     public String getManufacturer() {
@@ -97,6 +82,14 @@ public class TradeAsset {
 
     public void setAssetId(String assetId) {
         this.assetId = assetId;
+    }
+
+    public String getCowId() {
+        return cowId;
+    }
+
+    public void setCowId(String cowId) {
+        this.cowId = cowId;
     }
 
     @JsonCreator

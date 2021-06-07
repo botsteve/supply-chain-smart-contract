@@ -1,20 +1,32 @@
 package com.app.blockchainserver.service;
 
 
-import com.app.blockchainserver.dto.response.TradeAssetResponseDTO;
-import com.app.blockchainserver.service.model.TradeAsset;
-import com.app.blockchainserver.service.model.TradeAssets;
+import com.app.blockchainserver.service.model.*;
 
 import java.util.List;
 
 public interface IFabricService {
-    TradeAssets readAllTradeTsAsset() throws Exception;
+    TradeAssets readAllTradeTsAsset(String assetType) throws Exception;
 
-    TradeAsset readTradeAsset(String tradeId) throws Exception;
+    CowAssets readAllCowAsset(String assetType) throws Exception;
+
+
+    FarmAssets readAllFarmAsset(String assetType) throws Exception;
+
+
+    TradeAsset readTradeAsset(String assetType, String tradeId) throws Exception;
+
+    CowAsset readCowAsset(String assetType, String tradeId) throws Exception;
+
+    FarmAsset readFarmAsset(String assetType, String tradeId) throws Exception;
 
     void createTradeAsset(TradeAsset tradeAsset) throws Exception;
 
-    void updateTradeAsset(UpdateType updateType,TradeAsset tradeAsset) throws Exception;
+    void createCowAsset(CowAsset cowAsset) throws Exception;
+
+    void createFarmAsset(FarmAsset farmAsset) throws Exception;
+
+    void updateTradeAsset(UpdateType updateType, TradeAsset tradeAsset) throws Exception;
 
     void deleteTradeAsset(String tradeId) throws Exception;
 

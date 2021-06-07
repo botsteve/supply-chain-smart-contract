@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col">
             <mat-form-field appearance="outline" class="full-width">
-                <input matInput placeholder="Asset ID" required [(ngModel)]="assetId">
+                <input matInput placeholder="Asset ID" required [(ngModel)]="assetId" maxlength="3" matTooltip="Id must be between 000-999, only numeric">
             </mat-form-field>
             <mat-error *ngIf="displayError">
                 Asset ID is <strong>required</strong>

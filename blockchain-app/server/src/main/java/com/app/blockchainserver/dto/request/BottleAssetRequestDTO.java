@@ -1,11 +1,23 @@
 package com.app.blockchainserver.dto.request;
 
-public class TradeAssetRequestDTO {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+public class BottleAssetRequestDTO {
+
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String assetId;
     private String manufacturer;
     private String assetType;
     private String ownerName;
+
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    private String cowId;
 
     public String getAssetId() {
         return assetId;
@@ -37,5 +49,13 @@ public class TradeAssetRequestDTO {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public String getCowId() {
+        return cowId;
+    }
+
+    public void setCowId(String cowId) {
+        this.cowId = cowId;
     }
 }

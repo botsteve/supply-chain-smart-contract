@@ -1,6 +1,5 @@
-<mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" style="position: fixed;"></mat-progress-bar>
-<form [formGroup]="assetForm" novalidate (ngSubmit)="onSubmit()">
-
+<mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" style="position: fixed"></mat-progress-bar>
+<form [formGroup]="assetForm" novalidate (ngSubmit)="onSubmitBottle()" *ngIf="currentAssetType=='BOTTLE'">
     <mat-card class="asset-card">
         <mat-card-header>
             <mat-card-title>Asset Information</mat-card-title>
@@ -9,43 +8,261 @@
         <mat-card-content>
             <div class="row">
                 <div class="col">
-                    <mat-form-field appearance="outline" class="full-width">
-                        <input matInput placeholder="Asset ID" formControlName="assetId" required>
+                    <mat-form-field appearance="fill" class="full-width">
+                        <input matInput placeholder="Asset ID (only suffix)" formControlName="assetId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
                     </mat-form-field>
-                    <mat-error
-                        *ngIf="assetForm.controls['assetId'].touched && assetForm.controls['assetId'].status === 'INVALID'">
+                    <mat-error *ngIf="
+              assetForm.controls['assetId'].touched &&
+              assetForm.controls['assetId'].status === 'INVALID'
+            ">
                         Asset ID is <strong>required</strong>
                     </mat-error>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col">
-                    <mat-form-field class="full-width">
-                        <input matInput placeholder="Asset Type" formControlName="assetType" required>
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Asset Type</mat-label>
+                        <mat-select formControlName="assetType" (selectionChange)="onChange($event)" required [(ngModel)]="currentAssetType">
+                            <mat-option *ngFor="let type of assetTypes" [value]="type.value">
+                                {{ type.value }}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
-                    <mat-error
-                        *ngIf="assetForm.controls['assetType'].touched && assetForm.controls['assetType'].status === 'INVALID'">
-                        Asset Type is <strong>required</strong>
+                    <mat-error *ngIf="
+              assetForm.controls['assetType'].touched &&
+              assetForm.controls['assetType'].status === 'INVALID'
+            ">
+                        Asset type is <strong>required</strong>
                     </mat-error>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <input matInput placeholder="Manufacturer" formControlName="manufacturer" required>
+                        <input matInput placeholder="Manufacturer" formControlName="manufacturer" required />
                     </mat-form-field>
-                    <mat-error
-                        *ngIf="assetForm.controls['manufacturer'].touched && assetForm.controls['manufacturer'].status === 'INVALID'">
+                    <mat-error *ngIf="
+              assetForm.controls['manufacturer'].touched &&
+              assetForm.controls['manufacturer'].status === 'INVALID'
+            ">
                         Manufacturer is <strong>required</strong>
                     </mat-error>
                 </div>
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <input matInput placeholder="Owner Name" formControlName="ownerName" required>
+                        <input matInput placeholder="Owner Name" formControlName="ownerName" required />
                     </mat-form-field>
-                    <mat-error
-                        *ngIf="assetForm.controls['ownerName'].touched && assetForm.controls['ownerName'].status === 'INVALID'">
+                    <mat-error *ngIf="
+              assetForm.controls['ownerName'].touched &&
+              assetForm.controls['ownerName'].status === 'INVALID'
+            ">
                         Owner Name is <strong>required</strong>
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Cow ID (only suffix)" formControlName="cowId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+              assetForm.controls['cowId'].touched &&
+              assetForm.controls['cowId'].status === 'INVALID'
+            ">
+                        Cow ID is <strong>required</strong>
+                    </mat-error>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+        </mat-card-actions>
+    </mat-card>
+</form>
+
+<form [formGroup]="cowAssetForm" novalidate (ngSubmit)="onSubmitCow()" *ngIf="currentAssetType=='COW'">
+    <mat-card class="asset-card">
+        <mat-card-header>
+            <mat-card-title>Asset Information</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <input matInput placeholder="Cow ID (only suffix)" formControlName="cowId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    cowAssetForm.controls['cowId'].touched &&
+                    cowAssetForm.controls['cowId'].status === 'INVALID'
+            ">
+                        Asset ID is <strong>required</strong>
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Asset Type</mat-label>
+                        <mat-select formControlName="assetType" required (selectionChange)="onChange($event)" [(ngModel)]="currentAssetType">
+                            <mat-option *ngFor="let type of assetTypes" [value]="type.value">
+                                {{ type.value }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    cowAssetForm.controls['assetType'].touched &&
+                    cowAssetForm.controls['assetType'].status === 'INVALID'
+            ">
+                        Asset type is <strong>required</strong>
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Race" formControlName="race" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    cowAssetForm.controls['race'].touched &&
+                    cowAssetForm.controls['race'].status === 'INVALID'
+            ">
+                        Manufacturer is <strong>required</strong>
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input type="number" matInput placeholder="Age(years)" formControlName="age" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    cowAssetForm.controls['age'].touched &&
+                    cowAssetForm.controls['age'].status === 'INVALID'
+            ">
+                        Age is <strong>required</strong>
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Food" formControlName="food" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    cowAssetForm.controls['food'].touched &&
+                    cowAssetForm.controls['food'].status === 'INVALID'
+            ">
+                        Food is <strong>required</strong>
+                    </mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Farm ID (only suffix)" formControlName="farmId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    cowAssetForm.controls['farmId'].touched &&
+                    cowAssetForm.controls['farmId'].status === 'INVALID'
+            ">
+                        Farm ID is <strong>required</strong>
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Brute Energy" formControlName="bruteEnergy" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    cowAssetForm.controls['bruteEnergy'].touched &&
+                    cowAssetForm.controls['bruteEnergy'].status === 'INVALID'
+            ">
+                        Brute Energy is <strong>required</strong>
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Conversion Factor" formControlName="conversionFactor" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    cowAssetForm.controls['conversionFactor'].touched &&
+                    cowAssetForm.controls['conversionFactor'].status === 'INVALID'
+            ">
+                        Conversion Factor is <strong>required</strong>
+                    </mat-error>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+        </mat-card-actions>
+    </mat-card>
+</form>
+
+<form [formGroup]="farmAssetForm" novalidate (ngSubmit)="onSubmitFarm()" *ngIf="currentAssetType=='FARM'">
+    <mat-card class="asset-card">
+        <mat-card-header>
+            <mat-card-title>Asset Information</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <input matInput placeholder="Farm ID (only suffix)" formControlName="farmId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    farmAssetForm.controls['farmId'].touched &&
+                    farmAssetForm.controls['farmId'].status === 'INVALID'
+            ">
+                        Farm ID is <strong>required</strong>
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Asset Type</mat-label>
+                        <mat-select formControlName="assetType" (selectionChange)="onChange($event)" [(ngModel)]="currentAssetType" required>
+                            <mat-option *ngFor="let type of assetTypes" [value]="type.value">
+                                {{ type.value }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    farmAssetForm.controls['assetType'].touched &&
+                    farmAssetForm.controls['assetType'].status === 'INVALID'
+            ">
+                        Asset type is <strong>required</strong>
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Name" formControlName="name" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    farmAssetForm.controls['name'].touched &&
+                    farmAssetForm.controls['name'].status === 'INVALID'
+            ">
+                        Name is <strong>required</strong>
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Owner Name" formControlName="owner" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    farmAssetForm.controls['owner'].touched &&
+                    farmAssetForm.controls['owner'].status === 'INVALID'
+            ">
+                        Owner Name is <strong>required</strong>
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Country" formControlName="country" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    farmAssetForm.controls['country'].touched &&
+                    farmAssetForm.controls['country'].status === 'INVALID'
+            ">
+                        Country is <strong>required</strong>
                     </mat-error>
                 </div>
             </div>

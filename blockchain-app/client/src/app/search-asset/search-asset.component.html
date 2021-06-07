@@ -1,73 +1,232 @@
-<mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading" style="position: fixed;"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading"></mat-progress-bar>
 
-<form [formGroup]="assetForm" novalidate (ngSubmit)="onSubmit()">
-  <mat-card class="asset-card">
-    <div class="row">
-      <div class="col">
-        <mat-form-field appearance="outline" class="full-width">
-          <input matInput placeholder="Asset ID" formControlName="assetId" required>
-        </mat-form-field>
-        <mat-error *ngIf="assetForm.controls['assetId'].touched && assetForm.controls['assetId'].status === 'INVALID'">
-          Asset ID is <strong>required</strong>
-        </mat-error>
-      </div>
-    </div>
-  </mat-card>
+<mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Milk-Bottle">
+        <form [formGroup]="bottleAssetForm" (ngSubmit)="onSubmit()">
+            <mat-card class="asset-card">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input matInput placeholder="Milk Bottle ID" formControlName="assetId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                        </mat-form-field>
+                        <mat-error *ngIf="
+                bottleAssetForm.controls['assetId'].touched &&
+                bottleAssetForm.controls['assetId'].status === 'INVALID'
+              ">
+                            Asset ID is <strong>required</strong>
+                        </mat-error>
+                    </div>
+                </div>
+            </mat-card>
 
-  <mat-card class="asset-card">
-    <mat-card-header>
-      <mat-card-title>Asset Information</mat-card-title>
-    </mat-card-header>
+            <mat-card class="asset-card">
+                <mat-card-header>
+                    <mat-card-title>Asset Information</mat-card-title>
+                </mat-card-header>
 
-    <mat-card-content>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Asset Type" formControlName="assetType">
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Manufacturer" formControlName="manufacturer">
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Owner Name" formControlName="ownerName">
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Previous Owner Type" formControlName="previousOwnerType">
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Current Owner Type" formControlName="currentOwnerType">
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Create Date Time" formControlName="createDateTime">
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Last Updated" formControlName="lastUpdated">
-          </mat-form-field>
-        </div>
-      </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit">Search</button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Manufacturer" formControlName="manufacturer" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Owner Name" formControlName="ownerName" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Asset Type" formControlName="assetType" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Previous Owner Type" formControlName="previousOwnerType" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Current Owner Type" formControlName="currentOwnerType" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Create Date Time" formControlName="createDateTime" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Last Updated" formControlName="lastUpdated" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Cow ID" formControlName="cowId" maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" type="submit">
+            Search
+          </button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </mat-tab>
+
+    <mat-tab label="Cow">
+        <form [formGroup]="cowAssetForm" novalidate (ngSubmit)="onSubmitCow()">
+            <mat-card class="asset-card">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input matInput placeholder="Cow ID" formControlName="cowId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                        </mat-form-field>
+                        <mat-error *ngIf="
+                cowAssetForm.controls['cowId'].touched &&
+                cowAssetForm.controls['cowId'].status === 'INVALID'
+              ">
+                            Asset ID is <strong>required</strong>
+                        </mat-error>
+                    </div>
+                </div>
+            </mat-card>
+
+            <mat-card class="asset-card">
+                <mat-card-header>
+                    <mat-card-title>Asset Information</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Race" formControlName="race" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Age" formControlName="age" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Asset Type" formControlName="assetType" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Food" formControlName="food" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Brute Energy" formControlName="bruteEnergy" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Converstion Factor" formControlName="conversionFactor" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Create Date/Time" formControlName="createDateTime" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Farm ID" formControlName="farmId" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" type="submit">
+            Search
+          </button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </mat-tab>
+
+    <mat-tab label="Farm">
+        <form [formGroup]="farmAssetForm" novalidate (ngSubmit)="onSubmitFarm()">
+            <mat-card class="asset-card">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <input matInput placeholder="Farm ID" formControlName="farmId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                        </mat-form-field>
+                        <mat-error *ngIf="
+                farmAssetForm.controls['farmId'].touched &&
+                farmAssetForm.controls['farmId'].status === 'INVALID'
+              ">
+                            Asset ID is <strong>required</strong>
+                        </mat-error>
+                    </div>
+                </div>
+            </mat-card>
+
+            <mat-card class="asset-card">
+                <mat-card-header>
+                    <mat-card-title>Asset Information</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Name" formControlName="name" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Owner Name" formControlName="owner" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Asset Type" formControlName="assetType" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Country" formControlName="country" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Create Date Time" formControlName="createDateTime" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" type="submit">
+            Search
+          </button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </mat-tab>
+</mat-tab-group>

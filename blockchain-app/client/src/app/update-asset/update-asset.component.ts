@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { NetworkService } from '../api/network.service';
 import { MessageService } from 'primeng/api';
 import { Asset } from '../models/asset';
+import { assetIdValidator } from '../api/id-validation';
 
 @Component({
   selector: 'app-update-asset',
@@ -11,7 +12,7 @@ import { Asset } from '../models/asset';
 })
 export class UpdateAssetComponent {
   assetForm = this.fb.group({
-    assetId: [null, Validators.required],
+    assetId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]],
     ownerName: [null, Validators.required],
     updateType: [null, Validators.required]
   });

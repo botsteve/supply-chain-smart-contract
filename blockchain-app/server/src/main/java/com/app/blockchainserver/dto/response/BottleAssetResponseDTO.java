@@ -1,6 +1,6 @@
 package com.app.blockchainserver.dto.response;
 
-public class TradeAssetResponseDTO {
+public class BottleAssetResponseDTO {
 
     private String assetId;
     private String manufacturer;
@@ -10,6 +10,7 @@ public class TradeAssetResponseDTO {
     private String currentOwnerType;
     private String createDateTime;
     private String lastUpdated;
+    private String cowId;
 
     public String getAssetId() {
         return assetId;
@@ -73,5 +74,13 @@ public class TradeAssetResponseDTO {
 
     public void setLastUpdated(String lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    public String getCowId() {
+        return cowId;
+    }
+
+    public void setCowId(String cowId) {
+        this.cowId = cowId;
     }
 }

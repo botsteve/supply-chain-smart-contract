@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Asset } from '../models/asset';
+import { Farm } from '../models/farm';
+import { Cow } from '../models/cow';
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +14,45 @@ export class NetworkService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public queryAllAssets(): Observable<any> {
-    return this.httpClient.get(this.BASE_URL + 'queryAllAssets/');
+  public queryAllBottleAssets(assetType: string): Observable<any> {
+    return this.httpClient.get(this.BASE_URL + 'queryAllBottleAssets/' + assetType);
   }
 
-  public queryAsset(tradeId: string): Observable<any> {
-    return this.httpClient.get(this.BASE_URL + 'queryAsset/' + tradeId);
+  public queryAllCowAssets(assetType: string): Observable<any> {
+    return this.httpClient.get(this.BASE_URL + 'queryAllCowAssets/' + assetType);
   }
+
+  public queryAllFarmAssets(assetType: string): Observable<any> {
+    return this.httpClient.get(this.BASE_URL + 'queryAllFarmAssets/' + assetType);
+  }
+
+  public queryBottleAsset(assetType: string, tradeId: string): Observable<any> {
+    return this.httpClient.get(this.BASE_URL + 'queryBottleAsset/'+ assetType + "/" + tradeId);
+  }
+
+  public queryCowAsset(assetType: string, tradeId: string): Observable<any> {
+    return this.httpClient.get(this.BASE_URL + 'queryCowAsset/'+ assetType + "/" + tradeId);
+  }
+
+  public queryFarmAsset(assetType: string, tradeId: string): Observable<any> {
+    return this.httpClient.get(this.BASE_URL + 'queryFarmAsset/'+ assetType + "/" + tradeId);
+  }
+
 
   public queryAssetHistoryByKey(tradeId: string): Observable<any> {
     return this.httpClient.get(this.BASE_URL + 'queryAssetHistoryByKey/' + tradeId);
   }
 
-  public createAsset(tradeAsset: Asset): Observable<any> {
-    return this.httpClient.post(this.BASE_URL + 'createAsset/', tradeAsset);
+  public createBottleAsset(tradeAsset: Asset): Observable<any> {
+    return this.httpClient.post(this.BASE_URL + 'createBottleAsset/', tradeAsset);
+  }
+
+  public createCowAsset(tradeAsset: Cow): Observable<any> {
+    return this.httpClient.post(this.BASE_URL + 'createBottleAsset/', tradeAsset);
+  }
+
+  public createFarmAsset(tradeAsset: Farm): Observable<any> {
+    return this.httpClient.post(this.BASE_URL + 'createBottleAsset/', tradeAsset);
   }
 
   public wholesalerDistribute(tradeAsset: Asset): Observable<any> {
@@ -44,7 +71,4 @@ export class NetworkService {
     return this.httpClient.post(this.BASE_URL + 'deleteAsset/' + tradeId, {});
   }
 
-  public displayConnection(): Observable<any> {
-    return this.httpClient.get(this.BASE_URL + 'displayConnection/');
-  }
 }

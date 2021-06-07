@@ -45,6 +45,8 @@ import { SearchHistoryComponent } from './search-history/search-history.componen
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     SearchAssetComponent,
     QueryAllComponent,
     UpdateAssetComponent,
-    SearchHistoryComponent
+    SearchHistoryComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -93,7 +95,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatSortModule,
     MatStepperModule,
     MatProgressBarModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatTabsModule,
+    MatTooltipModule,
   ],
   providers: [
     NetworkService,
@@ -101,9 +105,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
