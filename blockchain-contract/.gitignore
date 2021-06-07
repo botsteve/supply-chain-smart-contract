@@ -78,4 +78,5 @@ typings/
 
 # Compiled TypeScript files
 dist
+package-lock.json
 
