@@ -1,16 +1,16 @@
 package com.app.blockchainserver.service.impl;
 
-import com.app.blockchainserver.service.config.BlockchainException;
+import com.app.blockchainserver.dto.UpdateType;
+import com.app.blockchainserver.service.impl.config.BlockchainException;
 import com.app.blockchainserver.dto.request.BottleAssetRequestDTO;
-import com.app.blockchainserver.dto.request.CowAssetRequestDTO;
+import com.app.blockchainserver.dto.request.AnimalAssetRequestDTO;
 import com.app.blockchainserver.dto.request.FarmAssetRequstDTO;
 import com.app.blockchainserver.dto.response.BottleAssetResponseDTO;
-import com.app.blockchainserver.dto.response.CowAssetResponseDTO;
+import com.app.blockchainserver.dto.response.AnimalAssetResponseDTO;
 import com.app.blockchainserver.dto.response.FarmAssetResponseDTO;
-import com.app.blockchainserver.service.IFabricService;
-import com.app.blockchainserver.service.ITradeService;
-import com.app.blockchainserver.service.UpdateType;
-import com.app.blockchainserver.service.model.*;
+import com.app.blockchainserver.dto.IFabricService;
+import com.app.blockchainserver.dto.ITradeService;
+import com.app.blockchainserver.dto.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -53,17 +53,17 @@ public class TradeServiceImpl implements ITradeService {
     }
 
     @Override
-    public List<CowAssetResponseDTO> readAllCowAssets(String assetType) throws Exception {
+    public List<AnimalAssetResponseDTO> readAllAnimalAssets(String assetType) throws Exception {
 
-        List<CowAssetResponseDTO> tradeAssets = new ArrayList<>();
+        List<AnimalAssetResponseDTO> tradeAssets = new ArrayList<>();
 
-        CowAssets tradeList = fabricService.readAllCowAsset(assetType);
+        AnimalAssets tradeList = fabricService.readAllAnimalAsset(assetType);
 
         if (!Objects.isNull(tradeList.getList()) && !tradeList.getList().isEmpty()) {
             tradeList.getList().forEach(obj -> {
                 if (obj != null && obj.getRecord() != null) {
-                    CowAssetResponseDTO responseDTO = new CowAssetResponseDTO();
-                    responseDTO.setCowId(obj.getKey());
+                    AnimalAssetResponseDTO responseDTO = new AnimalAssetResponseDTO();
+                    responseDTO.setAnimalId(obj.getKey());
                     BeanUtils.copyProperties(obj.getRecord(), responseDTO);
                     tradeAssets.add(responseDTO);
                 }
@@ -114,9 +114,9 @@ public class TradeServiceImpl implements ITradeService {
     }
 
     @Override
-    public CowAssetResponseDTO readCowAsset(String assetType, String cowId) throws Exception {
-        CowAssetResponseDTO tradeResponseDTO = new CowAssetResponseDTO();
-        CowAsset obj = fabricService.readCowAsset(assetType, cowId);
+    public AnimalAssetResponseDTO readAnimalAsset(String assetType, String cowId) throws Exception {
+        AnimalAssetResponseDTO tradeResponseDTO = new AnimalAssetResponseDTO();
+        AnimalAsset obj = fabricService.readAnimalAsset(assetType, cowId);
 
         if (obj != null) {
             BeanUtils.copyProperties(obj, tradeResponseDTO);
@@ -157,10 +157,10 @@ public class TradeServiceImpl implements ITradeService {
     }
 
     @Override
-    public void createCowAsset(CowAssetRequestDTO tradeAsset) throws Exception {
-        CowAsset newAsset = new CowAsset();
+    public void createAnimalAsset(AnimalAssetRequestDTO tradeAsset) throws Exception {
+        AnimalAsset newAsset = new AnimalAsset();
         BeanUtils.copyProperties(tradeAsset, newAsset);
-        fabricService.createCowAsset(newAsset);
+        fabricService.createAnimalAsset(newAsset);
     }
 
     @Override

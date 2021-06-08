@@ -1,4 +1,4 @@
-package com.app.blockchainserver.service.model;
+package com.app.blockchainserver.dto.model;
 
 public class FarmAsset {
     private String farmId;
@@ -7,6 +7,15 @@ public class FarmAsset {
     private String owner;
     private String country;
     private String createDateTime;
+    private int totalAnimals;
+
+    public int getTotalAnimals() {
+        return totalAnimals;
+    }
+
+    public void setTotalAnimals(int totalAnimals) {
+        this.totalAnimals = totalAnimals;
+    }
 
     public String getFarmId() {
         return farmId;

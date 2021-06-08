@@ -19,4 +19,7 @@ export class FarmAsset {
 
     @Property()
     public createDateTime: string;
+
+    @Property()
+    public totalAnimals: number;
 }

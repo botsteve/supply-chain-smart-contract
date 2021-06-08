@@ -31,5 +31,5 @@ export class MilkBottle {
     public lastUpdated: string;
 
     @Property()
-    public cowId: string;
+    public animalId: string;
 }

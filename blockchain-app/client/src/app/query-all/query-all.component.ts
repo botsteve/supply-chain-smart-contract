@@ -7,8 +7,10 @@ import { Asset } from '../models/asset';
 import { NetworkService } from '../api/network.service';
 import { QueryAllCowsDataSource } from './query-all-cows-datasource';
 import { QueryAllFarmsDataSource } from './query-all-farms-datasource';
-import { Cow } from '../models/cow';
+import { Animal } from '../models/cow';
 import { Farm } from '../models/farm';
+import { AssetTypes } from '../api/asset-types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-query-all',
@@ -23,7 +25,7 @@ export class QueryAllComponent implements AfterViewInit, OnInit {
 
   @ViewChild('paginator2') paginator2: MatPaginator;
   @ViewChild('sort2') sort2: MatSort;
-  @ViewChild('cowsTable') table2: MatTable<Cow>;
+  @ViewChild('cowsTable') table2: MatTable<Animal>;
   dataSource2: QueryAllCowsDataSource;
 
   @ViewChild('paginator3') paginator3: MatPaginator;
@@ -32,8 +34,9 @@ export class QueryAllComponent implements AfterViewInit, OnInit {
   dataSource3: QueryAllFarmsDataSource;
 
   isLoading: boolean = true;
+  currentAssetType: number = 0;
 
-  constructor(private api: NetworkService) {}
+  constructor(private api: NetworkService, private router: Router) { }
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = [
@@ -43,21 +46,18 @@ export class QueryAllComponent implements AfterViewInit, OnInit {
     'ownerName',
     'previousOwnerType',
     'currentOwnerType',
-    'createDateTime',
-    'lastUpdated',
-    'cowId',
+    'animalId',
   ];
 
   displayedCowColumns = [
-    'cowId',
+    'animalId',
     'assetType',
+    'animalCategory',
     'race',
     'age',
     'food',
-    'bruteEnergy',
-    'conversionFactor',
+    'weight',
     'farmId',
-    'createDateTime',
   ];
 
   displayedFarmColumns = [
@@ -66,13 +66,17 @@ export class QueryAllComponent implements AfterViewInit, OnInit {
     'name',
     'owner',
     'country',
-    'createDateTime',
+    'totalAnimals',
   ];
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  onRowClick(assetId:string) {
+    this.router.navigate([`search-asset/${assetId.substr(1,assetId.length)}/${this.currentAssetType}`]);
+  }
 
   ngAfterViewInit() {
-    this.api.queryAllBottleAssets('BOTTLE').subscribe(
+    this.api.queryAllBottleAssets(AssetTypes.BOTTLE.valueOf()).subscribe(
       (data) => {
         this.dataSource = new QueryAllDataSource(data);
         this.dataSource.sort = this.sort;
@@ -88,10 +92,10 @@ export class QueryAllComponent implements AfterViewInit, OnInit {
 
   onChange(event: any) {
     console.log(event);
-
+    this.currentAssetType = event.index;
     switch (event.index) {
       case 0:
-        this.api.queryAllBottleAssets('BOTTLE').subscribe(
+        this.api.queryAllBottleAssets(AssetTypes.BOTTLE.valueOf()).subscribe(
           (data) => {
             this.dataSource = new QueryAllDataSource(data);
             this.dataSource.sort = this.sort;
@@ -106,7 +110,7 @@ export class QueryAllComponent implements AfterViewInit, OnInit {
         break;
 
       case 1:
-        this.api.queryAllCowAssets('COW').subscribe(
+        this.api.queryAllAnimalAssets(AssetTypes.ANIMAL.valueOf()).subscribe(
           (data) => {
             this.dataSource2 = new QueryAllCowsDataSource(data);
             this.dataSource2.sort = this.sort2;
@@ -121,7 +125,7 @@ export class QueryAllComponent implements AfterViewInit, OnInit {
         break;
 
       case 2:
-        this.api.queryAllFarmAssets('FARM').subscribe(
+        this.api.queryAllFarmAssets(AssetTypes.FARM.valueOf()).subscribe(
           (data) => {
             this.dataSource3 = new QueryAllFarmsDataSource(data);
             this.dataSource3.sort = this.sort3;

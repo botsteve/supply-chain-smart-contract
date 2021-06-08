@@ -8,7 +8,7 @@
                     <!-- Id Column -->
                     <ng-container matColumnDef="assetId">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-                        <td mat-cell *matCellDef="let row">{{ row.assetId }}</td>
+                        <td mat-cell *matCellDef="let row" (click)="onRowClick(row.assetId)">{{ row.assetId }}</td>
                     </ng-container>
 
                     <!-- Name Column -->
@@ -47,23 +47,9 @@
                         <td mat-cell *matCellDef="let row">{{ row.currentOwnerType }}</td>
                     </ng-container>
 
-                    <ng-container matColumnDef="createDateTime">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            Create Date Time
-                        </th>
-                        <td mat-cell *matCellDef="let row">{{ row.createDateTime }}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="lastUpdated">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            Last Updated
-                        </th>
-                        <td mat-cell *matCellDef="let row">{{ row.lastUpdated }}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="cowId">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cow ID</th>
-                        <td mat-cell *matCellDef="let row">{{ row.cowId }}</td>
+                    <ng-container matColumnDef="animalId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Animal ID</th>
+                        <td mat-cell *matCellDef="let row">{{ row.animalId }}</td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -76,13 +62,13 @@
         </ng-template>
     </mat-tab>
 
-    <mat-tab label="Cows">
+    <mat-tab label="Animals">
         <ng-template matTabContent>
             <div class="mat-elevation-z8 asset-card">
                 <table mat-table matSort #sort2="matSort" #cowsTable="matTable" [dataSource]="dataSource2" class="full-width-table" aria-label="Elements">
-                    <ng-container matColumnDef="cowId">
+                    <ng-container matColumnDef="animalId">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-                        <td mat-cell *matCellDef="let row">{{ row.cowId }}</td>
+                        <td mat-cell *matCellDef="let row" (click)="onRowClick(row.animalId)">{{ row.animalId }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="assetType">
@@ -90,6 +76,13 @@
                             Asset Type
                         </th>
                         <td mat-cell *matCellDef="let row">{{ row.assetType }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="animalCategory">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Animal Category
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{ row.animalCategory }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="race">
@@ -107,30 +100,14 @@
                         <td mat-cell *matCellDef="let row">{{ row.food }}</td>
                     </ng-container>
 
-                    <ng-container matColumnDef="bruteEnergy">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            Brute Energy
-                        </th>
-                        <td mat-cell *matCellDef="let row">{{ row.bruteEnergy }}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="conversionFactor">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            Conversion Factor
-                        </th>
-                        <td mat-cell *matCellDef="let row">{{ row.conversionFactor }}</td>
+                    <ng-container matColumnDef="weight">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th>
+                        <td mat-cell *matCellDef="let row">{{ row.weight }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="farmId">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Farm ID</th>
                         <td mat-cell *matCellDef="let row">{{ row.farmId }}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="createDateTime">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            Create Date/Time
-                        </th>
-                        <td mat-cell *matCellDef="let row">{{ row.createDateTime }}</td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedCowColumns"></tr>
@@ -149,7 +126,7 @@
                 <table mat-table matSort #sort3="matSort" #farmTable="matTable" [dataSource]="dataSource3" class="full-width-table" aria-label="Elements">
                     <ng-container matColumnDef="farmId">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-                        <td mat-cell *matCellDef="let row">{{ row.farmId }}</td>
+                        <td mat-cell *matCellDef="let row" (click)="onRowClick(row.farmId)">{{ row.farmId }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="assetType">
@@ -176,12 +153,11 @@
                         <td mat-cell *matCellDef="let row">{{ row.country }}</td>
                     </ng-container>
 
-                    <ng-container matColumnDef="createDateTime">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            Create Date Time
-                        </th>
-                        <td mat-cell *matCellDef="let row">{{ row.createDateTime }}</td>
+                    <ng-container matColumnDef="totalAnimals">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Animals</th>
+                        <td mat-cell *matCellDef="let row">{{ row.totalAnimals }}</td>
                     </ng-container>
+
 
                     <tr mat-header-row *matHeaderRowDef="displayedFarmColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedFarmColumns"></tr>

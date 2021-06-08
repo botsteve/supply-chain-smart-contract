@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatTabGroup } from '@angular/material/tabs';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { assetIdValidator } from '../api/id-validation';
 import { NetworkService } from '../api/network.service';
@@ -19,19 +21,26 @@ export class SearchAssetComponent {
     currentOwnerType: { value: null, disabled: true },
     createDateTime: { value: null, disabled: true },
     lastUpdated: { value: null, disabled: true },
-    cowId: { value: null, disabled: true },
+    animalId: { value: null, disabled: true },
   });
 
-  cowAssetForm = this.fb.group({
-    cowId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]],
+  animalAssetForm = this.fb.group({
+    animalId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]],
     assetType: { value: null, disabled: true },
     race: { value: null, disabled: true },
     age: { value: null, disabled: true },
     food: { value: null, disabled: true },
-    bruteEnergy: { value: null, disabled: true },
-    conversionFactor: { value: null, disabled: true },
-    createDateTime: { value: null, disabled: true },
     farmId: { value: null, disabled: true },
+    createDateTime: { value: null, disabled: true },
+    animalCategory: { value: null, disabled: true },
+    grossEnergyConsumption: { value: null, disabled: true },
+    foodDigestibility: { value: null, disabled: true },
+    urinaryEnergy: { value: null, disabled: true },
+    treatedStableTrashFactor: { value: null, disabled: true },
+    weight: { value: null, disabled: true },
+    annualNitrogenOxidesExcretionFactor: { value: null, disabled: true },
+    trashManagementSystem: { value: null, disabled: true },
+    gasFactorMS: { value: null, disabled: true }
   });
 
   farmAssetForm = this.fb.group({
@@ -41,24 +50,49 @@ export class SearchAssetComponent {
     owner: { value: null, disabled: true },
     country: { value: null, disabled: true },
     createDateTime: { value: null, disabled: true },
+    totalAnimals: { value: null, disabled: true }
   });
 
   assetTypes: any[] = [
     { value: 'BOTTLE' },
-    { value: 'COW' },
+    { value: 'ANIMAL' },
     { value: 'FARM' },
   ];
+
+  routeAssetType: number = 0;
 
   isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private networkService: NetworkService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private route: ActivatedRoute
+  ) { }
+
+
+  ngOnInit(): void {
+    let routeAssetId = this.route.snapshot.paramMap.get('assetId');
+    this.routeAssetType = Number(this.route.snapshot.paramMap.get('assetType')).valueOf();
+    switch (this.routeAssetType) {
+      case 0:
+        this.bottleAssetForm.controls.assetId.setValue(routeAssetId);
+        this.onSubmit();
+        break;
+      case 1:
+        this.animalAssetForm.controls.animalId.setValue(routeAssetId);
+        this.onSubmitAnimal();
+        break;
+      case 2:
+        this.farmAssetForm.controls.farmId.setValue(routeAssetId);
+        this.onSubmitFarm();
+        break;
+    }
+  }
 
   onSubmit() {
     this.isLoading = true;
+    let assetId = this.bottleAssetForm.get('assetId').value;
     this.networkService
       .queryBottleAsset(
         this.assetTypes[0].value,
@@ -73,7 +107,7 @@ export class SearchAssetComponent {
           });
           this.isLoading = false;
           this.bottleAssetForm.setValue(data);
-          this.bottleAssetForm.controls.assetId.setValue(String(data.assetId).substr(1,data.assetId.length));
+          this.bottleAssetForm.controls.assetId.setValue(assetId);
         },
         () => {
           this.isLoading = false;
@@ -81,11 +115,13 @@ export class SearchAssetComponent {
       );
   }
 
-  onSubmitCow() {
+  onSubmitAnimal() {
+    this.isLoading = true;
+    let searchId = this.animalAssetForm.get('animalId').value;
     this.networkService
-      .queryCowAsset(
+      .queryAnimalAsset(
         this.assetTypes[1].value,
-        this.cowAssetForm.get('cowId').value
+        this.animalAssetForm.get('animalId').value
       )
       .subscribe(
         (data) => {
@@ -95,8 +131,8 @@ export class SearchAssetComponent {
             detail: `The transaction finished successfully!`,
           });
           this.isLoading = false;
-          this.cowAssetForm.setValue(data);
-          this.cowAssetForm.controls.cowId.setValue(String(data.cowId).substr(1,data.cowId.length));
+          this.animalAssetForm.setValue(data);
+          this.animalAssetForm.controls.animalId.setValue(searchId);
         },
         () => {
           this.isLoading = false;
@@ -105,6 +141,7 @@ export class SearchAssetComponent {
   }
 
   onSubmitFarm() {
+    this.isLoading = true;
     this.networkService
       .queryFarmAsset(
         this.assetTypes[2].value,
@@ -119,7 +156,7 @@ export class SearchAssetComponent {
           });
           this.isLoading = false;
           this.farmAssetForm.setValue(data);
-          this.farmAssetForm.controls.farmId.setValue(String(data.farmId).substr(1,data.farmId.length))
+          this.farmAssetForm.controls.farmId.setValue(String(data.farmId).substr(1, data.farmId.length))
         },
         () => {
           this.isLoading = false;

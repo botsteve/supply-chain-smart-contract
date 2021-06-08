@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Asset } from '../models/asset';
 import { Farm } from '../models/farm';
-import { Cow } from '../models/cow';
+import { Animal } from '../models/cow';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +18,8 @@ export class NetworkService {
     return this.httpClient.get(this.BASE_URL + 'queryAllBottleAssets/' + assetType);
   }
 
-  public queryAllCowAssets(assetType: string): Observable<any> {
-    return this.httpClient.get(this.BASE_URL + 'queryAllCowAssets/' + assetType);
+  public queryAllAnimalAssets(assetType: string): Observable<any> {
+    return this.httpClient.get(this.BASE_URL + 'queryAllAnimalAssets/' + assetType);
   }
 
   public queryAllFarmAssets(assetType: string): Observable<any> {
@@ -30,8 +30,8 @@ export class NetworkService {
     return this.httpClient.get(this.BASE_URL + 'queryBottleAsset/'+ assetType + "/" + tradeId);
   }
 
-  public queryCowAsset(assetType: string, tradeId: string): Observable<any> {
-    return this.httpClient.get(this.BASE_URL + 'queryCowAsset/'+ assetType + "/" + tradeId);
+  public queryAnimalAsset(assetType: string, tradeId: string): Observable<any> {
+    return this.httpClient.get(this.BASE_URL + 'queryAnimalAsset/'+ assetType + "/" + tradeId);
   }
 
   public queryFarmAsset(assetType: string, tradeId: string): Observable<any> {
@@ -47,8 +47,8 @@ export class NetworkService {
     return this.httpClient.post(this.BASE_URL + 'createBottleAsset/', tradeAsset);
   }
 
-  public createCowAsset(tradeAsset: Cow): Observable<any> {
-    return this.httpClient.post(this.BASE_URL + 'createBottleAsset/', tradeAsset);
+  public createAnimalAsset(tradeAsset: Animal): Observable<any> {
+    return this.httpClient.post(this.BASE_URL + 'createAnimalAsset/', tradeAsset);
   }
 
   public createFarmAsset(tradeAsset: Farm): Observable<any> {

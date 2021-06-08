@@ -1,6 +1,5 @@
-package com.app.blockchainserver.service.model;
+package com.app.blockchainserver.dto.model;
 
-import com.app.blockchainserver.util.JsonUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class TradeAsset {
@@ -13,7 +12,7 @@ public class TradeAsset {
     private String currentOwnerType;
     private String createDateTime;
     private String lastUpdated;
-    private String cowId;
+    private String animalId;
 
 
     public TradeAsset() {
@@ -84,16 +83,16 @@ public class TradeAsset {
         this.assetId = assetId;
     }
 
-    public String getCowId() {
-        return cowId;
+    public String getAnimalId() {
+        return animalId;
     }
 
-    public void setCowId(String cowId) {
-        this.cowId = cowId;
+    public void setAnimalId(String animalId) {
+        this.animalId = animalId;
     }
 
     @JsonCreator
     public static TradeAsset create(String jsonString) {
-        return (TradeAsset) JsonUtil.getJsonToObject(jsonString, TradeAsset.class);
+        return (TradeAsset) com.app.blockchainserver.util.JsonUtil.getJsonToObject(jsonString, TradeAsset.class);
     }
 }

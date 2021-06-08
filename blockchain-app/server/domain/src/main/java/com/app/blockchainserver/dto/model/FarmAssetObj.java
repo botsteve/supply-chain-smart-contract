@@ -1,17 +1,17 @@
-package com.app.blockchainserver.service.model;
+package com.app.blockchainserver.dto.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * {"Key":"001","Record":{"value":"The Hay Wain"}}
  */
-public class CowAssetObj {
+public class FarmAssetObj {
 
     @JsonProperty("Key")
     private String Key;
 
     @JsonProperty("Record")
-    private CowAsset Record;
+    private FarmAsset Record;
 
     public String getKey() {
         return Key;
@@ -21,11 +21,11 @@ public class CowAssetObj {
         Key = key;
     }
 
-    public CowAsset getRecord() {
+    public FarmAsset getRecord() {
         return Record;
     }
 
-    public void setRecord(CowAsset record) {
+    public void setRecord(FarmAsset record) {
         Record = record;
     }
 }

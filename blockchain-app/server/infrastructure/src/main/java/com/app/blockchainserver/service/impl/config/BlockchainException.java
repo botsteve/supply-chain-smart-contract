@@ -1,4 +1,4 @@
-package com.app.blockchainserver.service.config;
+package com.app.blockchainserver.service.impl.config;
 
 public class BlockchainException extends Exception {
 

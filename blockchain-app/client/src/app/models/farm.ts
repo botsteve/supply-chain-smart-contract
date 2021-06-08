@@ -17,5 +17,8 @@ export class Farm {
   public owner: string;
 
   @JsonProperty()
+  public totalAnimals: number;
+
+  @JsonProperty()
   public createDateTime: string;
 }

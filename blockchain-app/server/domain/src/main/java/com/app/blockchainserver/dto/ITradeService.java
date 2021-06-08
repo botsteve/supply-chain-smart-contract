@@ -1,11 +1,11 @@
-package com.app.blockchainserver.service;
+package com.app.blockchainserver.dto;
 
 
 import com.app.blockchainserver.dto.request.BottleAssetRequestDTO;
-import com.app.blockchainserver.dto.request.CowAssetRequestDTO;
+import com.app.blockchainserver.dto.request.AnimalAssetRequestDTO;
 import com.app.blockchainserver.dto.request.FarmAssetRequstDTO;
 import com.app.blockchainserver.dto.response.BottleAssetResponseDTO;
-import com.app.blockchainserver.dto.response.CowAssetResponseDTO;
+import com.app.blockchainserver.dto.response.AnimalAssetResponseDTO;
 import com.app.blockchainserver.dto.response.FarmAssetResponseDTO;
 
 import java.util.List;
@@ -13,13 +13,13 @@ import java.util.List;
 public interface ITradeService {
     List<BottleAssetResponseDTO> readAllTradeTsAsset(String assetType) throws Exception;
 
-    List<CowAssetResponseDTO> readAllCowAssets(String assetType) throws Exception;
+    List<AnimalAssetResponseDTO> readAllAnimalAssets(String assetType) throws Exception;
 
     List<FarmAssetResponseDTO> readAllFarmAsset(String assetType) throws Exception;
 
     BottleAssetResponseDTO readTradeAsset(String assetType, String tradeId) throws Exception;
 
-    CowAssetResponseDTO readCowAsset(String assetType, String cowId) throws Exception;
+    AnimalAssetResponseDTO readAnimalAsset(String assetType, String cowId) throws Exception;
 
     FarmAssetResponseDTO readFarmAsset(String assetType, String farmId) throws Exception;
 
@@ -27,7 +27,7 @@ public interface ITradeService {
 
     void createTradeAsset(BottleAssetRequestDTO tradeAsset) throws Exception;
 
-    void createCowAsset(CowAssetRequestDTO tradeAsset) throws Exception;
+    void createAnimalAsset(AnimalAssetRequestDTO tradeAsset) throws Exception;
 
     void createFarmAsset(FarmAssetRequstDTO tradeAsset) throws Exception;
 

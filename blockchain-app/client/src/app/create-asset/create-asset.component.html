@@ -62,11 +62,11 @@
 
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <input matInput placeholder="Cow ID (only suffix)" formControlName="cowId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                        <input matInput placeholder="Animal ID (only suffix)" formControlName="animalId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
                     </mat-form-field>
                     <mat-error *ngIf="
-              assetForm.controls['cowId'].touched &&
-              assetForm.controls['cowId'].status === 'INVALID'
+              assetForm.controls['animalId'].touched &&
+              assetForm.controls['animalId'].status === 'INVALID'
             ">
                         Cow ID is <strong>required</strong>
                     </mat-error>
@@ -79,7 +79,7 @@
     </mat-card>
 </form>
 
-<form [formGroup]="cowAssetForm" novalidate (ngSubmit)="onSubmitCow()" *ngIf="currentAssetType=='COW'">
+<form [formGroup]="animalAssetForm" novalidate (ngSubmit)="onSubmitAnimal()" *ngIf="currentAssetType=='ANIMAL'">
     <mat-card class="asset-card">
         <mat-card-header>
             <mat-card-title>Asset Information</mat-card-title>
@@ -89,11 +89,11 @@
             <div class="row">
                 <div class="col">
                     <mat-form-field appearance="fill" class="full-width">
-                        <input matInput placeholder="Cow ID (only suffix)" formControlName="cowId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                        <input matInput placeholder="Animal ID (only suffix)" formControlName="animalId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
                     </mat-form-field>
                     <mat-error *ngIf="
-                    cowAssetForm.controls['cowId'].touched &&
-                    cowAssetForm.controls['cowId'].status === 'INVALID'
+                    animalAssetForm.controls['animalId'].touched &&
+                    animalAssetForm.controls['animalId'].status === 'INVALID'
             ">
                         Asset ID is <strong>required</strong>
                     </mat-error>
@@ -108,10 +108,22 @@
                         </mat-select>
                     </mat-form-field>
                     <mat-error *ngIf="
-                    cowAssetForm.controls['assetType'].touched &&
-                    cowAssetForm.controls['assetType'].status === 'INVALID'
+                    animalAssetForm.controls['assetType'].touched &&
+                    animalAssetForm.controls['assetType'].status === 'INVALID'
             ">
                         Asset type is <strong>required</strong>
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <input matInput placeholder="Animal Category" formControlName="animalCategory" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    animalAssetForm.controls['animalCategory'].touched &&
+                    animalAssetForm.controls['animalCategory'].status === 'INVALID'
+            ">
+                        Animal Category is <strong>required</strong>
                     </mat-error>
                 </div>
             </div>
@@ -122,8 +134,8 @@
                         <input matInput placeholder="Race" formControlName="race" required />
                     </mat-form-field>
                     <mat-error *ngIf="
-                    cowAssetForm.controls['race'].touched &&
-                    cowAssetForm.controls['race'].status === 'INVALID'
+                    animalAssetForm.controls['race'].touched &&
+                    animalAssetForm.controls['race'].status === 'INVALID'
             ">
                         Manufacturer is <strong>required</strong>
                     </mat-error>
@@ -133,8 +145,8 @@
                         <input type="number" matInput placeholder="Age(years)" formControlName="age" required />
                     </mat-form-field>
                     <mat-error *ngIf="
-                    cowAssetForm.controls['age'].touched &&
-                    cowAssetForm.controls['age'].status === 'INVALID'
+                    animalAssetForm.controls['age'].touched &&
+                    animalAssetForm.controls['age'].status === 'INVALID'
             ">
                         Age is <strong>required</strong>
                     </mat-error>
@@ -145,10 +157,22 @@
                         <input matInput placeholder="Food" formControlName="food" required />
                     </mat-form-field>
                     <mat-error *ngIf="
-                    cowAssetForm.controls['food'].touched &&
-                    cowAssetForm.controls['food'].status === 'INVALID'
+                    animalAssetForm.controls['food'].touched &&
+                    animalAssetForm.controls['food'].status === 'INVALID'
             ">
                         Food is <strong>required</strong>
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Weight" formControlName="weight" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    animalAssetForm.controls['weight'].touched &&
+                    animalAssetForm.controls['weight'].status === 'INVALID'
+            ">
+                        Weight is <strong>required</strong>
                     </mat-error>
                 </div>
             </div>
@@ -158,32 +182,94 @@
                         <input matInput placeholder="Farm ID (only suffix)" formControlName="farmId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
                     </mat-form-field>
                     <mat-error *ngIf="
-                    cowAssetForm.controls['farmId'].touched &&
-                    cowAssetForm.controls['farmId'].status === 'INVALID'
+                    animalAssetForm.controls['farmId'].touched &&
+                    animalAssetForm.controls['farmId'].status === 'INVALID'
             ">
                         Farm ID is <strong>required</strong>
                     </mat-error>
                 </div>
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <input matInput placeholder="Brute Energy" formControlName="bruteEnergy" required />
+                        <input matInput placeholder="Gross Energy Consumption" formControlName="grossEnergyConsumption" required />
                     </mat-form-field>
                     <mat-error *ngIf="
-                    cowAssetForm.controls['bruteEnergy'].touched &&
-                    cowAssetForm.controls['bruteEnergy'].status === 'INVALID'
+                    animalAssetForm.controls['grossEnergyConsumption'].touched &&
+                    animalAssetForm.controls['grossEnergyConsumption'].status === 'INVALID'
             ">
-                        Brute Energy is <strong>required</strong>
+                        Gross Energy Consumption is <strong>required</strong>
                     </mat-error>
                 </div>
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <input matInput placeholder="Conversion Factor" formControlName="conversionFactor" required />
+                        <input matInput placeholder="Food Digestibility" formControlName="foodDigestibility" required />
                     </mat-form-field>
                     <mat-error *ngIf="
-                    cowAssetForm.controls['conversionFactor'].touched &&
-                    cowAssetForm.controls['conversionFactor'].status === 'INVALID'
+                    animalAssetForm.controls['foodDigestibility'].touched &&
+                    animalAssetForm.controls['foodDigestibility'].status === 'INVALID'
             ">
-                        Conversion Factor is <strong>required</strong>
+                        Food Digestibility is <strong>required</strong>
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Urinary Energy" formControlName="urinaryEnergy" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    animalAssetForm.controls['urinaryEnergy'].touched &&
+                    animalAssetForm.controls['urinaryEnergy'].status === 'INVALID'
+            ">
+                        Urinary Energy is <strong>required</strong>
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Treated Stable Trash Factor" formControlName="treatedStableTrashFactor" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    animalAssetForm.controls['treatedStableTrashFactor'].touched &&
+                    animalAssetForm.controls['treatedStableTrashFactor'].status === 'INVALID'
+            ">
+                        Treated Stable Trash Factor is <strong>required</strong>
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Annual NitrogenOxides Excretion Factor" formControlName="annualNitrogenOxidesExcretionFactor" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    animalAssetForm.controls['annualNitrogenOxidesExcretionFactor'].touched &&
+                    animalAssetForm.controls['annualNitrogenOxidesExcretionFactor'].status === 'INVALID'
+            ">
+                        Annual NitrogenOxides Excretion Factor is <strong>required</strong>
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Trash Management System" formControlName="trashManagementSystem" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    animalAssetForm.controls['trashManagementSystem'].touched &&
+                    animalAssetForm.controls['trashManagementSystem'].status === 'INVALID'
+            ">
+                        Trash Management System is <strong>required</strong>
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Gas Factor MS" formControlName="gasFactorMS" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    animalAssetForm.controls['gasFactorMS'].touched &&
+                    animalAssetForm.controls['gasFactorMS'].status === 'INVALID'
+            ">
+                        GasFactorMS is <strong>required</strong>
                     </mat-error>
                 </div>
             </div>

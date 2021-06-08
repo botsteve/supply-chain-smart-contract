@@ -17,7 +17,7 @@ public class BottleAssetRequestDTO {
     @NotNull
     @NotEmpty
     @NotBlank
-    private String cowId;
+    private String animalId;
 
     public String getAssetId() {
         return assetId;
@@ -51,11 +51,11 @@ public class BottleAssetRequestDTO {
         this.ownerName = ownerName;
     }
 
-    public String getCowId() {
-        return cowId;
+    public String getAnimalId() {
+        return animalId;
     }
 
-    public void setCowId(String cowId) {
-        this.cowId = cowId;
+    public void setAnimalId(String animalId) {
+        this.animalId = animalId;
     }
 }

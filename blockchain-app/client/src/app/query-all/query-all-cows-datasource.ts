@@ -4,15 +4,15 @@ import { MatSort } from '@angular/material/sort';
 import { merge, Observable, of as observableOf } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Asset } from '../models/asset';
-import { Cow } from '../models/cow';
+import { Animal } from '../models/cow';
 
 /**
  * Data source for the QueryAll view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class QueryAllCowsDataSource extends DataSource<Cow> {
-  data: Cow[] = [];
+export class QueryAllCowsDataSource extends DataSource<Animal> {
+  data: Animal[] = [];
   paginator: MatPaginator;
   sort: MatSort;
 
@@ -26,7 +26,7 @@ export class QueryAllCowsDataSource extends DataSource<Cow> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<Cow[]> {
+  connect(): Observable<Animal[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -50,7 +50,7 @@ export class QueryAllCowsDataSource extends DataSource<Cow> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: Cow[]) {
+  private getPagedData(data: Animal[]) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -59,7 +59,7 @@ export class QueryAllCowsDataSource extends DataSource<Cow> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: Cow[]) {
+  private getSortedData(data: Animal[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }
@@ -67,7 +67,7 @@ export class QueryAllCowsDataSource extends DataSource<Cow> {
     return data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
-        case 'assetId': return compare(a.cowId, b.cowId, isAsc);
+        case 'assetId': return compare(a.animalId, b.animalId, isAsc);
         case 'assetType': return compare(+a.assetType, +b.assetType, isAsc);
         default: return 0;
       }

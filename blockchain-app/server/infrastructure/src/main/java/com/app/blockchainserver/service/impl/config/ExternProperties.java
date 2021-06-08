@@ -1,4 +1,4 @@
-package com.app.blockchainserver.service.config;
+package com.app.blockchainserver.service.impl.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

@@ -1,5 +1,5 @@
 export enum AssetTypes {
     BOTTLE = "BOTTLE",
-    COW = "COW",
+    ANIMAL = "ANIMAL",
     FARM = "FARM",
 }

@@ -9,9 +9,9 @@ import {
     Returns,
     Transaction,
 } from "fabric-contract-api";
-import { CowAsset } from "./cow-asset";
+import { AnimalAsset } from "./animal-asset";
 import { MilkBottle } from "./my-asset";
-import { FarmAsset } from "./farm-asset";
+import { FarmAsset } from './farm-asset';
 
 enum ownerTypes {
     MANUFACTURER = "MANUFACTURER",
@@ -22,7 +22,7 @@ enum ownerTypes {
 
 enum assetTypes {
     BOTTLE = "BOTTLE",
-    COW = "COW",
+    ANIMAL = "ANIMAL",
     FARM = "FARM",
 }
 
@@ -36,6 +36,65 @@ export class MyAssetContract extends Contract {
     ): Promise<boolean> {
         const data: Uint8Array = await ctx.stub.getState(myAssetId);
         return !!data && data.length > 0;
+    }
+
+    @Transaction()
+    public async initLedger(ctx: Context) {
+        console.info('============= START : Initialize Ledger ===========');
+        let dt = new Date().toString();
+        let farm: FarmAsset = new FarmAsset();
+        farm.name = "testName"
+        farm.assetType = assetTypes.FARM;
+        farm.createDateTime = dt;
+        farm.country = "Romania";
+        farm.owner = "testOwner";
+        for (let i = 1; i <= 9; i++) {
+            farm.farmId = `F00${i}`;
+            farm.totalAnimals = 0;
+            if(i==1){
+                farm.totalAnimals=9;
+            }
+            await ctx.stub.putState(farm.farmId, Buffer.from(JSON.stringify(farm)));
+        }
+
+        let animalAsset: AnimalAsset = new AnimalAsset();
+        animalAsset.assetType = assetTypes.ANIMAL;
+        animalAsset.age = 2;
+        animalAsset.race = "testRace";
+        animalAsset.food = "testFood";
+        animalAsset.weight = 100;
+        animalAsset.grossEnergyConsumption = "test";
+        animalAsset.foodDigestibility = "test";
+        animalAsset.urinaryEnergy = "test";
+        animalAsset.treatedStableTrashFactor = "test";
+        animalAsset.annualNitrogenOxidesExcretionFactor = "test";
+        animalAsset.trashManagementSystem = "test";
+        animalAsset.gasFactorMS = "test";
+        animalAsset.animalCategory = "BOVINE";
+        animalAsset.createDateTime = dt;
+        animalAsset.farmId = "F001";
+        for (let i = 1; i <= 9; i++) {
+            animalAsset.animalId = `A00${i}`;
+            await ctx.stub.putState(animalAsset.animalId, Buffer.from(JSON.stringify(animalAsset)));
+        }
+
+
+        let bottleAsset: MilkBottle = new MilkBottle();
+        bottleAsset.assetType = assetTypes.BOTTLE;
+        bottleAsset.manufacturer = "testManufacturer";
+        bottleAsset.ownerName = "testManufacturer";
+        bottleAsset.previousOwnerType = ownerTypes.MANUFACTURER;
+        bottleAsset.currentOwnerType = ownerTypes.MANUFACTURER;
+        bottleAsset.createDateTime = dt;
+        bottleAsset.lastUpdated = dt;
+        bottleAsset.animalId = "A001";
+        for (let i = 1; i <= 9; i++) {
+            bottleAsset.assetId = `B00${i}`;
+            await ctx.stub.putState(bottleAsset.assetId, Buffer.from(JSON.stringify(bottleAsset)));
+        }
+
+        console.info('============= END : Initialize Ledger ===========');
+
     }
 
     @Transaction()
@@ -60,6 +119,7 @@ export class MyAssetContract extends Contract {
         myAsset.createDateTime = dt;
         myAsset.name = name;
         myAsset.country = country;
+        myAsset.totalAnimals = 0;
 
         const buffer: Buffer = Buffer.from(JSON.stringify(myAsset));
         await ctx.stub.putState(myAsset.farmId, buffer);
@@ -71,17 +131,17 @@ export class MyAssetContract extends Contract {
         myAssetId: string,
         manufacturer: string,
         ownerName: string,
-        cowId: string
+        animalId: string
     ): Promise<void> {
         let newBottleId: string = `B${myAssetId}`;
-        let searchCowId: string = `C${cowId}`;
+        let searchAnimalId: string = `A${animalId}`;
         const exists: boolean = await this.myAssetExists(ctx, newBottleId);
-        const cowExists: boolean = await this.myAssetExists(ctx, searchCowId);
+        const animalExists: boolean = await this.myAssetExists(ctx, searchAnimalId);
         if (exists) {
-            throw new Error(`The my asset ${newBottleId} already exists`);
+            throw new Error(`The bottle asset ${newBottleId} already exists`);
         }
-        if (!cowExists) {
-            throw new Error(`The cow ${searchCowId} doesn't exists`);
+        if (!animalExists) {
+            throw new Error(`The animal ${searchAnimalId} doesn't exists`);
         }
 
         const myAsset: MilkBottle = new MilkBottle();
@@ -94,48 +154,69 @@ export class MyAssetContract extends Contract {
         myAsset.currentOwnerType = ownerTypes.MANUFACTURER;
         myAsset.createDateTime = dt;
         myAsset.lastUpdated = dt;
-        myAsset.cowId = searchCowId;
+        myAsset.animalId = searchAnimalId;
 
         const buffer: Buffer = Buffer.from(JSON.stringify(myAsset));
         await ctx.stub.putState(myAsset.assetId, buffer);
     }
 
     @Transaction()
-    public async createCowAsset(
+    public async createAnimalAsset(
         ctx: Context,
-        cowId: string,
+        animalId: string,
+        animalCategory: string,
         race: string,
-        age: string,
+        age: number,
         food: string,
-        bruteEnergy: string,
-        conversionFactor: string,
+        weight: number,
+        grossEnergyConsumption: string,
+        foodDigestibility: string,
+        urinaryEnergy: string,
+        treatedStableTrashFactor: string,
+        annualNitrogenOxidesExcretionFactor: string,
+        trashManagementSystem: string,
+        gasFactorMS: string,
         farmId: string
     ): Promise<void> {
-        let newCowId: string = `C${cowId}`;
+        let newAnimalId: string = `A${animalId}`;
         let searchFarmId: string = `F${farmId}`;
-        const cowExists: boolean = await this.myAssetExists(ctx, newCowId);
+        const cowExists: boolean = await this.myAssetExists(ctx, newAnimalId);
         const farmExists: boolean = await this.myAssetExists(ctx, searchFarmId);
         if (cowExists) {
-            throw new Error(`The cow ${newCowId} already exists`);
+            throw new Error(`The animal ${newAnimalId} already exists`);
         }
         if (!farmExists) {
             throw new Error(`The farm ${searchFarmId} doesn't exists`);
         }
 
-        const cowAsset: CowAsset = new CowAsset();
+        const animalAsset: AnimalAsset = new AnimalAsset();
         let dt = new Date().toString();
-        cowAsset.cowId = newCowId;
-        cowAsset.assetType = assetTypes.COW;
-        cowAsset.age = age;
-        cowAsset.race = race;
-        cowAsset.food = food;
-        cowAsset.bruteEnergy = bruteEnergy;
-        cowAsset.conversionFactor = conversionFactor;
-        cowAsset.createDateTime = dt;
-        cowAsset.farmId = searchFarmId;
+        animalAsset.animalId = newAnimalId;
+        animalAsset.assetType = assetTypes.ANIMAL;
+        animalAsset.age = age;
+        animalAsset.race = race;
+        animalAsset.food = food;
+        animalAsset.weight = weight;
+        animalAsset.grossEnergyConsumption = grossEnergyConsumption;
+        animalAsset.foodDigestibility = foodDigestibility;
+        animalAsset.urinaryEnergy = urinaryEnergy;
+        animalAsset.treatedStableTrashFactor = treatedStableTrashFactor;
+        animalAsset.annualNitrogenOxidesExcretionFactor = annualNitrogenOxidesExcretionFactor;
+        animalAsset.trashManagementSystem = trashManagementSystem;
+        animalAsset.gasFactorMS = gasFactorMS;
+        animalAsset.animalCategory = animalCategory;
+        animalAsset.createDateTime = dt;
+        animalAsset.farmId = searchFarmId;
 
-        const buffer: Buffer = Buffer.from(JSON.stringify(cowAsset));
-        await ctx.stub.putState(cowAsset.cowId, buffer);
+        let data: Uint8Array = await ctx.stub.getState(animalAsset.farmId);
+        let farmAsset: FarmAsset = JSON.parse(data.toString()) as FarmAsset;
+        farmAsset.totalAnimals++;
+
+        const bufferFarm: Buffer = Buffer.from(JSON.stringify(farmAsset));
+        await ctx.stub.putState(farmAsset.farmId, bufferFarm);
+
+        const buffer: Buffer = Buffer.from(JSON.stringify(animalAsset));
+        await ctx.stub.putState(animalAsset.animalId, buffer);
     }
 
     @Transaction(false)
@@ -158,15 +239,15 @@ export class MyAssetContract extends Contract {
                 }
                 data = await ctx.stub.getState(`B${myAssetId}`);
                 return JSON.parse(data.toString()) as MilkBottle;
-            case assetTypes.COW.valueOf():
-                exists = await this.myAssetExists(ctx, `C${myAssetId}`);
+            case assetTypes.ANIMAL.valueOf():
+                exists = await this.myAssetExists(ctx, `A${myAssetId}`);
                 if (!exists) {
                     throw new Error(
-                        `The COW asset C${myAssetId} does not exist`
+                        `The Animal asset A${myAssetId} does not exist`
                     );
                 }
-                data = await ctx.stub.getState(`C${myAssetId}`);
-                return JSON.parse(data.toString()) as CowAsset;
+                data = await ctx.stub.getState(`A${myAssetId}`);
+                return JSON.parse(data.toString()) as AnimalAsset;
             case assetTypes.FARM.valueOf():
                 exists = await this.myAssetExists(ctx, `F${myAssetId}`);
                 if (!exists) {
@@ -288,14 +369,14 @@ export class MyAssetContract extends Contract {
                     key = `B${myAssetId}`;
                 }
                 break;
-            case assetTypes.COW.valueOf():
-                exists = await this.myAssetExists(ctx, `C${myAssetId}`);
+            case assetTypes.ANIMAL.valueOf():
+                exists = await this.myAssetExists(ctx, `A${myAssetId}`);
                 if (!exists) {
                     throw new Error(
-                        `The COW asset C${myAssetId} does not exist`
+                        `The Animal asset A${myAssetId} does not exist`
                     );
                 } else {
-                    key = `C${myAssetId}`;
+                    key = `A${myAssetId}`;
                 }
                 break;
             case assetTypes.FARM.valueOf():
@@ -337,9 +418,9 @@ export class MyAssetContract extends Contract {
                 startKey = `B000`;
                 endKey = `B999`;
                 break;
-            case assetTypes.COW.valueOf():
-                startKey = `C000`;
-                endKey = `C999`;
+            case assetTypes.ANIMAL.valueOf():
+                startKey = `A000`;
+                endKey = `A999`;
                 break;
             case assetTypes.FARM.valueOf():
                 startKey = `F000`;

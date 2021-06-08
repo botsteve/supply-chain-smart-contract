@@ -1,4 +1,4 @@
-package com.app.blockchainserver.service;
+package com.app.blockchainserver.dto;
 
 public enum UpdateType {
     DISTRIBUTE,

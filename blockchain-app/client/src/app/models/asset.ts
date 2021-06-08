@@ -23,6 +23,9 @@ export class Asset {
     @JsonProperty('createDateTime')
     createDateTime: string;
 
+    @JsonProperty('animalId')
+    animalId: string;
+
     @JsonProperty('lastUpdated')
     lastUpdated: string;
 }

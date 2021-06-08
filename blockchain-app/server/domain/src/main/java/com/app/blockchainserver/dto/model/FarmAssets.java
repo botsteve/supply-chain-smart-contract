@@ -1,4 +1,4 @@
-package com.app.blockchainserver.service.model;
+package com.app.blockchainserver.dto.model;
 
 import java.util.List;
 

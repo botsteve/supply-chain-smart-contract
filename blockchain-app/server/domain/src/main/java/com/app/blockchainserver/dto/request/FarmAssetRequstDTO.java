@@ -13,6 +13,15 @@ public class FarmAssetRequstDTO {
     private String name;
     private String owner;
     private String country;
+    private int totalAnimals;
+
+    public int getTotalAnimals() {
+        return totalAnimals;
+    }
+
+    public void setTotalAnimals(int totalAnimals) {
+        this.totalAnimals = totalAnimals;
+    }
 
     public String getFarmId() {
         return farmId;

@@ -1,6 +1,6 @@
 <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading"></mat-progress-bar>
 
-<mat-tab-group mat-align-tabs="center">
+<mat-tab-group mat-align-tabs="center" [(selectedIndex)]="this.routeAssetType">
     <mat-tab label="Milk-Bottle">
         <form [formGroup]="bottleAssetForm" (ngSubmit)="onSubmit()">
             <mat-card class="asset-card">
@@ -69,7 +69,7 @@
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="Cow ID" formControlName="cowId" maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                                <input matInput placeholder="Animal ID" formControlName="animalId" maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
                             </mat-form-field>
                         </div>
                     </div>
@@ -83,17 +83,17 @@
         </form>
     </mat-tab>
 
-    <mat-tab label="Cow">
-        <form [formGroup]="cowAssetForm" novalidate (ngSubmit)="onSubmitCow()">
+    <mat-tab label="Animal">
+        <form [formGroup]="animalAssetForm" novalidate (ngSubmit)="onSubmitAnimal()">
             <mat-card class="asset-card">
                 <div class="row">
                     <div class="col">
                         <mat-form-field appearance="outline" class="full-width">
-                            <input matInput placeholder="Cow ID" formControlName="cowId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                            <input matInput placeholder="Animal ID" formControlName="animalId" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
                         </mat-form-field>
                         <mat-error *ngIf="
-                cowAssetForm.controls['cowId'].touched &&
-                cowAssetForm.controls['cowId'].status === 'INVALID'
+                animalAssetForm.controls['animalId'].touched &&
+                animalAssetForm.controls['animalId'].status === 'INVALID'
               ">
                             Asset ID is <strong>required</strong>
                         </mat-error>
@@ -132,14 +132,47 @@
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="Brute Energy" formControlName="bruteEnergy" />
+                                <input matInput placeholder="Weight" formControlName="weight" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Gross Energy Consumption" formControlName="grossEnergyConsumption" />
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Food Digestibility" formControlName="foodDigestibility" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Urinary Energy" formControlName="urinaryEnergy" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Treated Stable Trash Factor" formControlName="treatedStableTrashFactor" />
                             </mat-form-field>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="Converstion Factor" formControlName="conversionFactor" />
+                                <input matInput placeholder="Annual NitrogenOxides Excretion Factor" formControlName="annualNitrogenOxidesExcretionFactor" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Trash Management System" formControlName="trashManagementSystem" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Gas Factor MS" formControlName="gasFactorMS" />
                             </mat-form-field>
                         </div>
                     </div>
@@ -147,6 +180,11 @@
                         <div class="col">
                             <mat-form-field class="full-width">
                                 <input matInput placeholder="Create Date/Time" formControlName="createDateTime" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Animal Category" formControlName="animalCategory" />
                             </mat-form-field>
                         </div>
                         <div class="col">
@@ -217,6 +255,11 @@
                         <div class="col">
                             <mat-form-field class="full-width">
                                 <input matInput placeholder="Create Date Time" formControlName="createDateTime" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Total Animals" formControlName="totalAnimals" />
                             </mat-form-field>
                         </div>
                     </div>

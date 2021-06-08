@@ -1,4 +1,4 @@
-package com.app.blockchainserver.service.config;
+package com.app.blockchainserver.service.impl.config;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

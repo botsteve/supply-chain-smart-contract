@@ -5,7 +5,7 @@ import { NetworkService } from '../api/network.service';
 import { Asset } from '../models/asset';
 import { AssetTypes } from '../api/asset-types';
 import { Farm } from '../models/farm';
-import { Cow } from '../models/cow';
+import { Animal } from '../models/cow';
 import { assetIdValidator } from '../api/id-validation';
 
 @Component({
@@ -21,18 +21,25 @@ export class CreateAssetComponent implements OnInit {
     manufacturer: [null, Validators.required],
     assetType: [null, Validators.required],
     ownerName: [null, Validators.required],
-    cowId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]]
+    animalId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]]
   });
 
-  cowAssetForm = this.fb.group({
-    cowId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]],
+  animalAssetForm = this.fb.group({
+    animalId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]],
     assetType: [null, Validators.required],
     race: [null, Validators.required],
     age: [null, Validators.required],
     food: [null, Validators.required],
-    bruteEnergy: [null, Validators.required],
-    conversionFactor: [null, Validators.required],
     farmId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]],
+    animalCategory: [null, Validators.required],
+    grossEnergyConsumption: [null, Validators.required],
+    foodDigestibility: [null, Validators.required],
+    urinaryEnergy: [null, Validators.required],
+    treatedStableTrashFactor: [null, Validators.required],
+    weight: [null, Validators.required],
+    annualNitrogenOxidesExcretionFactor: [null, Validators.required],
+    trashManagementSystem: [null, Validators.required],
+    gasFactorMS: [null, Validators.required]
   });
 
   farmAssetForm = this.fb.group({
@@ -45,7 +52,7 @@ export class CreateAssetComponent implements OnInit {
 
   assetTypes: any[] = [
     { value: 'BOTTLE' },
-    { value: 'COW' },
+    { value: 'ANIMAL' },
     { value: 'FARM' },
   ];
 
@@ -86,14 +93,14 @@ export class CreateAssetComponent implements OnInit {
     }
   }
 
-  onSubmitCow() {
-    if (this.assetForm.valid) {
+  onSubmitAnimal() {
+    if (this.animalAssetForm.valid) {
       this.isLoading = true;
-      let newAsset: Cow = Object.assign(
-        new Cow(),
-        this.assetForm.getRawValue()
+      let newAsset: Animal = Object.assign(
+        new Animal(),
+        this.animalAssetForm.getRawValue()
       );
-      this.networkService.createCowAsset(newAsset).subscribe(
+      this.networkService.createAnimalAsset(newAsset).subscribe(
         () => {
           this.messageService.add({
             severity: 'success',

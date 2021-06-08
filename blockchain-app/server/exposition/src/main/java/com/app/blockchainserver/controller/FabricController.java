@@ -1,12 +1,12 @@
 package com.app.blockchainserver.controller;
 
 import com.app.blockchainserver.dto.request.BottleAssetRequestDTO;
-import com.app.blockchainserver.dto.request.CowAssetRequestDTO;
+import com.app.blockchainserver.dto.request.AnimalAssetRequestDTO;
 import com.app.blockchainserver.dto.request.FarmAssetRequstDTO;
 import com.app.blockchainserver.dto.response.BottleAssetResponseDTO;
-import com.app.blockchainserver.dto.response.CowAssetResponseDTO;
+import com.app.blockchainserver.dto.response.AnimalAssetResponseDTO;
 import com.app.blockchainserver.dto.response.FarmAssetResponseDTO;
-import com.app.blockchainserver.service.ITradeService;
+import com.app.blockchainserver.dto.ITradeService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +28,9 @@ public class FabricController {
         return tradeService.readAllTradeTsAsset(assetType);
     }
 
-    @GetMapping(value = "/queryAllCowAssets/{assetType}")
-    public List<CowAssetResponseDTO> readAllCowAssets(@PathVariable String assetType) throws Exception {
-        return tradeService.readAllCowAssets(assetType);
+    @GetMapping(value = "/queryAllAnimalAssets/{assetType}")
+    public List<AnimalAssetResponseDTO> readAllAnimalAssets(@PathVariable String assetType) throws Exception {
+        return tradeService.readAllAnimalAssets(assetType);
     }
 
     @GetMapping(value = "/queryAllFarmAssets/{assetType}")
@@ -43,9 +43,9 @@ public class FabricController {
         return tradeService.readTradeAsset(assetType, tradeId);
     }
 
-    @GetMapping(value = "/queryCowAsset/{assetType}/{tradeId}")
-    public CowAssetResponseDTO readCowAsset(@PathVariable String assetType, @PathVariable String tradeId) throws Exception {
-        return tradeService.readCowAsset(assetType, tradeId);
+    @GetMapping(value = "/queryAnimalAsset/{assetType}/{tradeId}")
+    public AnimalAssetResponseDTO readAnimalAsset(@PathVariable String assetType, @PathVariable String tradeId) throws Exception {
+        return tradeService.readAnimalAsset(assetType, tradeId);
     }
 
     @GetMapping(value = "/queryFarmAsset/{assetType}/{tradeId}")
@@ -63,9 +63,9 @@ public class FabricController {
         tradeService.createTradeAsset(bottleAssetRequestDTO);
     }
 
-    @PostMapping(value = "/createCowAsset/")
-    public void createCowAsset(@RequestBody CowAssetRequestDTO cowAssetRequestDTO) throws Exception {
-        tradeService.createCowAsset(cowAssetRequestDTO);
+    @PostMapping(value = "/createAnimalAsset/")
+    public void createAnimalAsset(@RequestBody AnimalAssetRequestDTO animalAssetRequestDTO) throws Exception {
+        tradeService.createAnimalAsset(animalAssetRequestDTO);
     }
 
     @PostMapping(value = "/createFarmAsset/")

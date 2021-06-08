@@ -10,7 +10,7 @@ public class BottleAssetResponseDTO {
     private String currentOwnerType;
     private String createDateTime;
     private String lastUpdated;
-    private String cowId;
+    private String animalId;
 
     public String getAssetId() {
         return assetId;
@@ -76,11 +76,11 @@ public class BottleAssetResponseDTO {
         this.lastUpdated = lastUpdated;
     }
 
-    public String getCowId() {
-        return cowId;
+    public String getAnimalId() {
+        return animalId;
     }
 
-    public void setCowId(String cowId) {
-        this.cowId = cowId;
+    public void setAnimalId(String animalId) {
+        this.animalId = animalId;
     }
 }
