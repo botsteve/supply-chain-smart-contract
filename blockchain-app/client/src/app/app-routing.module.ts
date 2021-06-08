@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: '',   redirectTo: '/home', pathMatch: 'full' }, // redirect to `home`
   { path: 'home', component: HomeComponent },
   { path: 'search-all', component: QueryAllComponent },
-  { path: 'search-asset', component: SearchAssetComponent },
+  { path: 'search-asset/:assetId/:assetType', component: SearchAssetComponent },
   { path: 'search-history', component: SearchHistoryComponent },
   { path: 'create', component: CreateAssetComponent },
   { path: 'update', component: UpdateAssetComponent },
