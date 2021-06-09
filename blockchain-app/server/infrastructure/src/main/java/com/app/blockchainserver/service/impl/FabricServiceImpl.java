@@ -35,7 +35,7 @@ public class FabricServiceImpl implements IFabricService {
     private final String QUERY_SINGLE = "readMyAsset";
     private final String QUERY_HISTORY = "queryHistoryByKey";
     private final String CREATE_ASSET = "createMyAsset";
-    private final String CREATE_ANIMAL_ASSET = "createCowAsset";
+    private final String CREATE_ANIMAL_ASSET = "createAnimalAsset";
     private final String CREATE_FARM_ASSET = "createFarmAsset";
     private final String DISTRIBUTE_ASSET = "wholesalerDistribute";
     private final String RETAILER_ASSET = "retailerReceived";
@@ -185,7 +185,7 @@ public class FabricServiceImpl implements IFabricService {
         String output;
         Contract contract = getContract();
 
-        byte[] submitCreateTradeTsResult = contract.submitTransaction(CREATE_ANIMAL_ASSET, animalAsset.getAnimalId(), animalAsset.getAnimalCategory(), animalAsset.getRace(),String.valueOf(animalAsset.getAge()), animalAsset.getFood(), String.valueOf(animalAsset.getWeight()), animalAsset.getGrossEnergyConsumption(),animalAsset.getFoodDigestibility(),animalAsset.getUrinaryEnergy(),animalAsset.getTreatedStableTrashFactor(),animalAsset.getAnnualNitrogenOxidesExcretionFactor(),animalAsset.getTrashManagementSystem(),animalAsset.getGasFactorMS(), animalAsset.getFarmId());
+        byte[] submitCreateTradeTsResult = contract.submitTransaction(CREATE_ANIMAL_ASSET, animalAsset.getAnimalId(), animalAsset.getAnimalCategory(), animalAsset.getAnimalSubCategory(),String.valueOf(animalAsset.getAge()), animalAsset.getFood(), String.valueOf(animalAsset.getWeight()), animalAsset.getGrossEnergyConsumption(),animalAsset.getFoodDigestibility(),animalAsset.getUrinaryEnergy(),animalAsset.getTreatedStableTrashFactor(),animalAsset.getAnnualNitrogenOxidesExcretionFactor(),animalAsset.getTrashManagementSystem(),animalAsset.getGasFactorMS(), animalAsset.getFarmId());
 
         output = new String(submitCreateTradeTsResult, StandardCharsets.UTF_8);
         log.info("createMyAsset completed : " + output);

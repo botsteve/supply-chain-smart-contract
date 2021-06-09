@@ -10,7 +10,6 @@ public class AnimalAssetRequestDTO {
     @NotBlank
     private String animalId;
     private String assetType;
-    private String race;
     private int age;
     private String food;
     private int weight;
@@ -52,14 +51,6 @@ public class AnimalAssetRequestDTO {
 
     public void setAssetType(String assetType) {
         this.assetType = assetType;
-    }
-
-    public String getRace() {
-        return race;
-    }
-
-    public void setRace(String race) {
-        this.race = race;
     }
 
     public int getAge() {

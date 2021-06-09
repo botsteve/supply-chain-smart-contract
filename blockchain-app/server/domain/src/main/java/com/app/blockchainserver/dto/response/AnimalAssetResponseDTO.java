@@ -4,7 +4,6 @@ public class AnimalAssetResponseDTO {
 
     private String animalId;
     private String assetType;
-    private String race;
     private int age;
     private int weight;
     private String food;
@@ -44,14 +43,6 @@ public class AnimalAssetResponseDTO {
 
     public void setAssetType(String assetType) {
         this.assetType = assetType;
-    }
-
-    public String getRace() {
-        return race;
-    }
-
-    public void setRace(String race) {
-        this.race = race;
     }
 
     public int getAge() {

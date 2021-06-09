@@ -27,7 +27,6 @@ export class CreateAssetComponent implements OnInit {
   animalAssetForm = this.fb.group({
     animalId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]],
     assetType: [null, Validators.required],
-    race: [null, Validators.required],
     age: [null, Validators.required],
     food: [null, Validators.required],
     farmId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]],
@@ -55,6 +54,17 @@ export class CreateAssetComponent implements OnInit {
     { value: 'BOTTLE' },
     { value: 'ANIMAL' },
     { value: 'FARM' },
+  ];
+
+
+  animalCategoryTypes: any[] = [
+    { value: "CATTLE" },
+    { value: "EWES" },
+    { value: "SHEEP" },
+    { value: "SWINE" },
+    { value: "CHICKENS" },
+    { value: "TURKEYS" },
+    { value: "DUCKS" }
   ];
 
   isLoading: boolean = false;

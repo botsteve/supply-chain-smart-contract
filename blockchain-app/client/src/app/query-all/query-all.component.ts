@@ -54,7 +54,6 @@ export class QueryAllComponent implements AfterViewInit, OnInit {
     'assetType',
     'animalCategory',
     'animalSubCategory',
-    'race',
     'age',
     'food',
     'weight',

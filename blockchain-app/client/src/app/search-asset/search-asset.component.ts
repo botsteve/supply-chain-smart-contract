@@ -27,7 +27,6 @@ export class SearchAssetComponent {
   animalAssetForm = this.fb.group({
     animalId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]],
     assetType: { value: null, disabled: true },
-    race: { value: null, disabled: true },
     age: { value: null, disabled: true },
     food: { value: null, disabled: true },
     farmId: { value: null, disabled: true },

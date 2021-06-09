@@ -15,9 +15,6 @@ export class AnimalAsset {
     public animalSubCategory: string;
 
     @Property()
-    public race: string;
-
-    @Property()
     public age: number;
 
     @Property()

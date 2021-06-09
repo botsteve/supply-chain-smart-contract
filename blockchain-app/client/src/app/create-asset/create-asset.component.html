@@ -114,19 +114,22 @@
                         Asset type is <strong>required</strong>
                     </mat-error>
                 </div>
-
                 <div class="col">
                     <mat-form-field appearance="fill" class="full-width">
-                        <input matInput placeholder="Animal Category" formControlName="animalCategory" required />
+                        <mat-label>Animal Category</mat-label>
+                        <mat-select formControlName="animalCategory" required>
+                            <mat-option *ngFor="let type of animalCategoryTypes" [value]="type.value">
+                                {{ type.value }}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
                     <mat-error *ngIf="
-                    animalAssetForm.controls['animalCategory'].touched &&
-                    animalAssetForm.controls['animalCategory'].status === 'INVALID'
-            ">
+                animalAssetForm.controls['animalCategory'].touched &&
+                animalAssetForm.controls['animalCategory'].status === 'INVALID'
+        ">
                         Animal Category is <strong>required</strong>
                     </mat-error>
                 </div>
-
                 <div class="col">
                     <mat-form-field appearance="fill" class="full-width">
                         <input matInput placeholder="Animal Subcategory" formControlName="animalSubCategory" required />
@@ -141,17 +144,6 @@
             </div>
 
             <div class="row">
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <input matInput placeholder="Race" formControlName="race" required />
-                    </mat-form-field>
-                    <mat-error *ngIf="
-                    animalAssetForm.controls['race'].touched &&
-                    animalAssetForm.controls['race'].status === 'INVALID'
-            ">
-                        Manufacturer is <strong>required</strong>
-                    </mat-error>
-                </div>
                 <div class="col">
                     <mat-form-field class="full-width">
                         <input type="number" matInput placeholder="Age(years)" formControlName="age" required />
@@ -178,7 +170,7 @@
 
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <input matInput placeholder="Weight" formControlName="weight" required />
+                        <input type="number" matInput placeholder="Weight" formControlName="weight" required />
                     </mat-form-field>
                     <mat-error *ngIf="
                     animalAssetForm.controls['weight'].touched &&

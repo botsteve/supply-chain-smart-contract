@@ -1,0 +1,6 @@
+export enum ownerTypes {
+    MANUFACTURER = "MANUFACTURER",
+    WHOLESALER = "WHOLESALER",
+    RETAILER = "RETAILER",
+    CONSUMER = "CONSUMER",
+}

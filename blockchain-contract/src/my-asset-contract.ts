@@ -12,20 +12,9 @@ import {
 import { AnimalAsset } from "./animal-asset";
 import { MilkBottle } from "./my-asset";
 import { FarmAsset } from './farm-asset';
-
-enum ownerTypes {
-    MANUFACTURER = "MANUFACTURER",
-    WHOLESALER = "WHOLESALER",
-    RETAILER = "RETAILER",
-    CONSUMER = "CONSUMER",
-}
-
-enum assetTypes {
-    BOTTLE = "BOTTLE",
-    ANIMAL = "ANIMAL",
-    FARM = "FARM",
-}
-
+import { assetTypes } from "./asset-types";
+import { ownerTypes } from "./owner-types";
+import { animalCategoryTypes } from './animal-category-type';
 @Info({ title: "MyAssetContract", description: "My Smart Contract" })
 export class MyAssetContract extends Contract {
     @Transaction(false)
@@ -51,8 +40,8 @@ export class MyAssetContract extends Contract {
         for (let i = 1; i <= 9; i++) {
             farm.farmId = `F00${i}`;
             farm.totalAnimals = 0;
-            if(i==1){
-                farm.totalAnimals=9;
+            if (i == 1) {
+                farm.totalAnimals = 9;
             }
             await ctx.stub.putState(farm.farmId, Buffer.from(JSON.stringify(farm)));
         }
@@ -60,7 +49,6 @@ export class MyAssetContract extends Contract {
         let animalAsset: AnimalAsset = new AnimalAsset();
         animalAsset.assetType = assetTypes.ANIMAL;
         animalAsset.age = 2;
-        animalAsset.race = "testRace";
         animalAsset.food = "testFood";
         animalAsset.weight = 100;
         animalAsset.grossEnergyConsumption = "test";
@@ -70,7 +58,7 @@ export class MyAssetContract extends Contract {
         animalAsset.annualNitrogenOxidesExcretionFactor = "test";
         animalAsset.trashManagementSystem = "test";
         animalAsset.gasFactorMS = "test";
-        animalAsset.animalCategory = "BOVINE";
+        animalAsset.animalCategory = "CATTLE";
         animalAsset.animalSubCategory = "SUBCATEGORY"
         animalAsset.createDateTime = dt;
         animalAsset.farmId = "F001";
@@ -143,6 +131,12 @@ export class MyAssetContract extends Contract {
         }
         if (!animalExists) {
             throw new Error(`The animal ${searchAnimalId} doesn't exists`);
+        } else {
+            let data: Uint8Array = await ctx.stub.getState(searchAnimalId);
+            let animalAsset: AnimalAsset = JSON.parse(data.toString()) as AnimalAsset;
+            if (!this.canTheAnimalCreateMilk(animalAsset.animalId, animalAsset.animalCategory)) {
+                throw new Error(`The animal with ID: ${searchAnimalId} and category ${animalAsset.animalCategory} cannot create Milk-bottles. `);
+            }
         }
 
         const myAsset: MilkBottle = new MilkBottle();
@@ -167,7 +161,6 @@ export class MyAssetContract extends Contract {
         animalId: string,
         animalCategory: string,
         animalSubCategory: string,
-        race: string,
         age: number,
         food: string,
         weight: number,
@@ -196,7 +189,6 @@ export class MyAssetContract extends Contract {
         animalAsset.animalId = newAnimalId;
         animalAsset.assetType = assetTypes.ANIMAL;
         animalAsset.age = age;
-        animalAsset.race = race;
         animalAsset.food = food;
         animalAsset.weight = weight;
         animalAsset.grossEnergyConsumption = grossEnergyConsumption;
@@ -206,7 +198,7 @@ export class MyAssetContract extends Contract {
         animalAsset.annualNitrogenOxidesExcretionFactor = annualNitrogenOxidesExcretionFactor;
         animalAsset.trashManagementSystem = trashManagementSystem;
         animalAsset.gasFactorMS = gasFactorMS;
-        animalAsset.animalCategory = animalCategory;
+        animalAsset.animalCategory = this.verifyAnimalCategory(animalCategory);
         animalAsset.animalSubCategory = animalSubCategory;
         animalAsset.createDateTime = dt;
         animalAsset.farmId = searchFarmId;
@@ -454,6 +446,40 @@ export class MyAssetContract extends Contract {
                 console.info(allResults);
                 return JSON.stringify(allResults);
             }
+        }
+    }
+
+    private canTheAnimalCreateMilk(animalId: string, animalCategoryType: string): boolean {
+        switch (animalCategoryType) {
+            case animalCategoryTypes.CATTLE.valueOf():
+                return true;
+            case animalCategoryTypes.EWES.valueOf():
+                return true;
+            case animalCategoryTypes.SHEEP.valueOf():
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private verifyAnimalCategory(animalCategoryType: string): string {
+        switch (animalCategoryType) {
+            case animalCategoryTypes.CATTLE.valueOf():
+                return animalCategoryType;
+            case animalCategoryTypes.CHICKENS.valueOf():
+                return animalCategoryType;
+            case animalCategoryTypes.DUCKS.valueOf():
+                return animalCategoryType;
+            case animalCategoryTypes.EWES.valueOf():
+                return animalCategoryType;
+            case animalCategoryTypes.SHEEP.valueOf():
+                return animalCategoryType;
+            case animalCategoryTypes.SWINE.valueOf():
+                return animalCategoryType;
+            case animalCategoryTypes.TURKEYS.valueOf():
+                return animalCategoryType;
+            default:
+                throw new Error(`The animal category cannot be stored. `);
         }
     }
 }

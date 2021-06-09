@@ -8,9 +8,6 @@ export class Animal {
     public assetType: string;
 
     @JsonProperty()
-    public race: string;
-
-    @JsonProperty()
     public age: number;
 
     @JsonProperty()
