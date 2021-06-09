@@ -134,7 +134,7 @@ export class MyAssetContract extends Contract {
         } else {
             let data: Uint8Array = await ctx.stub.getState(searchAnimalId);
             let animalAsset: AnimalAsset = JSON.parse(data.toString()) as AnimalAsset;
-            if (!this.canTheAnimalCreateMilk(animalAsset.animalId, animalAsset.animalCategory)) {
+            if (!this.canTheAnimalCreateMilk(animalAsset.animalCategory)) {
                 throw new Error(`The animal with ID: ${searchAnimalId} and category ${animalAsset.animalCategory} cannot create Milk-bottles. `);
             }
         }
@@ -449,7 +449,7 @@ export class MyAssetContract extends Contract {
         }
     }
 
-    private canTheAnimalCreateMilk(animalId: string, animalCategoryType: string): boolean {
+    private canTheAnimalCreateMilk(animalCategoryType: string): boolean {
         switch (animalCategoryType) {
             case animalCategoryTypes.CATTLE.valueOf():
                 return true;

@@ -27,10 +27,5 @@ export class HomeComponent {
     })
   );
   
-  log(card:any){
-    console.log(card);
-    
-  }
-
   constructor(private breakpointObserver: BreakpointObserver) {}
 }
