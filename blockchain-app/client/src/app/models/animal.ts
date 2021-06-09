@@ -1,60 +1,60 @@
-import { Object, Property } from "fabric-contract-api";
+import { JsonProperty } from 'typescript-json-serializer';
 
-@Object()
-export class AnimalAsset {
-    @Property()
+export class Animal {
+    @JsonProperty()
     public animalId: string;
 
-    @Property()
+    @JsonProperty()
     public assetType: string;
 
-    @Property()
-    public animalCategory: string;
-
-    @Property()
-    public animalSubCategory: string;
-
-    @Property()
+    @JsonProperty()
     public race: string;
 
-    @Property()
+    @JsonProperty()
     public age: number;
 
-    @Property()
+    @JsonProperty()
     public food: string;
 
-    @Property()
+    @JsonProperty()
     public farmId: string;
 
-    @Property()
+    @JsonProperty()
     public createDateTime: string;
 
+    @JsonProperty()
+    public animalCategory: string;
+
+    @JsonProperty()
+    public animalSubCategory: string;
+
+
     //Module A
-    @Property()
+    @JsonProperty()
     public grossEnergyConsumption: string;
 
-    @Property()
+    @JsonProperty()
     public foodDigestibility: string;
 
-    @Property()
+    @JsonProperty()
     public urinaryEnergy: string;
 
-    @Property()
+    @JsonProperty()
     public treatedStableTrashFactor: string;
 
     //Module B
 
-    @Property()
+    @JsonProperty()
     public weight: number;
 
-    @Property()
+    @JsonProperty()
     public annualNitrogenOxidesExcretionFactor: string;
 
-    @Property()
+    @JsonProperty()
     public trashManagementSystem: string;
 
     //Module C
 
-    @Property()
+    @JsonProperty()
     public gasFactorMS: string;
 }

@@ -11,6 +11,7 @@ public class AnimalAssetResponseDTO {
     private String farmId;
     private String createDateTime;
     private String animalCategory;
+    private String animalSubCategory;
 
     private String grossEnergyConsumption;
     private String foodDigestibility;
@@ -19,6 +20,15 @@ public class AnimalAssetResponseDTO {
     private String trashManagementSystem;
     private String annualNitrogenOxidesExcretionFactor;
     private String gasFactorMS;
+
+
+    public String getAnimalSubCategory() {
+        return animalSubCategory;
+    }
+
+    public void setAnimalSubCategory(String animalSubCategory) {
+        this.animalSubCategory = animalSubCategory;
+    }
 
     public String getAnimalId() {
         return animalId;

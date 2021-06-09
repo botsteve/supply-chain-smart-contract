@@ -15,6 +15,7 @@ public class AnimalAssetRequestDTO {
     private String food;
     private int weight;
     private String animalCategory;
+    private String animalSubCategory;
 
     private String grossEnergyConsumption;
     private String foodDigestibility;
@@ -29,6 +30,13 @@ public class AnimalAssetRequestDTO {
     @NotBlank
     private String farmId;
 
+    public String getAnimalSubCategory() {
+        return animalSubCategory;
+    }
+
+    public void setAnimalSubCategory(String animalSubCategory) {
+        this.animalSubCategory = animalSubCategory;
+    }
 
     public String getAnimalId() {
         return animalId;

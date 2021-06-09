@@ -10,6 +10,7 @@ public class AnimalAsset {
     private String createDateTime;
     private int weight;
     private String animalCategory;
+    private String animalSubCategory;
     private String grossEnergyConsumption;
     private String foodDigestibility;
     private String urinaryEnergy;
@@ -18,6 +19,14 @@ public class AnimalAsset {
     private String annualNitrogenOxidesExcretionFactor;
     private String gasFactorMS;
 
+
+    public String getAnimalSubCategory() {
+        return animalSubCategory;
+    }
+
+    public void setAnimalSubCategory(String animalSubCategory) {
+        this.animalSubCategory = animalSubCategory;
+    }
 
     public String getAnimalId() {
         return animalId;

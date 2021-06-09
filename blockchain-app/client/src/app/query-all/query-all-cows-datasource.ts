@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { merge, Observable, of as observableOf } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Asset } from '../models/asset';
-import { Animal } from '../models/cow';
+import { Animal } from '../models/animal';
 
 /**
  * Data source for the QueryAll view. This class should

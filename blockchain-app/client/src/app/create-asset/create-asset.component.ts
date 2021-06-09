@@ -5,7 +5,7 @@ import { NetworkService } from '../api/network.service';
 import { Asset } from '../models/asset';
 import { AssetTypes } from '../api/asset-types';
 import { Farm } from '../models/farm';
-import { Animal } from '../models/cow';
+import { Animal } from '../models/animal';
 import { assetIdValidator } from '../api/id-validation';
 
 @Component({
@@ -32,6 +32,7 @@ export class CreateAssetComponent implements OnInit {
     food: [null, Validators.required],
     farmId: [null, [Validators.required, Validators.maxLength(3), assetIdValidator()]],
     animalCategory: [null, Validators.required],
+    animalSubCategory: [null, Validators.required],
     grossEnergyConsumption: [null, Validators.required],
     foodDigestibility: [null, Validators.required],
     urinaryEnergy: [null, Validators.required],

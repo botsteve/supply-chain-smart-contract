@@ -68,7 +68,7 @@
                             </mat-form-field>
                         </div>
                         <div class="col">
-                            <mat-form-field class="full-width">
+                            <mat-form-field class="full-width" (click)="onClickAnimalId()">
                                 <input matInput placeholder="Animal ID" formControlName="animalId" maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
                             </mat-form-field>
                         </div>
@@ -115,16 +115,26 @@
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="Age" formControlName="age" />
+                                <input matInput placeholder="Asset Type" formControlName="assetType" />
                             </mat-form-field>
                         </div>
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="Asset Type" formControlName="assetType" />
+                                <input matInput placeholder="Animal Category" formControlName="animalCategory" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Animal Sub Category" formControlName="animalSubCategory" />
                             </mat-form-field>
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Age" formControlName="age" />
+                            </mat-form-field>
+                        </div>
                         <div class="col">
                             <mat-form-field class="full-width">
                                 <input matInput placeholder="Food" formControlName="food" />
@@ -135,12 +145,6 @@
                                 <input matInput placeholder="Weight" formControlName="weight" />
                             </mat-form-field>
                         </div>
-                        <div class="col">
-                            <mat-form-field class="full-width">
-                                <input matInput placeholder="Gross Energy Consumption" formControlName="grossEnergyConsumption" />
-                            </mat-form-field>
-                        </div>
-
                     </div>
                     <div class="row">
                         <div class="col">
@@ -179,17 +183,17 @@
                     <div class="row">
                         <div class="col">
                             <mat-form-field class="full-width">
-                                <input matInput placeholder="Create Date/Time" formControlName="createDateTime" />
+                                <input matInput placeholder="Gross Energy Consumption" formControlName="grossEnergyConsumption" />
                             </mat-form-field>
                         </div>
                         <div class="col">
-                            <mat-form-field class="full-width">
-                                <input matInput placeholder="Animal Category" formControlName="animalCategory" />
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field class="full-width">
+                            <mat-form-field class="full-width" (click)="onClickFarmId()">
                                 <input matInput placeholder="Farm ID" formControlName="farmId" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Create Date/Time" formControlName="createDateTime" />
                             </mat-form-field>
                         </div>
                     </div>

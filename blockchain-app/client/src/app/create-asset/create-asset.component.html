@@ -117,11 +117,23 @@
 
                 <div class="col">
                     <mat-form-field appearance="fill" class="full-width">
-                        <input matInput placeholder="Animal Category" formControlName="animalCategory" required maxlength="3" matTooltip="Id must be between 000-999, only numeric" />
+                        <input matInput placeholder="Animal Category" formControlName="animalCategory" required />
                     </mat-form-field>
                     <mat-error *ngIf="
                     animalAssetForm.controls['animalCategory'].touched &&
                     animalAssetForm.controls['animalCategory'].status === 'INVALID'
+            ">
+                        Animal Category is <strong>required</strong>
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <input matInput placeholder="Animal Subcategory" formControlName="animalSubCategory" required />
+                    </mat-form-field>
+                    <mat-error *ngIf="
+                    animalAssetForm.controls['animalSubCategory'].touched &&
+                    animalAssetForm.controls['animalSubCategory'].status === 'INVALID'
             ">
                         Animal Category is <strong>required</strong>
                     </mat-error>

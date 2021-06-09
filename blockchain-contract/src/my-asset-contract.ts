@@ -71,6 +71,7 @@ export class MyAssetContract extends Contract {
         animalAsset.trashManagementSystem = "test";
         animalAsset.gasFactorMS = "test";
         animalAsset.animalCategory = "BOVINE";
+        animalAsset.animalSubCategory = "SUBCATEGORY"
         animalAsset.createDateTime = dt;
         animalAsset.farmId = "F001";
         for (let i = 1; i <= 9; i++) {
@@ -165,6 +166,7 @@ export class MyAssetContract extends Contract {
         ctx: Context,
         animalId: string,
         animalCategory: string,
+        animalSubCategory: string,
         race: string,
         age: number,
         food: string,
@@ -205,6 +207,7 @@ export class MyAssetContract extends Contract {
         animalAsset.trashManagementSystem = trashManagementSystem;
         animalAsset.gasFactorMS = gasFactorMS;
         animalAsset.animalCategory = animalCategory;
+        animalAsset.animalSubCategory = animalSubCategory;
         animalAsset.createDateTime = dt;
         animalAsset.farmId = searchFarmId;
 

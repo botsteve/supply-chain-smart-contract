@@ -33,6 +33,7 @@ export class SearchAssetComponent {
     farmId: { value: null, disabled: true },
     createDateTime: { value: null, disabled: true },
     animalCategory: { value: null, disabled: true },
+    animalSubCategory: { value: null, disabled: true },
     grossEnergyConsumption: { value: null, disabled: true },
     foodDigestibility: { value: null, disabled: true },
     urinaryEnergy: { value: null, disabled: true },
@@ -72,24 +73,41 @@ export class SearchAssetComponent {
 
 
   ngOnInit(): void {
-    let routeAssetId = this.route.snapshot.paramMap.get('assetId');
-    this.routeAssetType = Number(this.route.snapshot.paramMap.get('assetType')).valueOf();
-    switch (this.routeAssetType) {
-      case 0:
-        this.bottleAssetForm.controls.assetId.setValue(routeAssetId);
-        this.onSubmit();
-        break;
-      case 1:
-        this.animalAssetForm.controls.animalId.setValue(routeAssetId);
-        this.onSubmitAnimal();
-        break;
-      case 2:
-        this.farmAssetForm.controls.farmId.setValue(routeAssetId);
-        this.onSubmitFarm();
-        break;
-    }
+    let routeAssetId = "";
+    this.route.queryParams
+      .subscribe(params => {
+        routeAssetId = params.assetId;
+        this.routeAssetType = Number(params.assetType);
+        switch (this.routeAssetType) {
+          case 0:
+            this.bottleAssetForm.controls.assetId.setValue(routeAssetId);
+            this.onSubmit();
+            break;
+          case 1:
+            this.animalAssetForm.controls.animalId.setValue(routeAssetId);
+            this.onSubmitAnimal();
+            break;
+          case 2:
+            this.farmAssetForm.controls.farmId.setValue(routeAssetId);
+            this.onSubmitFarm();
+            break;
+        }
+      }
+      );
+
   }
 
+  onClickAnimalId() {
+    this.routeAssetType = 1;
+    this.animalAssetForm.controls.animalId.setValue(this.bottleAssetForm.get('animalId').value.substring(1, this.bottleAssetForm.get('animalId').value.length));
+    this.onSubmitAnimal();
+  }
+
+  onClickFarmId() {
+    this.routeAssetType = 2;
+    this.farmAssetForm.controls.farmId.setValue(this.animalAssetForm.get('farmId').value.substring(1, this.animalAssetForm.get('farmId').value.length));
+    this.onSubmitFarm();
+  }
   onSubmit() {
     this.isLoading = true;
     let assetId = this.bottleAssetForm.get('assetId').value;

@@ -7,7 +7,7 @@ import { Asset } from '../models/asset';
 import { NetworkService } from '../api/network.service';
 import { QueryAllCowsDataSource } from './query-all-cows-datasource';
 import { QueryAllFarmsDataSource } from './query-all-farms-datasource';
-import { Animal } from '../models/cow';
+import { Animal } from '../models/animal';
 import { Farm } from '../models/farm';
 import { AssetTypes } from '../api/asset-types';
 import { Router } from '@angular/router';
@@ -53,6 +53,7 @@ export class QueryAllComponent implements AfterViewInit, OnInit {
     'animalId',
     'assetType',
     'animalCategory',
+    'animalSubCategory',
     'race',
     'age',
     'food',
@@ -71,8 +72,8 @@ export class QueryAllComponent implements AfterViewInit, OnInit {
 
   ngOnInit() { }
 
-  onRowClick(assetId:string) {
-    this.router.navigate([`search-asset/${assetId.substr(1,assetId.length)}/${this.currentAssetType}`]);
+  onRowClick(assetId: string) {
+    this.router.navigate([`search-asset`], { queryParams: { assetId: assetId.substr(1,assetId.length), assetType: this.currentAssetType } });
   }
 
   ngAfterViewInit() {
