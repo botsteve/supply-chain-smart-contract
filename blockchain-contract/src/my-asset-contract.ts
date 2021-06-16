@@ -175,9 +175,9 @@ export class MyAssetContract extends Contract {
     ): Promise<void> {
         let newAnimalId: string = `A${animalId}`;
         let searchFarmId: string = `F${farmId}`;
-        const cowExists: boolean = await this.myAssetExists(ctx, newAnimalId);
+        const animalExists: boolean = await this.myAssetExists(ctx, newAnimalId);
         const farmExists: boolean = await this.myAssetExists(ctx, searchFarmId);
-        if (cowExists) {
+        if (animalExists) {
             throw new Error(`The animal ${newAnimalId} already exists`);
         }
         if (!farmExists) {

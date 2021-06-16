@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class FabricController {
 

@@ -1,0 +1,26 @@
+#-----------Global values---------#
+appName: blockchain-client
+namespace: default
+labels:
+  app: client
+  tier: frontend
+
+#-----------Deployment values---------#
+replicasCount: 1
+podLabels:
+  service: client
+
+containerName: blockchain-client
+imageName: botsteve/blockchain-client
+imagePullSecretsName: regcred
+
+#----------Service values---------#
+service:
+  type: NodePort
+  port: 80
+  name: http
+  nodePort: 31514
+  enableNodePort: true
+#----------ConfigMap values---------#
+
+#---------Volumes values---------#

@@ -1,0 +1,25 @@
+{{- $serviceLabel := .Values.podLabels.service }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.labels.app }}
+    tier: {{ .Values.labels.tier }}
+    version: {{ .Release.Name }}-{{ .Release.Revision }}
+spec:
+  replicas: {{ .Values.replicasCount }}
+  selector:
+    matchLabels:
+      service: {{ $serviceLabel }}
+  template:
+    metadata:
+      labels:
+        service: {{ $serviceLabel }}
+    spec:
+      containers:
+        - name: {{ .Values.containerName }}
+          image: {{ .Values.imageName }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecretsName }}

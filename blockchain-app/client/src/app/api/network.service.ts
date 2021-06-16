@@ -10,7 +10,7 @@ import { Animal } from '../models/animal';
 })
 export class NetworkService {
 
-  private BASE_URL: string = "http://localhost:8081/";
+  private BASE_URL: string = "http://82.76.120.223:8081/";
 
   constructor(private httpClient: HttpClient) { }
 

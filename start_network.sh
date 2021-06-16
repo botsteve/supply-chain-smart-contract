@@ -22,4 +22,4 @@ export MICROFAB_CONFIG='{
         }
     ]
 }';
-docker run -e MICROFAB_CONFIG -p 8080:8080 ibmcom/ibp-microfab
+docker run -e MICROFAB_CONFIG -dp 8080:8080 ibmcom/ibp-microfab

@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, Observable, of as observableOf } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Farm } from '../models/Farm';
+import { Farm } from '../models/farm';
 
 /**
  * Data source for the QueryAll view. This class should
