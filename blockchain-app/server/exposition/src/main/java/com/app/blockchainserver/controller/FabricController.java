@@ -1,18 +1,19 @@
 package com.app.blockchainserver.controller;
 
-import com.app.blockchainserver.dto.request.BottleAssetRequestDTO;
-import com.app.blockchainserver.dto.request.AnimalAssetRequestDTO;
-import com.app.blockchainserver.dto.request.FarmAssetRequstDTO;
-import com.app.blockchainserver.dto.response.BottleAssetResponseDTO;
-import com.app.blockchainserver.dto.response.AnimalAssetResponseDTO;
-import com.app.blockchainserver.dto.response.FarmAssetResponseDTO;
 import com.app.blockchainserver.dto.ITradeService;
+import com.app.blockchainserver.dto.request.AnimalAssetRequestDTO;
+import com.app.blockchainserver.dto.request.BottleAssetRequestDTO;
+import com.app.blockchainserver.dto.request.FarmAssetRequstDTO;
+import com.app.blockchainserver.dto.response.AnimalAssetResponseDTO;
+import com.app.blockchainserver.dto.response.BottleAssetResponseDTO;
+import com.app.blockchainserver.dto.response.FarmAssetResponseDTO;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Api
+@CrossOrigin(origins = "${cross-origin.url}")
 @RestController
 public class FabricController {
 

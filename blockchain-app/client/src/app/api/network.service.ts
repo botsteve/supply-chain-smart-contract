@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 import { Asset } from '../models/asset';
 import { Farm } from '../models/farm';
 import { Animal } from '../models/animal';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NetworkService {
 
-  private BASE_URL: string = "http://82.76.120.223:8081/";
+  private BASE_URL: string = environment.backendUrl;
 
   constructor(private httpClient: HttpClient) { }
 
