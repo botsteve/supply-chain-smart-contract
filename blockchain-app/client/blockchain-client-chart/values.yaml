@@ -11,7 +11,7 @@ podLabels:
   service: client
 
 containerName: blockchain-client
-imageName: botsteve/blockchain-client:latest
+imageName: botsteve/blockchain-client:v1.2
 imagePullSecretsName: regcred
 
 #----------Service values---------#
