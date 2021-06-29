@@ -54,6 +54,9 @@ public class FabricServiceImpl implements IFabricService {
     @Value("${connection-path}")
     public String connectionPath;
 
+    @Value("${connection-path}")
+    public String indentity;
+
     @PostConstruct
     public void setupConnection() throws Exception {
         System.out.println(connectionPath+ " " + walletPath);
@@ -61,7 +64,7 @@ public class FabricServiceImpl implements IFabricService {
         Path walletDirectory = Paths.get(walletPath);
         Wallet wallet  = Wallets.newFileSystemWallet(walletDirectory);
         Path networkConfigFile = Paths.get(connectionPath);
-        builder = Gateway.createBuilder().identity(wallet, "Org1_Admin_test").networkConfig(networkConfigFile).discovery(false);
+        builder = Gateway.createBuilder().identity(wallet, indentity).networkConfig(networkConfigFile).discovery(false);
 
     }
 
