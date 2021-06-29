@@ -58,7 +58,6 @@ public class FabricServiceImpl implements IFabricService {
     public void setupConnection() throws Exception {
         System.out.println(connectionPath+ " " + walletPath);
         // Load an existing wallet holding identities used to access the network.
-//        this.enrollAdmin();
         Path walletDirectory = Paths.get(walletPath);
         Wallet wallet  = Wallets.newFileSystemWallet(walletDirectory);
         Path networkConfigFile = Paths.get(connectionPath);

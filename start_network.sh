@@ -13,7 +13,7 @@ export MICROFAB_CONFIG='{
     ],
     "channels":[
         {
-            "name": "channel1",
+            "name": "mychannel",
             "endorsing_organizations":[
                 "Org1",
                 "Org2",
