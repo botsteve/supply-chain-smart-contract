@@ -1,4 +1,5 @@
-#After installing all the preqs
+#After installing all the preqs(see Test network documentation)
+#Setup network
 ./network.sh up -ca
 ./network.sh up createChannel
 ./network.sh deployCC -ccn basic -ccp ../../blockchain/blockchain-contract/ -ccl typescript
