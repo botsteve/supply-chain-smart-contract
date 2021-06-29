@@ -28,4 +28,11 @@ To-Do-For-Cloud-migration:
 1.Convert docker-compose files to k8s services using kompose
 
 Known-problems:
-SSL problems
+SSL problems- possible solution to add certificates in jdk cacerts
+
+#Test network documentation
+https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#install-the-chaincode-package
+https://hyperledger-fabric.readthedocs.io/en/release-2.3/test_network.html
+
+#Github repo
+https://github.com/botsteve/blockchain
