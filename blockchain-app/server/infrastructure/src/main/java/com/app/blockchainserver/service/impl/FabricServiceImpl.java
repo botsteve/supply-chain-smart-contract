@@ -61,7 +61,7 @@ public class FabricServiceImpl implements IFabricService {
         Path walletDirectory = Paths.get(walletPath);
         Wallet wallet  = Wallets.newFileSystemWallet(walletDirectory);
         Path networkConfigFile = Paths.get(connectionPath);
-        builder = Gateway.createBuilder().identity(wallet, "Org1 Admin").networkConfig(networkConfigFile).discovery(false);
+        builder = Gateway.createBuilder().identity(wallet, "Org1_Admin_test").networkConfig(networkConfigFile).discovery(false);
 
     }
 
