@@ -1,5 +1,5 @@
 export MICROFAB_CONFIG='{
-    "port": 8080,
+    "port": 6969,
     "endorsing_organizations":[
         {
             "name": "Org1"
@@ -22,4 +22,4 @@ export MICROFAB_CONFIG='{
         }
     ]
 }';
-docker run -e MICROFAB_CONFIG -dp 8080:8080 ibmcom/ibp-microfab
+docker run -e MICROFAB_CONFIG -dp 6969:6969 ibmcom/ibp-microfab

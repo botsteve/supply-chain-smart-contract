@@ -1,2 +1,1 @@
-cd blockchain-app\\server\\
-java -jar exposition\\target\\blockchain-server.jar
+java -jar blockchain-server.jar

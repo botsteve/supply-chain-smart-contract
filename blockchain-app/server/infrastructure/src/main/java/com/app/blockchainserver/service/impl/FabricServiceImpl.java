@@ -1,25 +1,30 @@
 package com.app.blockchainserver.service.impl;
 
-import com.app.blockchainserver.service.impl.config.BlockchainException;
 import com.app.blockchainserver.dto.IFabricService;
 import com.app.blockchainserver.dto.UpdateType;
 import com.app.blockchainserver.dto.model.*;
+import com.app.blockchainserver.service.impl.config.BlockchainException;
 import com.app.blockchainserver.util.JsonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hyperledger.fabric.gateway.*;
+import org.hyperledger.fabric.sdk.Enrollment;
+import org.hyperledger.fabric.sdk.security.CryptoSuite;
+import org.hyperledger.fabric.sdk.security.CryptoSuiteFactory;
+import org.hyperledger.fabric_ca.sdk.EnrollmentRequest;
+import org.hyperledger.fabric_ca.sdk.HFCAClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 
@@ -30,8 +35,8 @@ public class FabricServiceImpl implements IFabricService {
 
     private static Gateway.Builder builder;
 
-    private final String CONTRACT_NAME = "blockchain-contract";
-    private final String CHANNEL_NAME = "channel1";
+    private final String CONTRACT_NAME = "basic";
+    private final String CHANNEL_NAME = "mychannel";
     private final String QUERY_ALL = "queryAllAssets";
     private final String QUERY_SINGLE = "readMyAsset";
     private final String QUERY_HISTORY = "queryHistoryByKey";
@@ -50,9 +55,10 @@ public class FabricServiceImpl implements IFabricService {
     public String connectionPath;
 
     @PostConstruct
-    public void setupConnection() throws IOException {
-
+    public void setupConnection() throws Exception {
+        System.out.println(connectionPath+ " " + walletPath);
         // Load an existing wallet holding identities used to access the network.
+//        this.enrollAdmin();
         Path walletDirectory = Paths.get(walletPath);
         Wallet wallet  = Wallets.newFileSystemWallet(walletDirectory);
         Path networkConfigFile = Paths.get(connectionPath);
@@ -268,6 +274,34 @@ public class FabricServiceImpl implements IFabricService {
         Network network = gateway.getNetwork(CHANNEL_NAME);
 
         return network.getContract(CONTRACT_NAME);
+    }
+
+    private void enrollAdmin() throws Exception {
+        Properties props = new Properties();
+        props.put("pemFile",
+                "D:\\GIT\\fabric\\fabric-samples\\test-network\\organizations\\peerOrganizations\\org1.example.com\\ca\\ca.org1.example.com-cert.pem");
+        props.put("allowAllHostNames", "true");
+        HFCAClient caClient = HFCAClient.createNewInstance("https://localhost:7054", props);
+        CryptoSuite cryptoSuite = CryptoSuiteFactory.getDefault().getCryptoSuite();
+        caClient.setCryptoSuite(cryptoSuite);
+
+        // Create a wallet for managing identities
+        Wallet wallet = Wallets.newFileSystemWallet(Paths.get("wallet"));
+
+        // Check to see if we've already enrolled the admin user.
+        if (wallet.get("admin") != null) {
+            System.out.println("An identity for the admin user \"admin\" already exists in the wallet");
+            return;
+        }
+
+        // Enroll the admin user, and import the new identity into the wallet.
+        final EnrollmentRequest enrollmentRequestTLS = new EnrollmentRequest();
+        enrollmentRequestTLS.addHost("localhost");
+        enrollmentRequestTLS.setProfile("tls");
+        Enrollment enrollment = caClient.enroll("admin", "adminpw", enrollmentRequestTLS);
+        Identity user = Identities.newX509Identity("Org1MSP", enrollment);
+        wallet.put("admin", user);
+        System.out.println("Successfully enrolled user \"admin\" and imported it into the wallet");
     }
 
 
