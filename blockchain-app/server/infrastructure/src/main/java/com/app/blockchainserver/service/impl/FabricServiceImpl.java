@@ -54,7 +54,7 @@ public class FabricServiceImpl implements IFabricService {
     @Value("${connection-path}")
     public String connectionPath;
 
-    @Value("${connection-path}")
+    @Value("${identity}")
     public String indentity;
 
     @PostConstruct
