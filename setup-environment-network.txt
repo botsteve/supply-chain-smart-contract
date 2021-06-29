@@ -19,6 +19,13 @@ https://github.com/nodesource/distributions/blob/master/README.md#deb
 add peer names in /etc/hosts
 5.Different warn errors when creating channel
 chmod +x -R . on fabric-samples
+6.Minimum java version 52~java 8
+export PATH=java-se-8u41-ri/bin:$PATH
+7. kill locked process for port 
+fuser -k 8080/tcp
 
 To-Do-For-Cloud-migration:
 1.Convert docker-compose files to k8s services using kompose
+
+Known-problems:
+SSL problems
