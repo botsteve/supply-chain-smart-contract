@@ -1,0 +1,24 @@
+#After installing all the preqs
+./network.sh up -ca
+./network.sh up createChannel
+./network.sh deployCC -ccn basic -ccp ../../blockchain/blockchain-contract/ -ccl typescript
+
+#Initialise ledger
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile ${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles ${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles ${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"initLedger","Args":[]}'
+#Test Ledger
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile ${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles ${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles ${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"queryAll","Args":["BOTTLE"]}'
+
+Problems encounterd :
+1.Tsc permissioned denied
+chmod a+x node_modules/.bin/tsc
+2.Convert carriege return to unix CRLF->LF
+find . -type f -print0 | xargs -0 dos2unix
+3.Configure nodejs 14
+https://github.com/nodesource/distributions/blob/master/README.md#deb
+4.NoSuchHostException
+add peer names in /etc/hosts
+5.Different warn errors when creating channel
+chmod +x -R . on fabric-samples
+
+To-Do-For-Cloud-migration:
+1.Convert docker-compose files to k8s services using kompose
