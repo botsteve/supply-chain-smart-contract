@@ -35,7 +35,7 @@ public class FabricServiceImpl implements IFabricService {
 
     private static Gateway.Builder builder;
 
-    private final String CONTRACT_NAME = "basic";
+    private final String CONTRACT_NAME = "blockchain-contract";
     private final String CHANNEL_NAME = "mychannel";
     private final String QUERY_ALL = "queryAllAssets";
     private final String QUERY_SINGLE = "readMyAsset";
