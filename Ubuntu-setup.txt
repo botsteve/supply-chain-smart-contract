@@ -1,0 +1,140 @@
+1. sudo apt install -y curl git nodejs npm maven
+
+----Make bidirectional clipboard work----------
+sudo apt-get update
+sudo apt-get install virtualbox-guest-x11
+sudo VBoxClient --clipboard
+------------------------------------------------
+
+-----Install docker ENGINE---------------
+
+1. Uninstall previous docker packages if necessary
+sudo apt-get remove docker docker.io
+2. Enable https transport of apt
+sudo apt-get install -Y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+3. Add GPG key for docker repo
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+4. Add apt repository
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+5. Install docker
+sudo apt-get update
+sudo apt-get install -Y docker-ce docker-ce-cli containerd.io
+
+------------------------------------------------
+
+-------------------------Install docker compose-------------------
+1.sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+2.sudo chmod +x /usr/local/bin/docker-compose
+------------------------------------------------------------------
+
+
+
+------------------Install fabric binaries (as root)-------------------
+curl -sSL https://bit.ly/2ysbOFE | bash -s
+-------------------------------------------------------------
+
+---------------Clone github project--------------------------
+git clone -b ui-rework https://github.com/botsteve/blockchain.git
+-------------------------------------------------------------
+
+-----------Set-up network(from within fabric-samples/test-network--------------
+./network.sh up -ca
+./network.sh up createChannel
+./network.sh deployCC -ccn blockchain-contract -ccp ../../blockchain/blockchain-contract/ -ccl typescript
+-------------------------------------------------------------------------------
+# Environment variables for Org1
+export PATH=${PWD}/../bin:$PATH
+export FABRIC_CFG_PATH=$PWD/../config/
+export CORE_PEER_TLS_ENABLED=true
+export CORE_PEER_LOCALMSPID="Org1MSP"
+export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+export CORE_PEER_ADDRESS=localhost:7051
+
+#Initialise ledger
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com \
+--tls --cafile ${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem \
+-C mychannel -n blockchain-contract --peerAddresses localhost:7051 \
+--tlsRootCertFiles ${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 \
+--tlsRootCertFiles ${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"initLedger","Args":[]}'
+#Test Ledger
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile ${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n blockchain-contract --peerAddresses localhost:7051 --tlsRootCertFiles ${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles ${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"queryAllAssets","Args":["BOTTLE"]}'
+
+
+#Run back-end server(From within blockchain/blockchain-app/server
+1.Run (maven clean install)(possible as root)
+2.From within server directory run java -jar exposition/target/blockchain-server.jar
+
+
+#Run front-end server(From within blockchain/blockchain-app/client
+1.Run (npm install) to install node dependencies
+2.Run npm start to power up the node server
+
+
+------------------------------------------Posible solution to OPENSSL problems-------------------------
+
+-----------------------Add certificates to java truststore-------------------------------(Possible solution)
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool  -import -alias peer1 -file ${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool  -import -alias peer2 -file ${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias tls-cert-org1 -file ${PWD}/organizations/fabric-ca/org1/tls-cert.pem -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias ca-cert-org1 -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -file ${PWD}/organizations/fabric-ca/org1/ca-cert.pem -storepass changeit
+
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias tls-cert-org2 -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -file ${PWD}/organizations/fabric-ca/org2/tls-cert.pem -storepass changeit
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias  ca-cert-org2 -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -file ${PWD}/organizations/fabric-ca/org2/ca-cert.pem  -storepass changeit
+
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias tls-cert-orderer -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -file ${PWD}/organizations/fabric-ca/ordererOrg/tls-cert.pem -storepass changeit
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias ca-cert-orderer -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -file ${PWD}/organizations/fabric-ca/ordererOrg/ca-cert.pem -storepass changeit
+
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias server-crt-peer1 -file ${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.crt -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias server-crt-peer2 -file ${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/server.crt -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias peer1-ca -file ${PWD}/organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias peer2-ca -file ${PWD}/organizations/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+
+
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias orderer-msp-admin -file ${PWD}/organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias user1-cer -file ${PWD}/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/cacerts/localhost-7054-ca-org1.pem -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+----------------------------------------------------------------------------------------------
+
+
+------------------------Docker pretty format---------------------------
+export VERTICAL="\nID\t{{.ID}}\nImage\t{{.Image}}\nCommand\t{{.Command}}\nCreated\t{{.RunningFor}}\nStatus\t{{.Status}}\nPorts\t{{.Ports}}\nNames\t{{.Names}}\n"
+docker ps --format=$VERTICAL+
+-----------------------------------------------------------------------
+
+-----------------------Configure JAVA_HOME 11--------------------------
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+export PATH=$PATH:$JAVA_HOME/bin
+-----------------------------------------------------------------------
+
+To-Do-For-Cloud-migration:
+1.Convert docker-compose files to k8s services using kompose
+
+Known-problems:
+SSL problems- possible solution to add certificates in jdk cacerts
+
+#Test network documentation
+https://hyperledger-fabric.readthedocs.io/en/release-2.2/deploy_chaincode.html#install-the-chaincode-package
+https://hyperledger-fabric.readthedocs.io/en/release-2.3/test_network.html
+
+#Github repo
+https://github.com/botsteve/blockchain
+#Docker-HUB
+https://hub.docker.com/repository/docker/botsteve/blockchain-server
+https://hub.docker.com/repository/docker/botsteve/blockchain-client
+
+
+----------------------------------------------------------------------
+1. Docker images can be used to power up the server/client but this is not recommended and it not might work since server/client are configured with hardcoded values to work on a specific server
+2. The blockchain network was configured and tested initally on a windows machine using WSL2
+3. In order to avoid OpenSSL errors, we can use microfab runtime library to run a fabric network on a Ubuntu desktop machine
+
+
