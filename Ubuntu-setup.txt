@@ -92,8 +92,10 @@ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.exa
 /usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias peer1-ca -file ${PWD}/organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
 /usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias peer2-ca -file ${PWD}/organizations/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
 
-
 /usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias admin1-cer -file ${PWD}/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias admin1-cacer -file ${PWD}/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/cacerts/localhost-7054-ca-org1.pem -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+/usr/lib/jvm/java-11-openjdk-amd64/bin/keytool -noprompt -import -alias tlsca -file ${PWD}/organizations/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem -keystore /usr/lib/jvm/java-11-openjdk-amd64/lib/security/cacerts  -storepass changeit
+
 ----------------------------------------------------------------------------------------------
 
 ----Make bidirectional clipboard work----------
