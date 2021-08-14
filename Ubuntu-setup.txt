@@ -60,6 +60,11 @@ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.exa
 #Test Ledger
 peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile ${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n blockchain-contract --peerAddresses localhost:7051 --tlsRootCertFiles ${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles ${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"queryAllAssets","Args":["BOTTLE"]}'
 
+#Firstly before starting the backend server
+1. Copy fabric-samples\test-network\organizations\peerOrganizations\org1.example.com\connection-org1.json in blockchain\blockchain-app\server\exposition\src\main\resources\local_fabric_wallet\connection.json
+cp fabric-samples\test-network\organizations\peerOrganizations\org1.example.com\connection-org1.json blockchain-app\server\exposition\src\main\resources\local_fabric_wallet\connection.json
+*Paths might differ
+2. Run create_org1_admin_identity.sh to generate the identity for Org1 Admin
 
 #Run back-end server(From within blockchain/blockchain-app/server
 1.Run (maven clean install)(possible as root)
