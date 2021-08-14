@@ -1,0 +1,85 @@
+-------------- Client Configuration --------------
+For the client(the angular application), the main configuration files are:
+1.package.json
+    In this file you can see different dependencies used by the application together with the scripts 
+that start/build/test the app.
+
+2.angular.json
+    This is the main configuration file for angular app, in here you can find different options for different script
+commands that were defined in package json.
+    To modify the port of the angular application, you can either modify the serve part inside this file, or start
+the angular application using --port argument.
+    Starting the client application this way, it utilises a nodejs server(memory expensive) instead of compiling 
+the static files and then serving them through a http server like nginx . 
+
+3.nginx.conf
+    This file is used when the app is deployed inside a container, it contains the configuration of the nginx http server.
+    By default is configured to run on port 80.
+4. Dockerfile
+    The multi-stage dockerfile is used to build the image containing the static files together
+with the nginx configuration. It builds the application using the "ng build" command.
+
+5. blockchain-client-chart
+    This folder contains the configuration of a NodePort type of service to be deployed inside a kubernetes cluster.
+    Inside the templates folder of this directory you can find the configuration of the deployment object that was created.
+    The values that will be interpolated inside the deployment, service, configmap files can be found in values.yaml
+    To install the chart inside a k8s cluster you can use the "helm install <chart-name> <chart-path>", afterwards 
+the objects defined in the chart will be created in the cluster and a secret containing the version of the chart.
+
+6. Environment app files
+    This files are found in blockchain-app/client/src/environments folder.
+    The environment.prod.ts file is used when running the "ng build-prod" script.
+    The environment.ts file is used when running the "ng build" script and its used by default when starting the application
+using "ng serve" command.
+    The Dockerfile which ius used to build the docker image of the app, it utilises the "ng build" command and therefore
+the environments.ts .
+    The backendurl field inside the environment files, is used to configure the http calls to the backend.
+
+--------------------------------------------------
+
+
+
+
+-------------- Server Configuration --------------
+The backend application which connects to the fabric network has multiple modules.
+The main modules where the backend application is configured is the infrastructure that makes the connection 
+to the fabric network and exposition that exposes the rest api.
+To build the application, you must execute the "maven clean install" command from inside the blockchain-app/server folder, where the root pom.xml file resides.
+
+1. Exposition module
+    Inside the blockchain-app/server/exposition we can find some of the source code for the java application in 
+    src/main/java and some configuration files related to the backend server in src/main/resources.
+
+    The resources directory contains multiple files.
+    1.local_fabric_wallet/Org1 - the wallet that contains the x509 certificates for connection with different identities to the network.
+    2.connection.json & connection-microfab.json - connection configuration to the fabbric network.
+    3.application properties files - used to configure the backend server and different fabric network parameters, like
+    wallet path, connection path, identity.
+      By default the application starts in the default mode with the application.properties file, these properties can be 
+      overriden using another profile by specificing when starting the application with the argument 
+      ex: java -jar <jar.path> --spring.profiles.active=local or by specificing the argument when starting the application from an IDE.
+
+2. infrastructure module
+    Inside the blockchain-app/server/infrastructure, we can find the FabricServiceImpl class that makes calls to the
+fabric network. It has multiple parameters that define the transactions inside the blockchain-contract and also the blockchain contract name and channel name.
+
+3. Dockerfile
+    The dockerfile resides outside of modules and it creates the backend-server image by copying the jar file resulted after 
+compiling and building the project using maven(maven clean install), together with the local_fabric_wallet directory.
+--------------------------------------------------
+
+
+-------------------- Microfab configuration identity------------------------
+Inside the docker microfab container, /opt/microfab/data/admin-org1/signcerts we can find the certificate for Org1 Admin identity,
+and inside the /opt/microfab/data/admin-org1/keystore we can find the privatekey for the same identity. The same thing applies
+for the other organizations.
+--------------------------------------------------------------------
+
+
+-------------------- Test network configuration identity --------------------\
+For test network configuration, after creating the network using "./network.sh up -ca", you can find the certificate for 
+Org1 Admin identity in fabric-samples\test-network\organizations\peerOrganizations\org1.example.com\users\Admin@org1.example.com\msp\signcerts
+and for the private key fabric-samples\test-network\organizations\peerOrganizations\org1.example.com\users\Admin@org1.example.com\msp\keystore.
+
+The above files will be used to create the identity.
+--------------------------------------------------------------------

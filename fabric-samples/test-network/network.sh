@@ -77,7 +77,7 @@ function checkPrereqs() {
 
   ## Check for fabric-ca
   if [ "$CRYPTO" == "Certificate Authorities" ]; then
-
+    echo 'FABRIC-CA USE'
     fabric-ca-client version > /dev/null 2>&1
     if [[ $? -ne 0 ]]; then
       errorln "fabric-ca-client binary not found.."

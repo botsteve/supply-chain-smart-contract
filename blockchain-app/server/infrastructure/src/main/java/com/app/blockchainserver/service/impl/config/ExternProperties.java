@@ -12,7 +12,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import javax.annotation.PostConstruct;
 
 @Configuration
-@EnableSwagger2
 public class ExternProperties {
 
     @Value("${service.discovery.localhost}")
@@ -23,12 +22,4 @@ public class ExternProperties {
         System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", serviceDiscoveryLocalhost);
     }
 
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build();
-    }
 }
